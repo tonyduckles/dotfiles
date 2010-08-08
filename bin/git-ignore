@@ -1,0 +1,8 @@
+#!/bin/sh
+# Usage: git-ignore <file1>,<file2>,...
+# Add files to the current Git repo's exclude list
+
+for pattern in "$@"
+do
+	echo "$pattern" | tee -a .git/info/exclude
+done

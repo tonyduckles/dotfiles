@@ -1,6 +1,6 @@
 [user]
-	name = Tony Duckles
-	email = tony@nynim.org
+    name = Tony Duckles
+    email = tony@nynim.org
 
 [alias]
     sh     = !git-sh

@@ -14,6 +14,11 @@
 # readline config
 : ${INPUTRC=~/.inputrc}
 
+if [ "$UNAME" = "Darwin" ]; then
+    # Fink init, for OSX
+    test -r /sw/bin/init.sh && source /sw/bin/init.sh
+fi
+
 # ----------------------------------------------------------------------
 #  SHELL OPTIONS
 # ----------------------------------------------------------------------
@@ -169,6 +174,13 @@ fi
 # ----------------------------------------------------------------------
 # ALIASES / FUNCTIONS
 # ----------------------------------------------------------------------
+
+# alias 'vi' to 'vim' if Vim is installed
+vim="$(type -P vim)"
+test -n "$vim" && {
+    alias vi='vim'
+}
+unset vim
 
 # disk usage with human sizes and minimal depth
 alias du1='du -h --max-depth=1'

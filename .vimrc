@@ -95,7 +95,7 @@ set visualbell             " shut the heck up
 
 set autoindent             " automatic indent new lines
 set smartindent            " be smart about it
-set nowrap                 " do not wrap lines
+"set nowrap                 " do not wrap lines
 set softtabstop=2          " yep, two
 set shiftwidth=2           " ..
 set tabstop=4

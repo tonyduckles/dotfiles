@@ -4,15 +4,15 @@
 # Tony Duckles <http://nynim.org/about/> (based on http://github.com/rtomayko/dotfiles)
 
 # the basics
-: ${HOME=~}
-: ${LOGNAME=$(id -un)}
-: ${UNAME=$(uname)}
+HOME=~
+LOGNAME=$(id -un)
+UNAME=$(uname)
 
 # complete hostnames from this file
-: ${HOSTFILE=~/.ssh/known_hosts}
+HOSTFILE=~/.ssh/known_hosts
 
 # readline config
-: ${INPUTRC=~/.inputrc}
+INPUTRC=~/.inputrc
 
 if [ "$UNAME" = "Darwin" ]; then
     # Fink init, for OSX
@@ -149,7 +149,7 @@ prompt_compact() {
 }
 
 prompt_color() {
-    PS1="[${COLOR1}\u${PS_CLEAR}@${COLOR2}\h${PS_CLEAR}:${COLOR3}\w${PS_CLEAR}]${COLOR1}$P${PS_CLEAR} "
+    PS1="[${COLOR1}\u${PS_CLEAR}@${COLOR2}\h${PS_CLEAR}:${COLOR3}\w${PS_CLEAR}]${COLOR1}${P}${PS_CLEAR} "
     PS2="\[^[[33;1m\]continue \[^[[0m^[[1m\]> "
 }
 

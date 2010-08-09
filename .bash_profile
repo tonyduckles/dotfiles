@@ -6,7 +6,11 @@ if [ -f ~/.bashrc ]; then
 fi
 
 # keychain
-if [ -f ~/.ssh/id_dsa ]; then
-  /usr/bin/keychain -q ~/.ssh/id_dsa
-  source ~/.keychain/`hostname`-sh > /dev/null
-fi
+keychain="$(type -P keychain)"
+test -n "$keychain" && {
+  if [ -f ~/.ssh/id_dsa ]; then
+    eval `$keychain -q ~/.ssh/id_dsa`
+    source ~/.keychain/`hostname`-sh > /dev/null
+  fi
+}
+unset keychain

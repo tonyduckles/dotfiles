@@ -4,9 +4,11 @@
 # Tony Duckles <http://nynim.org/about/> (based on http://github.com/rtomayko/dotfiles)
 
 # the basics
-HOME=~
-LOGNAME=$(id -un)
-UNAME=$(uname)
+: ${HOME=~}
+: ${LOGNAME=$(id -un)}
+: ${UNAME=$(uname)}
+# strip OS type and version under Cygwin (e.g. CYGWIN_NT-5.1 => Cygwin)
+UNAME=${UNAME/CYGWIN_*/Cygwin}
 
 # complete hostnames from this file
 HOSTFILE=~/.ssh/known_hosts
@@ -16,7 +18,8 @@ INPUTRC=~/.inputrc
 
 if [ "$UNAME" = "Darwin" ]; then
     # Fink init, for OSX
-    test -r /sw/bin/init.sh && source /sw/bin/init.sh
+    test -r /sw/bin/init.sh &&
+        source /sw/bin/init.sh
 fi
 
 # ----------------------------------------------------------------------
@@ -25,7 +28,7 @@ fi
 
 # bring in system bashrc
 test -r /etc/bashrc &&
-          . /etc/bashrc
+    . /etc/bashrc
 
 # notify of bg job completion immediately
 set -o notify
@@ -58,7 +61,7 @@ PATH="/usr/local/bin:$PATH"
 
 # put ~/bin on PATH if you have it
 test -d "$HOME/bin" &&
-  PATH="$HOME/bin:$PATH"
+    PATH="$HOME/bin:$PATH"
 
 # ----------------------------------------------------------------------
 # ENVIRONMENT CONFIGURATION
@@ -97,8 +100,8 @@ HAVE_VIM=$(command -v vim)
 
 # EDITOR
 test -n "$HAVE_VIM" &&
-  EDITOR=vim ||
-  EDITOR=vi
+    EDITOR=vim ||
+    EDITOR=vi
 export EDITOR
 
 # PAGER
@@ -115,25 +118,30 @@ export PAGER MANPAGER
 # PROMPT
 # ----------------------------------------------------------------------
 
-RED="\[\033[0;91m\]"
-GREEN="\[\033[0;92m\]"
-BROWN="\[\033[0;33m\]"
-GREY="\[\033[0;37m\]"
-WHITE="\[\033[0;97m\]"
-BLUE="\[\033[0;94m\]"
-PS_CLEAR="\[\033[0m\]"
-SCREEN_ESC="\[\033k\033\134\]"
+# http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
+SGR_RED="\[\033[1;31m\]"
+SGR_GREEN="\[\033[0;32m\]"
+SGR_BROWN="\[\033[0;33m\]"
+SGR_YELLOW="\[\033[1;33m\]"
+SGR_GREY="\[\033[0;37m\]"
+SGR_WHITE="\[\033[1;37m\]"
+SGR_BLUE="\[\033[1;34m\]"
+SGR_RESET="\[\033[0m\]"
 
-if [ "$LOGNAME" = "root" ]; then
-    COLOR1="${RED}"
-    COLOR2="${RED}"
-    COLOR3="${GREY}"
-    P="#"
+if [ "$UID" = 0 ]; then
+    # root
+    PS_COLOR1="${SGR_RED}"
+    PS_COLOR2=""
+    PS_P="#"
 else
-    COLOR1=""
-    COLOR2=""
-    COLOR3=""
-    P="\$"
+    if [ "$UNAME" = "Cygwin" ]; then
+        PS_COLOR1="${SGR_GREEN}"
+        PS_COLOR2=""
+    else
+        PS_COLOR1="${SGR_BROWN}"
+        PS_COLOR2="${SGR_YELLOW}"
+    fi
+    PS_P="\$"
 fi
 
 prompt_simple() {
@@ -144,13 +152,13 @@ prompt_simple() {
 
 prompt_compact() {
     unset PROMPT_COMMAND
-    PS1="${COLOR1}${P}${PS_CLEAR} "
+    PS1="${PS_COLOR1}${PS_P}${SGR_RESET} "
     PS2="> "
 }
 
 prompt_color() {
-    PS1="[${COLOR1}\u${PS_CLEAR}@${COLOR2}\h${PS_CLEAR}:${COLOR3}\w${PS_CLEAR}]${COLOR1}${P}${PS_CLEAR} "
-    PS2="\[^[[33;1m\]continue \[^[[0m^[[1m\]> "
+    PS1="[${PS_COLOR1}\u@\h${SGR_RESET}:${PS_COLOR2}\w${SGR_RESET}]${PS_P} "
+    PS2="> "
 }
 
 # ----------------------------------------------------------------------
@@ -220,9 +228,15 @@ _expand()
 # ----------------------------------------------------------------------
 
 # we always pass these to ls(1)
-LS_COMMON="--color=auto"
+unset LS_COMMON
+## OS-specific options
+#case "$UNAME" in
+#    "Linux" ) LS_COMMON="--color=auto";;
+#    "Cygwin" ) LS_COMMON="--color=auto";;
+#    "Darwin" ) LS_COMMON="--color=auto";;
+#esac
 
-# if the dircolors utility is available, set that up to
+# if the dircolors utility is available, set that up for ls
 dircolors="$(type -P gdircolors dircolors | head -1)"
 test -n "$dircolors" && {
     COLORS=/etc/DIR_COLORS
@@ -233,13 +247,21 @@ test -n "$dircolors" && {
 }
 unset dircolors
 
+# enable color ls output if available
+test -n "$COLORS" &&
+    LS_COMMON="--color=auto $LS_COMMON"
+
 # setup the main ls alias if we've established common args
 test -n "$LS_COMMON" &&
-  alias ls="command ls $LS_COMMON"
+    alias ls="command ls $LS_COMMON"
 
 # these use the ls aliases above
 alias ll="ls -l"
 alias l.="ls -d .*"
+
+# setup color grep output if available
+test -n "$COLORS" &&
+    alias grep="command grep --color=auto"
 
 # --------------------------------------------------------------------
 # MISC COMMANDS
@@ -300,8 +322,8 @@ punshift () { eval "${2:-PATH}='$1:$(eval echo \$${2:-PATH})'"; }
 #   $ puniq /usr/bin:/usr/local/bin:/usr/bin
 #   /usr/bin:/usr/local/bin
 puniq () {
-   echo "$1" |tr : '\n' |nl |sort -u -k 2,2 |sort -n |
-   cut -f 2- |tr '\n' : |sed -e 's/:$//' -e 's/^://'
+    echo "$1" | tr : '\n' | nl | sort -u -k 2,2 | sort -n |
+    cut -f 2- | tr '\n' : | sed -e 's/:$//' -e 's/^://'
 }
 
 # -------------------------------------------------------------------
@@ -310,7 +332,7 @@ puniq () {
 
 # source ~/.shenv now if it exists
 test -r ~/.shenv &&
-  . ~/.shenv
+    . ~/.shenv
 
 # condense PATH entries
 PATH=$(puniq $PATH)
@@ -318,6 +340,6 @@ MANPATH=$(puniq $MANPATH)
 
 # Use the color prompt by default when interactive
 test -n "$PS1" &&
-  prompt_color
+    prompt_color
 
 # vim: ts=4 sts=4 shiftwidth=4 expandtab

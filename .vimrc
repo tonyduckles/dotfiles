@@ -11,7 +11,6 @@ set iskeyword+=_,$,@,%,#,-            " none word dividers
 set viminfo='1000,f1,:100,@100,/20
 set modeline                          " make sure modeline support is enabled
 set autoread                          " reload files (no local changes only)
-set tabpagemax=50                     " open 50 tabs max
 
 " ---------------------------------------------------------------------------
 " Colors / Theme
@@ -110,6 +109,9 @@ set virtualedit=block      " allow virtual edit in visual block ..
 "  Tabs
 " ----------------------------------------------------------------------------
 
+if version >= 700
+  set tabpagemax=50                     " open 50 tabs max
+endif
 
 " ----------------------------------------------------------------------------
 "  Mappings
@@ -120,10 +122,12 @@ nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 set showmode
 
-" <F8>/<Shift>-<F8> to navigation between buffers
-set switchbuf=usetab
-nnoremap <F8> :sbnext<CR>
-nnoremap <S-F8> :sbprevious<CR>
+"" <F8>/<Shift>-<F8> to navigation between buffers
+if version >= 700
+  set switchbuf=usetab
+  nnoremap <F8> :sbnext<CR>
+  nnoremap <S-F8> :sbprevious<CR>
+endif
 
 "" quickfix mappings
 "map <F7>  :cn<CR>

@@ -258,6 +258,7 @@ test -n "$LS_COMMON" &&
 # these use the ls aliases above
 alias ll="ls -l"
 alias l.="ls -d .*"
+alias ll.="ls -ld .*"
 
 # setup color grep output if available
 test -n "$COLORS" &&

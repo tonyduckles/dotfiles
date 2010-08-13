@@ -22,7 +22,7 @@ setenv LANG 'en_US.UTF-8'
 # status line to display a bar at the bottom listing the window
 # names and highlighting the current windowname in blue.
 # (http://www.ibm.com/developerworks/aix/library/au-gnu_screen/index.html)
-hardstatus alwayslastline "%{.bw}%-w%{+b .rW}%n %t%{-}%+w %=%{..G} %H %{..Y} "
+hardstatus alwayslastline "%{.bw}%-w%{.rW}%n %t%{-}%+w %=%{..G} %H %{..Y} "
 
 # enable bold
 attrcolor b ".I"

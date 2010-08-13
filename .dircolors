@@ -76,6 +76,7 @@ EXEC 01;32
 
 .jpg  01;35 # image formats
 .jpeg 01;35
+.JPG  01;35
 .gif  01;35
 .bmp  01;35
 .ppm  01;35
@@ -85,6 +86,7 @@ EXEC 01;32
 .tif  01;35
 .png  01;35
 .psd  01;35
+.NEF  01;35
 
 .mpg  01;37 # movie formats
 .mpeg 01;37

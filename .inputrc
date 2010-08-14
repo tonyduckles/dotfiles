@@ -1,6 +1,11 @@
-# do not bell on tab-completion
-set bell-style bell
+# This file controls the behaviour of line input editing for
+# programs that use the GNU Readline library.  Existing
+# programs include FTP, Bash, and GDB.
+#
+# You can re-read the inputrc file with C-x C-r.
+# Lines beginning with '#' are comments.
 
+set bell-style visible
 set expand-tilde off
 set input-meta off
 set convert-meta on
@@ -20,43 +25,46 @@ set show-all-if-unmodified on
 set completion-prefix-display-length 10
 set print-completions-horizontally off
 
-#set editing-mode emacs
+set editing-mode emacs
 
-## reload file
-#"\C-x\C-r": re-read-init-file
+# reload file
+"\C-x\C-r": re-read-init-file
 
-#C-n: history-search-forward
-#C-p: history-search-backward
+C-n: history-search-forward
+C-p: history-search-backward
 
-#$if mode=emacs
-#
-## make control-tab complete from history
-## C-TAB: dynamic-complete-history
-#
-#"\e[A": history-search-backward
-#"\e[B": history-search-forward
-#
-## for linux console and RH/Debian xterm
-#"\e[1~": beginning-of-line
-#"\e[4~": end-of-line
-#"\e[5~": beginning-of-history
-#"\e[6~": end-of-history
-#"\e[3~": delete-char
-#"\e[2~": quoted-insert
-#"\e[5C": forward-word
-#"\e[5D": backward-word
-#"\e\e[C": forward-word
-#"\e\e[D": backward-word
-#
-## for rxvt
-#"\e[8~": end-of-line
-#
-## for non RH/Debian xterm, can't hurt for RH/DEbian xterm
-#"\eOH": beginning-of-line
-#"\eOF": end-of-line
-#
-## for freebsd console
-#"\e[H": beginning-of-line
-#"\e[F": end-of-line
-#
-#$endif
+$if mode=emacs
+
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+# for linux console and RH/Debian xterm
+"\e[1~": beginning-of-line
+"\e[4~": end-of-line
+"\e[5~": beginning-of-history
+"\e[6~": end-of-history
+"\e[3~": delete-char
+"\e[2~": quoted-insert
+"\e[5C": forward-word
+"\e[5D": backward-word
+"\e\e[C": forward-word
+"\e\e[D": backward-word
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+
+# for rxvt
+$if term=rxvt
+"\e[8~": end-of-line
+"\eOc": forward-word
+"\eOd": backward-word
+$endif
+
+# for non RH/Debian xterm, can't hurt for RH/DEbian xterm
+"\eOH": beginning-of-line
+"\eOF": end-of-line
+
+# for freebsd console
+"\e[H": beginning-of-line
+"\e[F": end-of-line
+
+$endif

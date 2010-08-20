@@ -119,28 +119,26 @@ export PAGER MANPAGER
 # ----------------------------------------------------------------------
 
 # http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
-SGR_RED="\[\033[1;31m\]"
-SGR_GREEN="\[\033[0;32m\]"
-SGR_BROWN="\[\033[0;33m\]"
-SGR_YELLOW="\[\033[1;33m\]"
-SGR_GREY="\[\033[0;37m\]"
-SGR_WHITE="\[\033[1;37m\]"
-SGR_BLUE="\[\033[1;34m\]"
-SGR_RESET="\[\033[0m\]"
 
 if [ "$UID" = 0 ]; then
     # root
-    PS_COLOR1="${SGR_RED}"
-    PS_COLOR2=""
+    PS_C1="\[\033[1;31m\]"  # red
+    PS_C2="\[\033[0;37m\]"  # grey
     PS_P="#"
 else
-    if [ "$UNAME" = "Cygwin" ]; then
-        PS_COLOR1="${SGR_GREEN}"
-        PS_COLOR2=""
-    else
-        PS_COLOR1="${SGR_BROWN}"
-        PS_COLOR2="${SGR_YELLOW}"
-    fi
+    case "$UNAME" in
+        Cygwin)
+            PS_C1="\[\033[0;32m\]"  # green
+            PS_C2="\[\033[0;37m\]"  # grey
+            ;;
+        Darwin)
+            PS_C1="\[\033[1;97m\]"  # white
+            PS_C2="\[\033[0;37m\]"  # grey
+            ;;
+        *)
+            PS_C1="\[\033[1;93m\]"  # yellow
+            PS_C2="\[\033[0;33m\]"  # brown
+    esac
     PS_P="\$"
 fi
 
@@ -152,12 +150,12 @@ prompt_simple() {
 
 prompt_compact() {
     unset PROMPT_COMMAND
-    PS1="${PS_COLOR1}${PS_P}${SGR_RESET} "
+    PS1="${PS_C1}${PS_P}\[\033[0m\] "
     PS2="> "
 }
 
 prompt_color() {
-    PS1="[${PS_COLOR1}\u@\h${SGR_RESET}:${PS_COLOR2}\w${SGR_RESET}]${PS_P} "
+    PS1="\[\033[0;90m\][${PS_C1}\u@\h\[\033[0m\]\[\033[0;90m\]:${PS_C2}\w\[\033[0;90m\]]\[\033[0m\]${PS_P} "
     PS2="> "
 }
 
@@ -259,6 +257,7 @@ test -n "$LS_COMMON" &&
 alias ll="ls -l"
 alias l.="ls -d .*"
 alias ll.="ls -ld .*"
+alias lla="ls -la"
 
 # setup color grep output if available
 test -n "$COLORS" &&

@@ -19,6 +19,7 @@
 	lg = log -p
 	who = shortlog -s --
 	brdate = !git-brdate
+	subtree = !git-subtree
 
 [core]
 	filemode = true

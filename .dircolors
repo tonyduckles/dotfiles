@@ -97,6 +97,7 @@ EXEC 01;32
 .wmv  01;37
 .asf  01;37
 .flc  01;37
+.flv  01;37
 
 .wav  36 # sound formats
 .aiff 36

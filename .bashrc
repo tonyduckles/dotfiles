@@ -270,11 +270,11 @@ test -n "$COLORS" &&
 # push SSH public key to another box
 push_ssh_cert() {
     local _host
-    test -f ~/.ssh/id_dsa.pub || ssh-keygen -t dsa
+    test -f ~/.ssh/id_rsa.pub || ssh-keygen -t rsa -b 4096
     for _host in "$@";
     do
         echo $_host
-        ssh $_host 'cat >> ~/.ssh/authorized_keys2' < ~/.ssh/id_dsa.pub
+        ssh $_host 'cat >> ~/.ssh/authorized_keys' < ~/.ssh/id_rsa.pub
     done
 }
 

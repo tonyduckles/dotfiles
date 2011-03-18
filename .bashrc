@@ -98,13 +98,32 @@ case "$0" in
    *)  unset LOGIN ;;
 esac
 
-# enable en_US locale w/ utf-8 encodings if not already
-# configured
-: ${LANG:="en_US.UTF-8"}
-: ${LANGUAGE:="en"}
-: ${LC_CTYPE:="en_US.UTF-8"}
-: ${LC_ALL:="en_US.UTF-8"}
+# setup locale. Try to enable en_US locale w/ utf-8 encodings
+# (if not already configured), but do graceful fall-back.
+lclist=$(locale -a | grep en_US)
+if test -n "$(echo $lclist | grep UTF-8)"; then
+    : ${LANG:="en_US.UTF-8"}
+    : ${LANGUAGE:="en"}
+    : ${LC_CTYPE:="en_US.UTF-8"}
+    : ${LC_ALL:="en_US.UTF-8"}
+elif test -n "$(echo $lclist | grep utf8)"; then
+    : ${LANG:="en_US.utf8"}
+    : ${LANGUAGE:="en"}
+    : ${LC_CTYPE:="en_US.utf8"}
+    : ${LC_ALL:="en_US.utf8"}
+elif test -n "$(echo $lclist | grep ISO8859-1)"; then
+    : ${LANG:="en_US.ISO8859-1"}
+    : ${LANGUAGE:="en"}
+    : ${LC_CTYPE:="en_US.ISO8859-1"}
+    : ${LC_ALL:="en_US.ISO8859-1"}
+else
+    : ${LANG:="en_US"}
+    : ${LANGUAGE:="en"}
+    : ${LC_CTYPE:="en_US"}
+    : ${LC_ALL:="en_US"}
+fi
 export LANG LANGUAGE LC_CTYPE LC_ALL
+unset lclist
 
 # ignore backups, CVS directories, python bytecode, vim swap files
 FIGNORE="~:CVS:#:.pyc:.swp:.swa:apache-solr-*"
@@ -164,7 +183,7 @@ else
             PS_C1="\[\033[1;97m\]"  # white
             PS_C2="\[\033[0;37m\]"  # grey
             ;;
-        SunOS)
+        SunOS | AIX)
             PS_C1="\[\033[1;96m\]"  # cyan
             PS_C2="\[\033[0;36m\]"  # cyan
             ;;
@@ -376,7 +395,7 @@ ppush () { eval "${2:-PATH}='$(eval echo \$${2:-PATH})':$1"; }
 #   /usr/bin:/usr/local/bin
 puniq () {
     echo "$1" | tr : '\n' | nl | sort -u -k 2,2 | sort -n |
-    cut -f 2- | tr '\n' : | sed -e 's/:$//' -e 's/^://'
+    cut -f 2- | tr '\n' :
 }
 
 # -------------------------------------------------------------------

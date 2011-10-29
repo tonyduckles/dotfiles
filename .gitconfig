@@ -24,6 +24,7 @@
 [core]
 	filemode = true
 	whitespace = space-before-tab, trailing-space
+	excludesfile = ~/.gitignore_global
 
 [diff]
 	renames = copies

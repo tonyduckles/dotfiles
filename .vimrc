@@ -11,6 +11,7 @@ set iskeyword+=_,$,@,%,#,-            " none word dividers
 set viminfo='1000,f1,:100,@100,/20
 set modeline                          " make sure modeline support is enabled
 set autoread                          " reload files (no local changes only)
+call pathogen#infect()                " enable pathogen (plugin bundles)
 
 " ---------------------------------------------------------------------------
 " Colors / Theme
@@ -30,7 +31,7 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch  " Highlight all search matches
   " Press Space to turn off highlighting and clear any message already displayed.
   :nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
-  colorscheme slate2
+  colorscheme solarized
 endif
 
 " ---------------------------------------------------------------------------

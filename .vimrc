@@ -31,6 +31,8 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch  " Highlight all search matches
   " Press Space to turn off highlighting and clear any message already displayed.
   :nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+  " Solarized color-scheme
+  let g:solarized_termtrans=1  " Always use terminal's default bg color
   colorscheme solarized
 endif
 

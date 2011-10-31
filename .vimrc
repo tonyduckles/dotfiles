@@ -27,19 +27,24 @@ if &t_Co > 2 || has("gui_running")
     set t_Sf=[3%dm
     set t_Sb=[4%dm
   endif
-  syntax on
-  set hlsearch  " Highlight all search matches
+
+  syntax on     " syntax highligting
+  set hlsearch  " highlight all search matches
   " Press Space to turn off highlighting and clear any message already displayed.
   :nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+
   " Define to-do colors
   if !exists("autocmd_colorscheme_loaded")
     let autocmd_colorscheme_loaded = 1
     autocmd ColorScheme * highlight TodoRed ctermbg=LightRed guibg=#E01B1B ctermfg=White guifg=#002b37
   endif
+
   " Solarized color-scheme
   let g:solarized_termtrans=1  " Always use terminal's default bg color
+  set background=dark
   colorscheme solarized
-  " Auto-highlight to-do's
+
+  " Auto-highlight TODO's
   if has("autocmd")
     if v:version > 701
       autocmd Syntax * call matchadd('TodoRed',  '\W\zs\(TODO\)')

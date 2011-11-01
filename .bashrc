@@ -16,6 +16,13 @@ HOSTFILE=~/.ssh/known_hosts
 # readline config
 INPUTRC=~/.inputrc
 
+# if current $TERM isn't valid, fall-back to TERM=xterm-color
+case $(tput colors 2>&1) in
+    tput* )
+        export TERM=xterm-color
+        ;;
+esac
+
 if [ "$UNAME" = "Darwin" ]; then
     # Fink init, for OSX
     test -r /sw/bin/init.sh &&

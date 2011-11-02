@@ -384,7 +384,7 @@ test -n "$PS1" &&
 
 test -n "$INTERACTIVE" -a -n "$LOGIN" && {
     echo " --"
-    uname -npsr
+    echo -n " " && uname -npsr
     uptime
     echo " --"
 }

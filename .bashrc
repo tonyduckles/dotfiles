@@ -96,7 +96,11 @@ export LANG LANGUAGE LC_CTYPE LC_ALL
 
 # ignore backups, CVS directories, python bytecode, vim swap files
 FIGNORE="~:CVS:#:.pyc:.swp:.swa:apache-solr-*"
+
+# history stuff
 HISTCONTROL=ignoreboth
+HISTFILESIZE=10000
+HISTSIZE=10000
 
 # ----------------------------------------------------------------------
 # PAGER / EDITOR
@@ -120,6 +124,10 @@ else
     MANPAGER="$PAGER"
 fi
 export PAGER MANPAGER
+
+# Ack
+ACK_PAGER="$PAGER"
+ACK_PAGER_COLOR="$PAGER"
 
 # ----------------------------------------------------------------------
 # PROMPT
@@ -233,8 +241,7 @@ test -z "$BASH_COMPLETION" && {
 }
 
 # override and disable tilde expansion
-_expand()
-{
+_expand() {
     return 0
 }
 
@@ -340,6 +347,9 @@ prm () { eval "${2:-PATH}='$(pls $2 |grep -v "^$1\$" |tr '\n' :)'"; }
 # Shift <path> onto the beginning of PATH or environment variable <var>.
 punshift () { eval "${2:-PATH}='$1:$(eval echo \$${2:-PATH})'"; }
 
+# Usage: ppush <path> [<var>]
+ppush () { eval "${2:-PATH}='$(eval echo \$${2:-PATH})':$1"; }
+
 # Usage: puniq [<path>]
 # Remove duplicate entries from a PATH style value while retaining
 # the original order. Use PATH if no <path> is given.
@@ -367,5 +377,16 @@ MANPATH=$(puniq $MANPATH)
 # Use the color prompt by default when interactive
 test -n "$PS1" &&
     prompt_color
+
+# -------------------------------------------------------------------
+# MOTD / FORTUNE
+# -------------------------------------------------------------------
+
+test -n "$INTERACTIVE" -a -n "$LOGIN" && {
+    echo " --"
+    uname -npsr
+    uptime
+    echo " --"
+}
 
 # vim: ts=4 sts=4 shiftwidth=4 expandtab

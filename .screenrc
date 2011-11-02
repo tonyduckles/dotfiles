@@ -12,7 +12,7 @@ shelltitle "sh"              # no title by default - set in PS1
 nethack off                  # makes error messages cryptic
 pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."
 autodetach on
-term xterm
+term xterm-256color
 
 # Use UTF-8
 defutf8 on

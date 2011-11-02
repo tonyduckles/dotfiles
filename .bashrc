@@ -204,6 +204,12 @@ alias du1='du -h --max-depth=1'
 alias fn='find . -name'
 alias hi='history | tail -20'
 
+# For Solaris, use GNU versions of grep and sed
+if [ "$UNAME" = SunOS ]; then
+    test -x /usr/gnu/bin/grep && alias grep="/usr/gnu/bin/grep"
+    test -x /usr/gnu/bin/sed  && alias sed="/usr/gnu/bin/sed"
+fi
+
 # ----------------------------------------------------------------------
 # BASH COMPLETION
 # ----------------------------------------------------------------------
@@ -271,8 +277,17 @@ alias ll.="ls -ld .*"
 alias lla="ls -la"
 
 # setup color grep output if available
-test -n "$COLORS" &&
-    alias grep="command grep --color=auto"
+if [ -n "$COLORS" ]; then
+    case "$UNAME" in
+        "SunOS")
+            # For Solaris, use the GNU version of grep for color support
+            test -x /usr/gnu/bin/grep && alias grep="/usr/gnu/bin/grep --color=auto"
+            ;;
+        *)
+            alias grep="command grep --color=auto"
+            ;;
+    esac
+fi
 
 # --------------------------------------------------------------------
 # MISC COMMANDS

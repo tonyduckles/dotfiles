@@ -3,26 +3,35 @@
 	email = tony@nynim.org
 
 [alias]
-	sh     = !git-sh
-	grab   = !githug-grab
-	thanks = !git-thanks
-	cv     = !git-cv
-	track  = !git-track
-	ll = log --pretty=oneline --abbrev-commit --max-count=15
-	review = log -p --max-count=1
-	fp = format-patch --stdout
-	ci = commit
-	st = status
-	br = branch
-	co = checkout
-	df = diff
-	lg = log -p
-	who = shortlog -s --
-	brdate = !git-brdate
-	subtree = !git-subtree
+	browse       = !hub browse
+	w            = !hub browse
+	compare      = !hub compare
+	cb           = !git-cut-branch
+	sh           = !git-sh
+	grab         = !github-grab
+	thanks       = !git-thanks
+	track        = !git-track
+	ll           = log --pretty=oneline --abbrev-commit --max-count=15
+	review       = log -p --max-count=1
+	fp           = format-patch --stdout
+	ci           = commit
+	st           = status
+	br           = branch
+	co           = checkout
+	cv           = !git-cv
+	lg           = log -p
+	who          = shortlog -s --
+	bd           = !git-brdate
+	bv           = !git branch --color -v | cut -c1-100
+	incoming     = !git-incoming
+	in           = !git-incoming
+	outgoing     = !git-outgoing
+	out          = !git-outgoing
+	subtree      = !git-subtree
 
 [core]
 	filemode = true
+	logallrefupdates = true
 	whitespace = space-before-tab, trailing-space
 	excludesfile = ~/.gitignore_global
 

@@ -384,8 +384,10 @@ test -n "$PS1" &&
 
 test -n "$INTERACTIVE" -a -n "$LOGIN" && {
     echo " --"
-    echo -n " " && uname -npsr
-    uptime
+    # Strip any leading whitespace from uname and uptime commands,
+    # and add a leading padding whitespace
+    echo -n " " && echo `uname -npsr | sed -e 's/^\s+//'`
+    echo -n " " && echo `uptime | sed -e 's/^\s+//'`
     echo " --"
 }
 

@@ -383,12 +383,17 @@ test -n "$PS1" &&
 # -------------------------------------------------------------------
 
 test -n "$INTERACTIVE" -a -n "$LOGIN" && {
-    echo " --"
-    # Strip any leading whitespace from uname and uptime commands,
-    # and add a leading padding whitespace
-    echo -n " " && echo `uname -npsr | sed -e 's/^\s+//'`
-    echo -n " " && echo `uptime | sed -e 's/^\s+//'`
-    echo " --"
+    # Get current uname and uptime (if exists on this host)
+    # Strip any leading whitespace from uname and uptime commands
+    t_uname="$(test -n "`type -P uname`" && uname -npsr | sed -e 's/^\s+//')"
+    t_uptime="$(test -n "`type -P uptime`" && uptime | sed -e 's/^\s+//')"
+    if [ -n "$t_uname" ] || [ -n "$t_uptime" ]; then
+        echo " --"
+        test -n "$t_uname" && echo $t_uname
+        test -n "$t_uptime" && echo $t_uptime
+        echo " --"
+    fi
+    unset t_uname t_uptime
 }
 
 # vim: ts=4 sts=4 shiftwidth=4 expandtab

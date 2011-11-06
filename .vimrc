@@ -78,7 +78,7 @@ set nowritebackup                      " do not keep a backup while working
 set backupdir=$HOME/.vim/backup        " store backups under ~/.vim/backup
 set backupcopy=yes                     " keep attributes of original file
 set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
-set directory=~/.vim/swap,~/tmp,.      " keep swp files under ~/.vim/swap
+set directory=.,~/tmp,~/.vim/swap      " swap file directory-order
 
 " ----------------------------------------------------------------------------
 "  UI

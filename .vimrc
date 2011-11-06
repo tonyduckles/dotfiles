@@ -29,12 +29,13 @@ if &t_Co > 2 || has("gui_running")
     set t_Sb=[4%dm
   endif
 
-  syntax on     " syntax highligting
-  set hlsearch  " highlight all search matches
-  " Press Space to turn off highlighting and clear any message already displayed.
+  set background=dark                 " dark background
+  syntax enable                       " syntax highligting
+  set hlsearch                        " highlight all search matches
+  " Press <Space> to turn off highlighting and clear any message already displayed.
   :nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
-  " Define to-do colors
+  " Define to-do color(s)
   if !exists("autocmd_colorscheme_loaded")
     let autocmd_colorscheme_loaded = 1
     autocmd ColorScheme * highlight TodoRed ctermbg=LightRed guibg=#E01B1B ctermfg=White guifg=#002b37
@@ -42,7 +43,6 @@ if &t_Co > 2 || has("gui_running")
 
   " Solarized color-scheme
   let g:solarized_termtrans=1  " Always use terminal's default bg color
-  set background=dark
   colorscheme solarized
 
   " Auto-highlight TODO's
@@ -74,7 +74,7 @@ highlight SpecialKey ctermfg=DarkGray ctermbg=Black
 
 set nobackup                           " do not keep backups after close
 set nowritebackup                      " do not keep a backup while working
-set noswapfile                         " don't keep swp files either
+"set noswapfile                         " don't keep swp files either
 set backupdir=$HOME/.vim/backup        " store backups under ~/.vim/backup
 set backupcopy=yes                     " keep attributes of original file
 set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
@@ -85,24 +85,26 @@ set directory=~/.vim/swap,~/tmp,.      " keep swp files under ~/.vim/swap
 " ----------------------------------------------------------------------------
 
 set ruler                  " show the cursor position all the time
-set noshowcmd              " don't display incomplete commands
+set showcmd                " display incomplete commands
 set nolazyredraw           " turn off lazy redraw
 "set number                 " line numbers
 set wildmenu               " turn on wild menu
 set wildmode=list:longest,full
-set ch=2                   " command line height
+set cmdheight=2            " command line height
 set backspace=2            " allow backspacing over everything in insert mode
 set whichwrap+=<,>,h,l,[,] " backspace and cursor keys wrap to
-set shortmess=filtIoOA     " shorten messages
+set shortmess=filtIoO      " shorten messages
 set report=0               " tell us about changes
 set nostartofline          " don't jump to the start of line when scrolling
+set scrolloff=4            " vertcal padding
+set sidescroll=40          " side-scrolling increment (for nowrap mode)
 
 " ----------------------------------------------------------------------------
 " Visual Cues
 " ----------------------------------------------------------------------------
 
 set showmatch              " brackets/braces that is
-set mat=5                  " duration to show matching brace (1/10 sec)
+set matchtime=5            " duration to show matching brace (1/10 sec)
 set incsearch              " do incremental searching
 set laststatus=2           " always show the status line
 set ignorecase             " ignore case when searching
@@ -115,14 +117,14 @@ set visualbell             " shut the heck up
 
 set autoindent             " automatic indent new lines
 set smartindent            " be smart about it
-"set nowrap                 " do not wrap lines
+set nowrap                 " do not wrap lines
 set softtabstop=2          " yep, two
 set shiftwidth=2           " ..
 set tabstop=4
 set expandtab              " expand tabs to spaces
 set nosmarttab             " screw tabs
 set formatoptions+=n       " support for numbered/bullet lists
-set textwidth=80           " wrap at 80 chars by default
+"set textwidth=110          " wrap at 110 chars by default
 set virtualedit=block      " allow virtual edit in visual block ..
 
 " ----------------------------------------------------------------------------
@@ -130,7 +132,7 @@ set virtualedit=block      " allow virtual edit in visual block ..
 " ----------------------------------------------------------------------------
 
 if version >= 700
-  set tabpagemax=50                     " open 50 tabs max
+  set tabpagemax=50        " open 50 tabs max
 endif
 
 " ----------------------------------------------------------------------------
@@ -149,7 +151,7 @@ if version >= 700
   nnoremap <S-F8> :sbprevious<CR>
 endif
 
-"" quickfix mappings
+"" quickfix-window mappings
 "map <F7>  :cn<CR>
 "map <S-F7> :cp<CR>
 "map <A-F7> :copen<CR>
@@ -164,21 +166,21 @@ endif
 nnoremap Q gqap
 vnoremap Q gq
 
-"" sane movement with wrap turned on
-"nnoremap j gj
-"nnoremap k gk
-"vnoremap j gj
-"vnoremap k gk
-"nnoremap <Down> gj
-"nnoremap <Up> gk
-"vnoremap <Down> gj
-"vnoremap <Up> gk
-"inoremap <Down> <C-o>gj
-"inoremap <Up> <C-o>gk
+" sane movement with wrap turned on
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+nnoremap <Down> gj
+nnoremap <Up> gk
+vnoremap <Down> gj
+vnoremap <Up> gk
+inoremap <Down> <C-o>gj
+inoremap <Up> <C-o>gk
 
-"" do not menu with left / right in command line
-"cnoremap <Left> <Space><BS><Left>
-"cnoremap <Right> <Space><BS><Right>
+" do not menu with left / right in command line
+cnoremap <Left> <Space><BS><Left>
+cnoremap <Right> <Space><BS><Right>
 
 " ----------------------------------------------------------------------------
 "  Auto Commands

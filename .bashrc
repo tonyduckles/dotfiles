@@ -16,10 +16,15 @@ HOSTFILE=~/.ssh/known_hosts
 # readline config
 INPUTRC=~/.inputrc
 
-# if current $TERM isn't valid, fall-back to TERM=xterm-color
+# if current $TERM isn't valid, fall-back to TERM=xterm-color or TERM=xterm
 case $(tput colors 2>&1) in
     tput* )
         export TERM=xterm-color
+        case $(tput colors 2>&1) in
+            tput* )
+                export TERM=xterm
+                ;;
+        esac
         ;;
 esac
 

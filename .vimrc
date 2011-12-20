@@ -190,9 +190,6 @@ cnoremap <Right> <Space><BS><Right>
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
                          \ exe "normal g'\"" | endif
 
-" don't use cindent for javascript
-autocmd FileType javascript setlocal nocindent
-
 " ----------------------------------------------------------------------------
 "  LookupFile
 " ----------------------------------------------------------------------------
@@ -245,7 +242,7 @@ let g:is_bash = 1
 " ---------------------------------------------------------------------------
 
 function! StripWhitespace ()
-    exec ':%s/ \+$//gc'
+  exec ':%s/ \+$//gc'
 endfunction
 map ,s :call StripWhitespace ()<CR>
 
@@ -254,7 +251,11 @@ map ,s :call StripWhitespace ()<CR>
 " ---------------------------------------------------------------------------
 
 au Filetype gitcommit set tw=68  spell
-"au Filetype html,xml,xsl,rhtml source $HOME/.vim/scripts/closetag.vim
+au Filetype html,xml,xsl,rhtml source $HOME/.vim/scripts/closetag.vim
+" don't use cindent for javascript
+au FileType javascript setlocal nocindent
+" Use Octopress syntax-highlighting for *.markdown files
+au BufNewFile,BufRead *.markdown set filetype=octopress
 
 " --------------------------------------------------------------------------
 " ManPageView

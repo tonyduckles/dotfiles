@@ -12,6 +12,7 @@
 	thanks       = !git-thanks
 	track        = !git-track
 	ll           = log --pretty=oneline --abbrev-commit --max-count=15
+	lll          = log --pretty=oneline --abbrev-commit
 	review       = log -p --max-count=1
 	fp           = format-patch --stdout
 	ci           = commit
@@ -28,6 +29,8 @@
 	outgoing     = !git-outgoing
 	out          = !git-outgoing
 	subtree      = !git-subtree
+	df           = diff --patience
+	dw           = diff --patience --word-diff=color
 
 [core]
 	filemode = true

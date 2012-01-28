@@ -157,6 +157,7 @@ EXEC 01;32
 .doc  33
 .nfo  33
 .html 33
+.mkd  33
 
 .cpp   01;33  # Programming stuff
 .cc    01;33

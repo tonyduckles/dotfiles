@@ -223,6 +223,9 @@ if [ "$UNAME" = SunOS ]; then
     test -x /usr/gnu/bin/sed  && alias sed="/usr/gnu/bin/sed"
 fi
 
+# Alias csh-style "rebash" to bash equivalent
+alias rehash="hash -r"
+
 # ----------------------------------------------------------------------
 # BASH COMPLETION
 # ----------------------------------------------------------------------

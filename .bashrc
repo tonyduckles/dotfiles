@@ -3,6 +3,9 @@
 # A basically sane bash environment.
 # Tony Duckles <http://nynim.org/about/> (based on http://github.com/rtomayko/dotfiles)
 
+# short-circuit for non-interactive sessions
+[ -z "$PS1" ] && return
+
 # the basics
 : ${HOME=~}
 : ${LOGNAME=$(id -un)}

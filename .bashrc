@@ -74,9 +74,13 @@ umask 0022
 PATH="$PATH:/usr/local/sbin:/usr/sbin:/sbin"
 PATH="/usr/local/bin:$PATH"
 
-# put ~/bin on PATH if you have it
+# put ~/bin on PATH if exists
 test -d "$HOME/bin" &&
     PATH="$HOME/bin:$PATH"
+
+# put /opt/csw/* on PATH if exists (OpenCSW Solaris packages)
+test -d "/opt/csw" &&
+    PATH="/opt/csw/sbin:/opt/csw/bin:$PATH"
 
 # ----------------------------------------------------------------------
 # ENVIRONMENT CONFIGURATION

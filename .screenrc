@@ -90,3 +90,14 @@ bind '&' select 17
 bind '*' select 18
 bind '(' select 19
 
+# -------------------------------------------------------------------
+# Default Windows
+# -------------------------------------------------------------------
+screen -t sh 0
+screen -t tlg 1
+screen -t trk 2
+screen -t trkdev 3
+screen -t fnd 4
+screen -t rel 5
+screen -t qacur 6
+select 0

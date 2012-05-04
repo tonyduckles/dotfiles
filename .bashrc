@@ -386,8 +386,8 @@ test -r ~/.shenv &&
     . ~/.shenv
 
 # condense PATH entries
-PATH=$(puniq $PATH)
-MANPATH=$(puniq $MANPATH)
+PATH=$(puniq "$PATH")
+MANPATH=$(puniq "$MANPATH")
 
 # Use the color prompt by default when interactive
 test -n "$PS1" &&

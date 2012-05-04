@@ -1,5 +1,5 @@
 #!/bin/sh
-# Usage: git-incoming [--diff] [<upstream>] [<head> [<limit>]]
+# Usage: git-incoming [-d] [<upstream>] [<head> [<limit>]]
 # Show commits on <upstream> that do not exist on current branch.
 
 # bail out with message to stderr and exit status 1
@@ -47,9 +47,8 @@ fi
 
 if $diff
 then git diff HEAD..."$1"
-else
-     git cherry -v HEAD "$@"                           |
-     cut -c1-9 -c43-                                   |
+else git cherry -v HEAD "$@"                           |
+     cut -c1-9,43-                                     |
      sed -e "s/^\(.\) \(.......\)/\1 $SHA\2$RESET/"    |
      sed -e "s/^-/$REM-$RESET/" -e "s/^+/$ADD+$RESET/"
 fi

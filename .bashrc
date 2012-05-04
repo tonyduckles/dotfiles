@@ -7,6 +7,7 @@
 [ -z "$PS1" ] && return
 
 # the basics
+PATH="/usr/local/bin:/bin:/usr/bin:/usr/sbin:/usr/local/sbin:/sbin:$PATH"
 : ${HOME=~}
 : ${LOGNAME=$(id -un)}
 : ${UNAME=$(uname)}

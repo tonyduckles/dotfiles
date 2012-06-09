@@ -11,8 +11,13 @@ set viminfo='1000,f1,:100,@100,/20
 set modeline                          " make sure modeline support is enabled
 set autoread                          " reload files (no local changes only)
 
-call pathogen#infect()                " enable pathogen (plugin bundles)
-filetype plugin indent on             " load filetype plugin
+" ---------------------------------------------------------------------------
+"  Pathogen Init (Bundles)
+" ---------------------------------------------------------------------------
+filetype off
+call pathogen#infect()
+call pathogen#helptags()
+filetype plugin indent on             " enable plugins, detection and indenting in one step
 
 " ---------------------------------------------------------------------------
 " Colors / Theme
@@ -74,7 +79,6 @@ highlight SpecialKey ctermfg=DarkGray ctermbg=Black
 
 set nobackup                           " do not keep backups after close
 set nowritebackup                      " do not keep a backup while working
-"set noswapfile                         " don't keep swp files either
 set backupdir=$HOME/.vim/backup        " store backups under ~/.vim/backup
 set backupcopy=yes                     " keep attributes of original file
 set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
@@ -87,7 +91,8 @@ set directory=.,~/tmp,~/.vim/swap      " swap file directory-order
 set ruler                  " show the cursor position all the time
 set showcmd                " display incomplete commands
 set nolazyredraw           " turn off lazy redraw
-"set number                 " line numbers
+set hidden                 " keep buffers loaded when hidden
+set showmode               " show mode at bottom of screen
 set wildmenu               " turn on wild menu
 set wildmode=list:longest,full
 set cmdheight=2            " command line height
@@ -144,7 +149,6 @@ let mapleader = ","
 " <F2> to pastetoggle, to turn-off autoindent when pasting from system clipboard
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
-set showmode
 
 "" <F8>/<Shift>-<F8> to navigation between buffers
 if version >= 700
@@ -190,19 +194,6 @@ nnoremap <C-l> <C-w>l
 " jump to last position of buffer when opening
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
                          \ exe "normal g'\"" | endif
-
-" ----------------------------------------------------------------------------
-"  LookupFile
-" ----------------------------------------------------------------------------
-
-"let g:LookupFile_TagExpr = '".ftags"'
-"let g:LookupFile_MinPatLength = 2
-"let g:LookupFile_ShowFiller = 0                  " fix menu flashiness
-"let g:LookupFile_PreservePatternHistory = 1      " preserve sorted history?
-"let g:LookupFile_PreserveLastPattern = 0         " start with last pattern?
-"
-"nmap <unique> <silent> <D-f> <Plug>LookupFile
-"imap <unique> <silent> <D-f> <C-O><Plug>LookupFile
 
 " ----------------------------------------------------------------------------
 "  PATH on MacOS X

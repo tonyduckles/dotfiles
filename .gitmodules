@@ -26,3 +26,7 @@
 	path = .vim/bundle/ack
 	url = git://github.com/mileszs/ack.vim.git
 	ignore = dirty
+[submodule ".vim/bundle/surround"]
+	path = .vim/bundle/surround
+	url = git://github.com/tpope/vim-surround.git
+	ignore = dirty

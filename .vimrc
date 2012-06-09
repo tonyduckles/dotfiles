@@ -245,12 +245,6 @@ let $MANPAGER = '/usr/bin/less -is'
 " Bundle Config
 " --------------------------------------------------------------------------
 
-" NERDTree
-let NERDTreeIgnore = ['\.pyc$', '\~$', '\.rbc$']
-map <F1> :NERDTreeToggle<CR>
-let NERDTreeMinimalUI=1
-let NERDTreeDirArrows=1
-
 "" Gundo
 nnoremap <F5> :GundoToggle<CR>
 

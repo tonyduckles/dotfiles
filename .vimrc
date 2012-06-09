@@ -133,6 +133,17 @@ set formatoptions+=n       " support for numbered/bullet lists
 set virtualedit=block      " allow virtual edit in visual block ..
 
 " ----------------------------------------------------------------------------
+" Filename exclusions
+" ----------------------------------------------------------------------------
+
+set wildignore+=.hg,.git,.svn         " version control directories
+set wildignore+=*.jpg,*.jpeg,*.bmp,*.gif,*.png  " image files
+set wildignore+=*.o,*.obj,*.exe,*.dll " compiled object files
+set wildignore+=*.pyc                 " Python byte code
+set wildignore+=*.sw?                 " Vim swap files
+set wildignore+=.DS_Store             " OSX junk
+
+" ----------------------------------------------------------------------------
 "  Tabs
 " ----------------------------------------------------------------------------
 

@@ -156,6 +156,9 @@ endif
 "map <S-F7> :cp<CR>
 "map <A-F7> :copen<CR>
 
+"" <F5> to gundo
+nnoremap <F5> :GundoToggle<CR>
+
 "" emacs movement keybindings in insert mode
 "imap <C-a> <C-o>0
 "imap <C-e> <C-o>$

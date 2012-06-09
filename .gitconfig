@@ -29,6 +29,7 @@
 	outgoing     = !git-outgoing
 	out          = !git-outgoing
 	subtree      = !git-subtree
+	sup          = !git-subup
 	df           = diff --patience
 	dw           = diff --patience --word-diff=color
 

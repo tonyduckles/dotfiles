@@ -153,9 +153,6 @@ if version >= 700
   nnoremap <S-F8> :sbprevious<CR>
 endif
 
-"" <F5> to gundo
-nnoremap <F5> :GundoToggle<CR>
-
 " disable default vim regex handling for searching
 nnoremap / /\v
 vnoremap / /\v
@@ -252,4 +249,17 @@ au BufNewFile,BufRead *.markdown set filetype=octopress
 
 let g:manpageview_pgm= 'man -P "/usr/bin/less -is"'
 let $MANPAGER = '/usr/bin/less -is'
+
+" --------------------------------------------------------------------------
+" Bundle Config
+" --------------------------------------------------------------------------
+
+" NERDTree
+let NERDTreeIgnore = ['\.pyc$', '\~$', '\.rbc$']
+map <F1> :NERDTreeToggle<CR>
+let NERDTreeMinimalUI=1
+let NERDTreeDirArrows=1
+
+"" Gundo
+nnoremap <F5> :GundoToggle<CR>
 

@@ -1,0 +1,16 @@
+[submodule ".vim/bundle/fugitive"]
+	path = .vim/bundle/fugitive
+	url = git://github.com/tpope/vim-fugitive.git
+	ignore = dirty
+[submodule ".vim/bundle/octopress"]
+	path = .vim/bundle/octopress
+	url = git://github.com/tangledhelix/vim-octopress.git
+	ignore = dirty
+[submodule ".vim/bundle/solarized"]
+	path = .vim/bundle/solarized
+	url = git://github.com/altercation/vim-colors-solarized.git
+	ignore = dirty
+[submodule ".vim/bundle/git"]
+	path = .vim/bundle/git
+	url = git://github.com/tpope/vim-git.git
+	ignore = dirty

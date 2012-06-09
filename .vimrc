@@ -139,6 +139,8 @@ endif
 "  Mappings
 " ----------------------------------------------------------------------------
 
+let mapleader = ","
+
 " <F2> to pastetoggle, to turn-off autoindent when pasting from system clipboard
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
@@ -151,19 +153,12 @@ if version >= 700
   nnoremap <S-F8> :sbprevious<CR>
 endif
 
-"" quickfix-window mappings
-"map <F7>  :cn<CR>
-"map <S-F7> :cp<CR>
-"map <A-F7> :copen<CR>
-
 "" <F5> to gundo
 nnoremap <F5> :GundoToggle<CR>
 
-"" emacs movement keybindings in insert mode
-"imap <C-a> <C-o>0
-"imap <C-e> <C-o>$
-"map <C-e> $
-"map <C-a> 0
+" disable default vim regex handling for searching
+nnoremap / /\v
+vnoremap / /\v
 
 " reflow paragraph with Q in normal and visual mode
 nnoremap Q gqap
@@ -184,6 +179,12 @@ inoremap <Up> <C-o>gk
 " do not menu with left / right in command line
 cnoremap <Left> <Space><BS><Left>
 cnoremap <Right> <Space><BS><Right>
+
+" easier split-window movement
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
 " ----------------------------------------------------------------------------
 "  Auto Commands
@@ -226,28 +227,13 @@ au Filetype sh,bash set ts=4 sts=4 sw=4 expandtab
 let g:is_bash = 1
 
 " ---------------------------------------------------------------------------
-"  Misc mappings
-" ---------------------------------------------------------------------------
-
-"map ,f :tabnew <cfile><CR>
-"map ,d :e %:h/<CR>
-"map ,dt :tabnew %:h/<CR>
-
-"" I use these commands in my TODO file
-"map ,a o<ESC>:r!date +'\%A, \%B \%d, \%Y'<CR>:r!date +'\%A, \%B \%d, \%Y' \| sed 's/./-/g'<CR>A<CR><ESC>
-"map ,o o[ ] 
-"map ,O O[ ] 
-"map ,x :s/^\[ \]/[x]/<CR>
-"map ,X :s/^\[x\]/[ ]/<CR>
-
-" ---------------------------------------------------------------------------
 "  Strip all trailing whitespace in file
 " ---------------------------------------------------------------------------
 
 function! StripWhitespace ()
   exec ':%s/ \+$//gc'
 endfunction
-map ,s :call StripWhitespace ()<CR>
+map <leader>s :call StripWhitespace ()<CR>
 
 " ---------------------------------------------------------------------------
 " File Types

@@ -263,3 +263,8 @@ let $MANPAGER = '/usr/bin/less -is'
 "" Gundo
 nnoremap <F5> :GundoToggle<CR>
 
+"" Command-T
+noremap <leader>o <Esc>:CommandT<CR>
+noremap <leader>O <Esc>:CommandTFlush<CR>
+noremap <leader>m <Esc>:CommandTBuffer<CR>
+

@@ -38,7 +38,7 @@ if &t_Co > 2 || has("gui_running")
   syntax enable                       " syntax highligting
   set hlsearch                        " highlight all search matches
   " Press <Space> to turn off highlighting and clear any message already displayed.
-  :nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+  nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
   " Define to-do color(s)
   if !exists("autocmd_colorscheme_loaded")
@@ -79,7 +79,6 @@ highlight SpecialKey ctermfg=DarkGray ctermbg=Black
 
 set nobackup                           " do not keep backups after close
 set nowritebackup                      " do not keep a backup while working
-set backupdir=$HOME/.vim/backup        " store backups under ~/.vim/backup
 set backupcopy=yes                     " keep attributes of original file
 set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
 set directory=.,~/tmp,~/.vim/swap      " swap file directory-order
@@ -161,13 +160,6 @@ let mapleader = ","
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 
-"" <F8>/<Shift>-<F8> to navigation between buffers
-if version >= 700
-  set switchbuf=usetab
-  nnoremap <F8> :sbnext<CR>
-  nnoremap <S-F8> :sbprevious<CR>
-endif
-
 " disable default vim regex handling for searching
 nnoremap / /\v
 vnoremap / /\v
@@ -191,6 +183,10 @@ inoremap <Up> <C-o>gk
 " do not menu with left / right in command line
 cnoremap <Left> <Space><BS><Left>
 cnoremap <Right> <Space><BS><Right>
+
+" buffer navigation
+nnoremap <C-n> :bnext<CR>
+nnoremap <C-p> :bprev<CR>
 
 " easier split-window movement
 nnoremap <C-h> <C-w>h

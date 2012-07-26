@@ -129,8 +129,8 @@ export EDITOR
 
 # PAGER
 if test -n "$(command -v less)" ; then
-    PAGER="less -Fir"
-    MANPAGER="less -FiRs"
+    PAGER="less"
+    MANPAGER="less"
 else
     PAGER=more
     MANPAGER="$PAGER"

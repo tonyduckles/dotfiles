@@ -22,5 +22,13 @@ test -n "$keychain" && {
 }
 unset keychain
 
+# kerberos
+kinit="$(type -P kinit)"
+test -n "$kinit" && {
+    KRB5_CONFIG="$HOME/.krb5.conf"
+    export KRB5_CONFIG
+}
+unset kinit
+
 # Load RVM function
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"

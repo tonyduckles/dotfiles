@@ -302,6 +302,8 @@ test -n "$dircolors" && {
     test -e "/etc/DIR_COLORS.$TERM"   && COLORS="/etc/DIR_COLORS.$TERM"
     test -e "$HOME/.dircolors"        && COLORS="$HOME/.dircolors"
     test ! -e "$COLORS"               && COLORS=
+    # AIX (vx-track) has dircolors(1) but ls(1) doesn't support --color arg
+    test "$UNAME" = "AIX"             && COLORS=
     eval `$dircolors --sh $COLORS`
 }
 unset dircolors

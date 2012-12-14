@@ -1,0 +1,25 @@
+# General Ack Settings
+# ####################################################################
+
+# only search with case sensitivity if there is mixed case
+--smart-case
+# follow symlinks
+--follow
+# always sort the files
+--sort-files
+# always color, even if piping to a another program
+--color
+# no grouping
+--noheading
+--break
+
+# Ack Type Settings
+# ####################################################################
+--type-set=mumps=.m,.ro,.ROU,.GLO
+--type-set=markdown=.md,.mkd,.markdown
+
+# Colors
+# ####################################################################
+--color-filename=cyan
+--color-lineno=yellow bold
+--color-match=white on_green bold

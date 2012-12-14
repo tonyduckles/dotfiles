@@ -327,12 +327,16 @@ if [ -n "$COLORS" ]; then
     case "$UNAME" in
         "SunOS")
             # For Solaris, use the GNU version of grep for color support
-            test -x /usr/gnu/bin/grep && alias grep="/usr/gnu/bin/grep --color=auto"
+            test -x /usr/gnu/bin/grep && alias grep="/usr/gnu/bin/grep --color=always"
             ;;
         *)
-            alias grep="command grep --color=auto"
+            alias grep="command grep --color=always"
             ;;
     esac
+    # older versions of grep only support a singular highlight color
+    export GREP_COLOR='1;37;42'
+    # newer versions of grep have more flexible color configuration
+    export GREP_COLORS='fn=36:ln=1;33:ms=1;37;42'
 fi
 
 # --------------------------------------------------------------------

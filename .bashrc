@@ -71,17 +71,21 @@ umask 0022
 # PATH
 # ----------------------------------------------------------------------
 
-# we want the various sbins on the path along with /usr/local/bin
+# we want the various sbin's on the path along with /usr/local/bin
 PATH="$PATH:/usr/local/sbin:/usr/sbin:/sbin"
 PATH="/usr/local/bin:$PATH"
+
+# put /opt/csw/* on PATH if exists (OpenCSW Solaris packages)
+test -d "/opt/csw" &&
+    PATH="/opt/csw/sbin:/opt/csw/bin:$PATH"
 
 # put ~/bin on PATH if exists
 test -d "$HOME/bin" &&
     PATH="$HOME/bin:$PATH"
 
-# put /opt/csw/* on PATH if exists (OpenCSW Solaris packages)
-test -d "/opt/csw" &&
-    PATH="/opt/csw/sbin:/opt/csw/bin:$PATH"
+# put ~/sbin on PATH if exists
+test -d "$HOME/sbin" &&
+    PATH="$HOME/sbin:$PATH"
 
 # ----------------------------------------------------------------------
 # ENVIRONMENT CONFIGURATION

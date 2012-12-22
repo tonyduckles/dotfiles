@@ -5,7 +5,7 @@
 [alias]
 	# Simple aliases
 	ci           = commit
-	st           = status
+	st           = status -sb
 	br           = branch
 	co           = checkout
 	tags         = tag -n1 -l
@@ -62,7 +62,7 @@
 [color "branch"]
 	current = yellow reverse
 	local = yellow bold
-	remote = green bold
+	remote = green
 	plain = red bold
 
 [color "status"]

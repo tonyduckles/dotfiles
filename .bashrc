@@ -192,7 +192,17 @@ prompt_compact() {
 }
 
 prompt_color() {
-    PS1="\[\033[0;90m\][${PS_C1}\u@\h\[\033[0m\]\[\033[0;90m\]:${PS_C2}\w\[\033[0;90m\]]${PS_P}\[\033[0m\] "
+    # If git and the git bash_completion scripts are installed, use __git_ps1() to show current branch info.
+    # Never show branch info for $HOME (dotfiles) repo.
+    # Use the following to exclude a given repo: `git config --local --bool --add bash.hidePrompt true`
+    if [ -n "$(type -P git)" -a "$(type -t __git_ps1)" = "function" ]; then
+        PS_GIT='$(test -n "$(__git_ps1 %s)" &&
+                  test "$(git rev-parse --show-toplevel)" != "$HOME" &&
+                  test "$(git config --bool bash.hidePrompt)" != "true" &&
+                  __git_ps1 "{\[\033[0;100m\]%s\[\033[0;90m\]}")'
+        export GIT_PS1_SHOWDIRTYSTATE=1
+    fi
+    PS1="\[\033[0;90m\][${PS_C1}\u@\h\[\033[0m\]\[\033[0;90m\]:${PS_C2}\w\[\033[0;90m\]]${PS_GIT}${PS_P}\[\033[0m\] "
     PS2="> "
 }
 

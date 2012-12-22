@@ -8,27 +8,27 @@
 #
 # Inspired by Kyle Neath's `git up' alias:
 # http://gist.github.com/249223
+# Stolen from Ryan Tomayko
+# http://github.com/rtomayko/dotfiles/blob/rtomayko/bin/git-up
 
 set -e
 
-PULL_ARGS="$@"
-
 if [ "$(basename $0)" = "git-reup" ]; then
     # when invoked as git-reup, run as `git pull --rebase ...'
-    PULL_ARGS="--rebase $PULL_ARGS"
+    PULL_ARGS="--rebase"
     FETCH_ARGS=""
 else
     # when invoked as git-up, run as `git pull ...`
-    PULL_ARGS="--ff-only $PULL_ARGS"
+    PULL_ARGS="--ff-only"
     if [ " $@" = " " ]; then
         # when invoked without a repo/head, fetch (and prune) all remotes
         FETCH_ARGS="--all --prune"
     fi
 fi
 
-HEAD_OLD=$(git log -1 --pretty='format:%H' HEAD)
+HEAD_OLD=$(git rev-parse HEAD)
 git pull $PULL_ARGS $FETCH_ARGS $@
-HEAD_NEW=$(git log -1 --pretty='format:%H' HEAD)
+HEAD_NEW=$(git rev-parse HEAD)
 
 if [ "$HEAD_OLD" != "$HEAD_NEW" ]; then
     # if HEAD was actually updated...

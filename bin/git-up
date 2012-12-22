@@ -13,21 +13,33 @@ set -e
 
 PULL_ARGS="$@"
 
-# when invoked as git-reup, run as `git pull --rebase'
-test "$(basename $0)" = "git-reup" &&
-PULL_ARGS="--rebase $PULL_ARGS"
+if [ "$(basename $0)" = "git-reup" ]; then
+    # when invoked as git-reup, run as `git pull --rebase ...'
+    PULL_ARGS="--rebase $PULL_ARGS"
+    FETCH_ARGS=""
+else
+    # when invoked as git-up, run as `git pull ...`
+    PULL_ARGS="--ff-only $PULL_ARGS"
+    if [ " $@" = " " ]; then
+        # when invoked without a repo/head, fetch (and prune) all remotes
+        FETCH_ARGS="--all --prune"
+    fi
+fi
 
-git pull $PULL_ARGS
+HEAD_OLD=$(git log -1 --pretty='format:%H' HEAD)
+git pull $PULL_ARGS $FETCH_ARGS $@
+HEAD_NEW=$(git log -1 --pretty='format:%H' HEAD)
 
-# show diffstat of all changes if we're pulling with --rebase. not
-# sure why git-pull only does this when merging.
-test "$(basename $0)" = "git-reup" && {
-    echo "Diff:"
-    git --no-pager diff --color --stat HEAD@{1}.. |
-    sed 's/^/ /'
-}
+if [ "$HEAD_OLD" != "$HEAD_NEW" ]; then
+    # if HEAD was actually updated...
+    if [ "$(basename $0)" = "git-reup" ]; then
+        # if we're pulling with --rebase, show diffstat of all changes.
+        # not sure why git-pull only does this when merging.
+        echo "Diff:"
+        git --no-pager diff --color --stat ${HEAD_OLD}.. | sed 's/^/ /'
+    fi
 
-# show an abbreviated commit log of stuff that was just merged.
-echo "Log:"
-git log --color --pretty=oneline --abbrev-commit HEAD@{1}.. |
-sed 's/^/  /'
+    # show an abbreviated commit log of stuff that was just merged.
+    echo "Log:"
+    git log --color --pretty=oneline --abbrev-commit ${HEAD_OLD}.. | sed 's/^/  /'
+fi

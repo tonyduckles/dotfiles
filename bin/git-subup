@@ -5,4 +5,4 @@ cd $(git rev-parse --show-toplevel)
 git submodule update --init --quiet
 git submodule sync --quiet
 git submodule foreach --quiet git checkout --quiet master
-git submodule foreach git pull
+git submodule foreach git pull --prune

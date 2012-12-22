@@ -3,37 +3,37 @@
 	email = tony@nynim.org
 
 [alias]
-	browse       = !hub browse
-	w            = !hub browse
-	compare      = !hub compare
-	cb           = !git-cut-branch
-	sh           = !git-sh
-	grab         = !github-grab
-	thanks       = !git-thanks
-	track        = !git-track
-	root         = rev-parse --show-toplevel
-	ll           = log -16 --pretty='format:%C(yellow)%h%Creset %s%C(green bold)%d%Creset %C(black bold)(by %an, %ar)%Creset'
-	lll          = log     --pretty='format:%C(yellow)%h%Creset %s%C(green bold)%d%Creset %C(black bold)(by %an, %ar)%Creset'
-	graph        = log --all --graph --topo-order --pretty='format:%C(yellow)%h%Creset %s %C(black bold)(by %an)%Creset%C(green bold)%d%Creset%n'
-	review       = log -p --max-count=1
-	fp           = format-patch --stdout
+	# Simple aliases
 	ci           = commit
 	st           = status
 	br           = branch
 	co           = checkout
-	cv           = !git-cv
-	lg           = log -p
-	who          = shortlog -s --
-	bd           = !git-brdate
-	bv           = !git branch --color -v | cut -c1-100
+	tags         = tag -n1 -l
+	# Log helpers
+	ll           = log -16 --pretty='format:%C(yellow)%h%Creset %s%C(green bold)%d%Creset %C(black bold)(by %an, %ar)%Creset'
+	lll          = log     --pretty='format:%C(yellow)%h%Creset %s%C(green bold)%d%Creset %C(black bold)(by %an, %ar)%Creset'
+	graph        = log --all --graph --topo-order --pretty='format:%C(yellow)%h%Creset %s %C(black bold)(by %an)%Creset%C(green bold)%d%Creset%n'
+	# Remote helpers
+	track        = !git-track
 	incoming     = !git-incoming
 	in           = !git-incoming
 	outgoing     = !git-outgoing
 	out          = !git-outgoing
+	# Branch helpers
+	bd           = !git-brdate
+	bv           = !git branch --color -vv
+	cv           = !git-cv
 	subtree      = !git-subtree
-	sup          = !git-subup
+	# Diff helpers
 	df           = diff --patience
-	di           = diff --patience --cached
+	dfc          = diff --patience --cached
+	# Misc
+	root         = rev-parse --show-toplevel
+	sh           = !git-sh
+	thanks       = !git-thanks
+	who          = shortlog -s --
+	sup          = !git-subup
+	fp           = format-patch --stdout
 
 [core]
 	filemode = true

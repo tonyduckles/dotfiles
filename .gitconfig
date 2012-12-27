@@ -10,8 +10,7 @@
 	co           = checkout
 	tags         = tag -n1 -l
 	# Log helpers
-	ll           = log -16 --pretty='format:%C(yellow)%h%Creset %s%C(green bold)%d%Creset %C(black bold)(by %an, %ar)%Creset'
-	lll          = log     --pretty='format:%C(yellow)%h%Creset %s%C(green bold)%d%Creset %C(black bold)(by %an, %ar)%Creset'
+	ll           = log     --pretty='format:%C(yellow)%h%Creset %s%C(green bold)%d%Creset %C(black bold)(by %an, %ar)%Creset'
 	graph        = log --all --graph --topo-order --pretty='format:%C(yellow)%h%Creset %s %C(black bold)(by %an)%Creset%C(green bold)%d%Creset%n'
 	# Remote helpers
 	track        = !git-track

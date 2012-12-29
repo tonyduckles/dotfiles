@@ -42,7 +42,7 @@ case "$UNAME" in
         ifconfig $if_args | $awk "$awk_mask2cdr"'
             /^[^ ]+/ {iface=$1};
             $1 == "inet" { printf("%-10s %s/%s\n", iface ":", substr($2,6), mask2cdr(substr($0,index($0,"Mask:")+5))) };
-            $1 == "inet6" && /Scope:Global/ { printf("%-10s%s\n", iface ":", $3) }'
+            $1 == "inet6" && /Scope:Global/ { printf("%-10s %s\n", iface ":", $3) }'
         ;;
     SunOS)
         test -x "/usr/gnu/bin/awk" && awk=/usr/gnu/bin/awk

@@ -78,6 +78,10 @@ PATH="/usr/local/bin:$PATH"
 test -d "/opt/csw" &&
     PATH="/opt/csw/sbin:/opt/csw/bin:$PATH"
 
+# ~/.rvm/bin on PATH if exists (RVM)
+test -d "$HOME/.rvm/bin" &&
+    PATH="$PATH:$HOME/.rvm/bin"
+
 # put ~/bin on PATH if exists
 test -d "$HOME/bin" &&
     PATH="$HOME/bin:$PATH"

@@ -244,10 +244,11 @@ alias du1='du -h --max-depth=1'
 alias fn='find . -name'
 alias hi='history | tail -20'
 
-# For Solaris, use GNU versions of grep and sed
+# For Solaris, use GNU versions of core utils
 if [ "$UNAME" = SunOS ]; then
     test -x /usr/gnu/bin/grep && alias grep="/usr/gnu/bin/grep"
     test -x /usr/gnu/bin/sed  && alias sed="/usr/gnu/bin/sed"
+    test -x /usr/gnu/bin/awk  && alias awk="/usr/gnu/bin/awk"
 fi
 
 # Alias csh-style "rebash" to bash equivalent

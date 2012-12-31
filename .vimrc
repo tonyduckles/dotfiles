@@ -15,8 +15,8 @@ set autoread                          " reload files (no local changes only)
 "  Pathogen Init (Bundles)
 " ---------------------------------------------------------------------------
 filetype off
-call pathogen#infect()
-call pathogen#helptags()
+silent! call pathogen#infect()
+silent! call pathogen#helptags()
 filetype plugin indent on             " enable plugins, detection and indenting in one step
 
 " ---------------------------------------------------------------------------

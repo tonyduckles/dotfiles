@@ -1,0 +1,58 @@
+#!/bin/sh
+# Usage: ipaddr [<iface>]
+# Show the IP address (IPv4 and/or IPv6) for interface <iface> or all interfaces
+# when no <iface> given.
+
+UNAME=$(uname)
+IFACE=$1
+awk="command awk"
+
+# Helper function for converting a hex (or decimal) netmask into CIDR format
+awk_mask2cdr='
+function mask2cdr(mask) {
+    if(mask ~ /[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/) {
+        split(mask,d,".");
+        mask = sprintf("0x%x%x%x%x",d[1],d[2],d[3],d[4]);
+    };
+    sub("^0x","",mask);
+    cidr=0;
+    while(mask != "") {
+        digit=substr(mask,1,1);
+        mask=substr(mask,2);
+        if(digit ~ /f|F/) cidr += 4;
+        if(digit ~ /e|E/) cidr += 3;
+        if(digit ~ /c|C/) cidr += 2;
+        if(digit ~ /8/) cidr += 1;
+    };
+    return cidr
+};'
+
+case "$UNAME" in
+    Darwin|FreeBSD)
+        test -n "$IFACE" && if_args="$IFACE"
+        test -z "$if_args" && if_args="-a"
+        ifconfig $if_args | $awk "$awk_mask2cdr"'
+            /^[a-z-0-9]/ {iface=$1};
+            $1 == "inet" {printf("%-10s %s/%s\n",iface,$2,mask2cdr($4))};
+            $1 == "inet6" && !/scopeid|inet6 ::1|temporary/ {printf("%-10s %s/%s\n",iface,$2,$4)}'
+        ;;
+    Linux)
+        test -n "$IFACE" && if_args="$IFACE"
+        test -z "$if_args" && if_args="-a"
+        ifconfig $if_args | $awk "$awk_mask2cdr"'
+            /^[^ ]+/ {iface=$1};
+            $1 == "inet" { printf("%-10s %s/%s\n", iface ":", substr($2,6), mask2cdr(substr($0,index($0,"Mask:")+5))) };
+            $1 == "inet6" && /Scope:Global/ { printf("%-10s %s\n", iface ":", $3) }'
+        ;;
+    SunOS)
+        test -x "/usr/gnu/bin/awk" && awk=/usr/gnu/bin/awk
+        test -n "$IFACE" && if_args="$IFACE"
+        test -z "$if_args" && if_args="-a"
+        ifconfig $if_args | $awk "$awk_mask2cdr"'
+            /^[a-z0-9]+/ {iface=$1};
+            $1 == "inet" { printf("%-10s %s/%s\n", iface, $2, mask2cdr($4)) };
+            $1 == "inet6" && !/inet6 ::|inet6 fe80:/ { printf("%-10s %s\n", iface, $2) }'
+        ;;
+    *)
+        echo "Unhandled host-type: $UNAME"
+esac

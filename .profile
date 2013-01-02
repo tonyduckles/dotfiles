@@ -6,7 +6,8 @@ PATH=/epic/bin:/bin:/home/bin:/usr/bin:/bin:/opt/std/bin:/usr/local/bin:/usr/sbi
 export PATH
 
 set -a
-PS1='$LOGNAME'@$(uname -n):'$PWD> '
+HOST=$(hostname)
+PS1='[$LOGNAME@$HOST:$PWD]$ '
 set +a
 PAGER=more
 

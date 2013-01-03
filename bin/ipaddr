@@ -26,32 +26,41 @@ function mask2cdr(mask) {
     };
     return cidr
 };'
+# Display the final results
+awk_print_ifdata='
+iflen=0;
+for ( ifnam in ifdata ) { if(length(ifnam)>iflen) iflen=length(ifnam) };
+for ( ifnam in ifdata ) { split(ifdata[ifnam], data, "^"); for (v in data) { if (length(data[v])>1) printf("%-" int(iflen+1) "s %s\n", ifnam, data[v]) }}
+'
 
 case "$UNAME" in
     Darwin|FreeBSD)
         test -n "$IFACE" && if_args="$IFACE"
         test -z "$if_args" && if_args="-a"
         ifconfig $if_args | $awk "$awk_mask2cdr"'
-            /^[a-z-0-9]/ {iface=$1};
-            $1 == "inet" {printf("%-10s %s/%s\n",iface,$2,mask2cdr($4))};
-            $1 == "inet6" && !/scopeid|inet6 ::1|temporary/ {printf("%-10s %s/%s\n",iface,$2,$4)}'
+            /^[a-z0-9:]+/ { ifnam=$1 };
+            $1 == "inet" { ifdata[ifnam]=ifdata[ifnam] "^" $2 "/" mask2cdr($4) };
+            $1 == "inet6" && !/scopeid|inet6 ::1|temporary/ { ifdata[ifnam]=ifdata[ifnam] "^" $2 "/" $4 };
+            END { '"$awk_print_ifdata"'}'
         ;;
     Linux)
         test -n "$IFACE" && if_args="$IFACE"
         test -z "$if_args" && if_args="-a"
         ifconfig $if_args | $awk "$awk_mask2cdr"'
-            /^[^ ]+/ {iface=$1};
-            $1 == "inet" { printf("%-10s %s/%s\n", iface ":", substr($2,6), mask2cdr(substr($0,index($0,"Mask:")+5))) };
-            $1 == "inet6" && /Scope:Global/ { printf("%-10s %s\n", iface ":", $3) }'
+            /^[^ ]+/ { ifnam=$1 ":" };
+            $1 == "inet" { ifdata[ifnam]=ifdata[ifnam] "^" substr($2,6) "/" mask2cdr(substr($0,index($0,"Mask:")+5)) };
+            $1 == "inet6" && /Scope:Global/ { ifdata[ifnam]=ifdata[ifnam] "^" $3 }
+            END { '"$awk_print_ifdata"'}'
         ;;
     SunOS)
         test -x "/usr/gnu/bin/awk" && awk=/usr/gnu/bin/awk
         test -n "$IFACE" && if_args="$IFACE"
         test -z "$if_args" && if_args="-a"
         ifconfig $if_args | $awk "$awk_mask2cdr"'
-            /^[a-z0-9]+/ {iface=$1};
-            $1 == "inet" { printf("%-10s %s/%s\n", iface, $2, mask2cdr($4)) };
-            $1 == "inet6" && !/inet6 ::|inet6 fe80:/ { printf("%-10s %s\n", iface, $2) }'
+            /^[a-z0-9:]+/ { ifnam=$1 };
+            $1 == "inet" { ifdata[ifnam]=ifdata[ifnam] "^" $2 "/" mask2cdr($4) };
+            $1 == "inet6" && !/inet6 ::|inet6 fe80:/ { ifdata[ifnam]=ifdata[ifnam] "^" $2 }
+            END { '"$awk_print_ifdata"'}'
         ;;
     *)
         echo "Unhandled host-type: $UNAME"

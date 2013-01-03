@@ -31,12 +31,6 @@ case $(tput colors 2>&1) in
         ;;
 esac
 
-if [ "$UNAME" = "Darwin" ]; then
-    # Fink init, for OSX
-    test -r /sw/bin/init.sh &&
-        source /sw/bin/init.sh
-fi
-
 # ----------------------------------------------------------------------
 #  SHELL OPTIONS
 # ----------------------------------------------------------------------
@@ -225,6 +219,12 @@ if [ "$UNAME" = Darwin ]; then
 
         # nice little port alias
         alias port="sudo nice -n +18 $PORTS/bin/port"
+    }
+    # put coreutils on the paths if /usr/local/opt/coreutils/libexec exists
+    test -x /usr/local/opt/coreutils/libexec -a ! -L /usr/local/opt/coreutils/libexec && {
+        # setup the PATH and MANPATH
+        PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+        MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
     }
 fi
 

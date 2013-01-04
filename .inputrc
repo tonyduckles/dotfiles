@@ -2,8 +2,13 @@
 # programs that use the GNU Readline library.  Existing
 # programs include FTP, Bash, and GDB.
 #
-# You can re-read the inputrc file with C-x C-r.
-# Lines beginning with '#' are comments.
+# See 'man bash' >> READLINE for documentation on all the readline options and commands.
+# You can use 'bind' (bash built-in command) to view current readline config:
+#   bind -p ... Display readline function names and bindings in such a way that they can be re-read.
+#   bind -P ... List current readline function names and bindings.
+#   bind -V ... List current readline variable names and values.
+#   (See 'man bash' >> SHELL BUILTIN COMMANDS for additional details...)
+# You can re-read the inputrc file with C-x C-r (re-read-init-file).
 
 set bell-style visible
 set expand-tilde off

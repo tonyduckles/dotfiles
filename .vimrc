@@ -114,6 +114,9 @@ set laststatus=2           " always show the status line
 set ignorecase             " ignore case when searching
 set smartcase              " case-sensitive if search contains an uppercase character
 set visualbell             " shut the heck up
+set statusline=%n\ %<%f\ %h%m%r%y\ \ %{strlen(&fenc)?&fenc:&enc},%{&ff}
+set statusline+=%=
+set statusline+=\(%b\ 0x%B)\ \ \ %-16.(%c,%l/%L%)\ %P
 
 " ----------------------------------------------------------------------------
 " Text Formatting
@@ -168,7 +171,7 @@ vnoremap / /\v
 nnoremap Q gqap
 vnoremap Q gq
 
-" sane movement with wrap turned on
+" movement based on display lines not physical lines (sane movement with wrap turned on)
 nnoremap j gj
 nnoremap k gk
 vnoremap j gj
@@ -198,12 +201,45 @@ nnoremap <C-l> <C-w>l
 nmap <silent> <leader>ev :edit $MYVIMRC<CR>
 nmap <silent> <leader>sv :source $MYVIMRC<CR>
 
+" upper/lower word
+nmap <leader>u mQviwU`Q
+nmap <leader>l mQviwu`Q
+
+" upper/lower first char of word
+nmap <leader>U mQgewvU`Q
+nmap <leader>L mQgewvu`Q
+
+" cd to the directory containing the file in the buffer
+nmap <silent> <leader>cd :lcd %:h<CR>
+
+" edit file in same directoy as current file (http://vimcasts.org/e/14)
+" 'ew' = edit file in same directory as current file; 'es'/'ev','et' = open in split/vert-split/tab
+nmap <leader>ew :e <C-R>=expand('%:h').'/'<CR>
+nmap <leader>es :sp <C-R>=expand('%:h').'/'<CR>
+nmap <leader>ev :vsp <C-R>=expand('%:h').'/'<CR>
+nmap <leader>et :tabe <C-R>=expand('%:h').'/'<CR>
+
+" set text wrapping toggles
+nmap <silent> <leader>tw :set invwrap<CR>:set wrap?<CR>
+
+" find merge conflict markers
+nmap <silent> <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
+
+" toggle hlsearch with <leader>hs
+nmap <silent> <leader>hs :set hlsearch! hlsearch?<CR>
+
+" strip all trailing whitespace in file
+function! StripWhitespace ()
+  exec ':%s/ \+$//gc'
+endfunction
+map <leader>s :call StripWhitespace ()<CR>
+
 " ----------------------------------------------------------------------------
 "  Auto Commands
 " ----------------------------------------------------------------------------
 
-" jump to last position of buffer when opening
-au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
+" jump to last position of buffer when opening (but not for commit messages)
+au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$") |
                          \ exe "normal g'\"" | endif
 
 " ----------------------------------------------------------------------------
@@ -219,31 +255,22 @@ if system('uname') =~ 'Darwin'
 endif
 
 " ---------------------------------------------------------------------------
-"  sh config
-" ---------------------------------------------------------------------------
-
-au Filetype sh,bash set ts=4 sts=4 sw=4 expandtab
-let g:is_bash = 1
-
-" ---------------------------------------------------------------------------
-"  Strip all trailing whitespace in file
-" ---------------------------------------------------------------------------
-
-function! StripWhitespace ()
-  exec ':%s/ \+$//gc'
-endfunction
-map <leader>s :call StripWhitespace ()<CR>
-
-" ---------------------------------------------------------------------------
 " File Types
 " ---------------------------------------------------------------------------
 
+" sh config
+au Filetype sh,bash set ts=4 sts=4 sw=4 expandtab
+let g:is_bash = 1
+" git commit message
 au Filetype gitcommit set tw=68  spell
+" html variants
 au Filetype html,xml,xsl,rhtml source $HOME/.vim/scripts/closetag.vim
 " don't use cindent for javascript
 au FileType javascript setlocal nocindent
-" Use Octopress syntax-highlighting for *.markdown files
+" use Octopress syntax-highlighting for *.markdown files
 au BufNewFile,BufRead *.markdown set filetype=octopress
+" in Makefiles, use real tabs not tabs expanded to spaces
+au FileType make setlocal noexpandtab
 
 " --------------------------------------------------------------------------
 " ManPageView

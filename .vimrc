@@ -114,9 +114,17 @@ set laststatus=2           " always show the status line
 set ignorecase             " ignore case when searching
 set smartcase              " case-sensitive if search contains an uppercase character
 set visualbell             " shut the heck up
-set statusline=%n\ %<%f\ %h%m%r%y\ \ %{strlen(&fenc)?&fenc:&enc},%{&ff}
-set statusline+=%=
-set statusline+=\(%b\ 0x%B)\ \ \ %-16.(%c,%l/%L%)\ %P
+
+" ----------------------------------------------------------------------------
+" Status Line
+" ----------------------------------------------------------------------------
+
+set statusline=\ %n\ %<%f  " buffer #, filename
+set statusline+=\ %h%m%r   " file-state flags
+set statusline+=%=         " left-right divider
+set statusline+=[%{strlen(&fenc)?&fenc:&enc},%{&ff}]%y  " file-encoding, format, type
+set statusline+=\ %12.(\(%b\ 0x%B)%)         " selected char ASCII dec+hex
+set statusline+=\ \ %12.(%c,%l/%L%)\ \ %-4P  " cursor position, viewport percentage
 
 " ----------------------------------------------------------------------------
 " Text Formatting
@@ -131,7 +139,7 @@ set tabstop=4
 set expandtab              " expand tabs to spaces
 set nosmarttab             " screw tabs
 set formatoptions+=n       " support for numbered/bullet lists
-"set textwidth=110          " wrap at 110 chars by default
+set textwidth=0            " no line-wrapping by default
 set virtualedit=block      " allow virtual edit in visual block ..
 
 " ----------------------------------------------------------------------------
@@ -211,13 +219,6 @@ nmap <leader>L mQgewvu`Q
 
 " cd to the directory containing the file in the buffer
 nmap <silent> <leader>cd :lcd %:h<CR>
-
-" edit file in same directoy as current file (http://vimcasts.org/e/14)
-" 'ew' = edit file in same directory as current file; 'es'/'ev','et' = open in split/vert-split/tab
-nmap <leader>ew :e <C-R>=expand('%:h').'/'<CR>
-nmap <leader>es :sp <C-R>=expand('%:h').'/'<CR>
-nmap <leader>ev :vsp <C-R>=expand('%:h').'/'<CR>
-nmap <leader>et :tabe <C-R>=expand('%:h').'/'<CR>
 
 " set text wrapping toggles
 nmap <silent> <leader>tw :set invwrap<CR>:set wrap?<CR>

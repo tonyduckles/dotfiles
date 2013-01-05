@@ -63,8 +63,8 @@ endif
 " ---------------------------------------------------------------------------
 
 highlight Comment         ctermfg=DarkGrey guifg=#444444
-highlight StatusLineNC    ctermfg=Black ctermbg=DarkGrey cterm=bold
-highlight StatusLine      ctermbg=Black ctermfg=LightGrey
+highlight StatusLine      ctermfg=DarkGrey ctermbg=Grey     cterm=reverse guifg=#444444 guibg=#aaaaaa gui=reverse
+highlight StatusLineNC    ctermfg=DarkGrey ctermbg=DarkGrey cterm=reverse guifg=#444444 guibg=#666666 gui=reverse
 
 " ----------------------------------------------------------------------------
 "   Highlight Trailing Whitespace
@@ -123,7 +123,7 @@ set statusline=\ %n\ %<%f  " buffer #, filename
 set statusline+=\ %h%m%r   " file-state flags
 set statusline+=%=         " left-right divider
 set statusline+=[%{strlen(&fenc)?&fenc:&enc},%{&ff}]%y  " file-encoding, format, type
-set statusline+=\ %12.(\(%b\ 0x%B)%)         " selected char ASCII dec+hex
+set statusline+=\ %11.(\(%b\ 0x%B)%)         " selected char ASCII dec+hex
 set statusline+=\ \ %12.(%c,%l/%L%)\ \ %-4P  " cursor position, viewport percentage
 
 " ----------------------------------------------------------------------------

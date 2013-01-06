@@ -36,9 +36,6 @@ if &t_Co > 2 || has("gui_running")
 
   set background=dark                 " dark background
   syntax enable                       " syntax highligting
-  set hlsearch                        " highlight all search matches
-  " Press <Space> to turn off highlighting and clear any message already displayed.
-  nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
   " Define to-do color(s)
   if !exists("autocmd_colorscheme_loaded")
@@ -59,19 +56,18 @@ if &t_Co > 2 || has("gui_running")
 endif
 
 " ---------------------------------------------------------------------------
-"  Highlight
+"  Highlight (Colors)
 " ---------------------------------------------------------------------------
 
-highlight Comment         ctermfg=DarkGrey guifg=#444444
-highlight StatusLine      ctermfg=DarkGrey ctermbg=Grey     cterm=reverse guifg=#444444 guibg=#aaaaaa gui=reverse
-highlight StatusLineNC    ctermfg=DarkGrey ctermbg=DarkGrey cterm=reverse guifg=#444444 guibg=#666666 gui=reverse
-
-" ----------------------------------------------------------------------------
-"   Highlight Trailing Whitespace
-" ----------------------------------------------------------------------------
-
-set list listchars=trail:.,tab:>.
-highlight SpecialKey ctermfg=DarkGray ctermbg=Black
+" comments
+highlight Comment                                    ctermfg=DarkGrey                    guifg=#425257
+" visual block
+highlight Visual          term=reverse cterm=reverse ctermfg=DarkGreen ctermbg=White     guifg=#4d830a guibg=#ffffff
+" statusline (active vs inactive)
+highlight StatusLine      term=reverse cterm=reverse ctermfg=DarkGrey  ctermbg=Grey      guifg=#444444 guibg=#aaaaaa
+highlight StatusLineNC    term=reverse cterm=reverse ctermfg=DarkGrey  ctermbg=DarkGrey  guifg=#444444 guibg=#666666
+" unprintable chars (listchars)
+highlight SpecialKey                                 ctermfg=DarkGray  ctermbg=Black     guifg=#374549 guibg=#010c0e
 
 " ----------------------------------------------------------------------------
 "  Backups
@@ -114,6 +110,8 @@ set laststatus=2           " always show the status line
 set ignorecase             " ignore case when searching
 set smartcase              " case-sensitive if search contains an uppercase character
 set visualbell             " shut the heck up
+set hlsearch               " highlight all search matches
+set list listchars=trail:.,tab:>.  " show trailing whitespace and tab chars
 
 " ----------------------------------------------------------------------------
 " Status Line
@@ -170,6 +168,9 @@ let mapleader = ","
 " <F2> to pastetoggle, to turn-off autoindent when pasting from system clipboard
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
+
+" press <Space> to turn off highlighting and clear any message already displayed.
+nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
 " disable default vim regex handling for searching
 nnoremap / /\v

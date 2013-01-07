@@ -120,9 +120,8 @@ set list listchars=trail:.,tab:>.  " show trailing whitespace and tab chars
 set statusline=\ %n\ %<%f  " buffer #, filename
 set statusline+=\ %h%m%r   " file-state flags
 set statusline+=%=         " left-right divider
-set statusline+=[%{strlen(&fenc)?&fenc:&enc},%{&ff}]%y  " file-encoding, format, type
-set statusline+=\ %11.(\(%b\ 0x%B)%)         " selected char ASCII dec+hex
-set statusline+=\ \ %12.(%c,%l/%L%)\ \ %-4P  " cursor position, viewport percentage
+set statusline+=%{strlen(&fenc)?&fenc:&enc},%{&ff}\ %y  " file-encoding, format, type
+set statusline+=\ %12.(%v,%l/%L%)\ \ %-4P  " cursor position, % through file of viewport
 
 " ----------------------------------------------------------------------------
 " Text Formatting

@@ -36,9 +36,6 @@ if &t_Co > 2 || has("gui_running")
 
   set background=dark                 " dark background
   syntax enable                       " syntax highligting
-  set hlsearch                        " highlight all search matches
-  " Press <Space> to turn off highlighting and clear any message already displayed.
-  nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
   " Define to-do color(s)
   if !exists("autocmd_colorscheme_loaded")
@@ -59,19 +56,18 @@ if &t_Co > 2 || has("gui_running")
 endif
 
 " ---------------------------------------------------------------------------
-"  Highlight
+"  Highlight (Colors)
 " ---------------------------------------------------------------------------
 
-highlight Comment         ctermfg=DarkGrey guifg=#444444
-highlight StatusLineNC    ctermfg=Black ctermbg=DarkGrey cterm=bold
-highlight StatusLine      ctermbg=Black ctermfg=LightGrey
-
-" ----------------------------------------------------------------------------
-"   Highlight Trailing Whitespace
-" ----------------------------------------------------------------------------
-
-set list listchars=trail:.,tab:>.
-highlight SpecialKey ctermfg=DarkGray ctermbg=Black
+" comments
+highlight Comment                                    ctermfg=DarkGrey                    guifg=#425257
+" visual block
+highlight Visual          term=reverse cterm=reverse ctermfg=DarkGreen ctermbg=White     guifg=#4d830a guibg=#ffffff
+" statusline (active vs inactive)
+highlight StatusLine      term=reverse cterm=reverse ctermfg=DarkGrey  ctermbg=Grey      guifg=#444444 guibg=#aaaaaa
+highlight StatusLineNC    term=reverse cterm=reverse ctermfg=DarkGrey  ctermbg=DarkGrey  guifg=#444444 guibg=#666666
+" unprintable chars (listchars)
+highlight SpecialKey                                 ctermfg=DarkGray  ctermbg=Black     guifg=#374549 guibg=#010c0e
 
 " ----------------------------------------------------------------------------
 "  Backups
@@ -114,6 +110,18 @@ set laststatus=2           " always show the status line
 set ignorecase             " ignore case when searching
 set smartcase              " case-sensitive if search contains an uppercase character
 set visualbell             " shut the heck up
+set hlsearch               " highlight all search matches
+set list listchars=trail:.,tab:>.  " show trailing whitespace and tab chars
+
+" ----------------------------------------------------------------------------
+" Status Line
+" ----------------------------------------------------------------------------
+
+set statusline=\ %n\ %<%f  " buffer #, filename
+set statusline+=\ %h%m%r   " file-state flags
+set statusline+=%=         " left-right divider
+set statusline+=%{strlen(&fenc)?&fenc:&enc},%{&ff}\ %y  " file-encoding, format, type
+set statusline+=\ %12.(%v,%l/%L%)\ \ %-4P  " cursor position, % through file of viewport
 
 " ----------------------------------------------------------------------------
 " Text Formatting
@@ -128,7 +136,7 @@ set tabstop=4
 set expandtab              " expand tabs to spaces
 set nosmarttab             " screw tabs
 set formatoptions+=n       " support for numbered/bullet lists
-"set textwidth=110          " wrap at 110 chars by default
+set textwidth=0            " no line-wrapping by default
 set virtualedit=block      " allow virtual edit in visual block ..
 
 " ----------------------------------------------------------------------------
@@ -160,6 +168,9 @@ let mapleader = ","
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 
+" press <Space> to turn off highlighting and clear any message already displayed.
+nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+
 " disable default vim regex handling for searching
 nnoremap / /\v
 vnoremap / /\v
@@ -168,7 +179,7 @@ vnoremap / /\v
 nnoremap Q gqap
 vnoremap Q gq
 
-" sane movement with wrap turned on
+" movement based on display lines not physical lines (sane movement with wrap turned on)
 nnoremap j gj
 nnoremap k gk
 vnoremap j gj
@@ -198,12 +209,38 @@ nnoremap <C-l> <C-w>l
 nmap <silent> <leader>ev :edit $MYVIMRC<CR>
 nmap <silent> <leader>sv :source $MYVIMRC<CR>
 
+" upper/lower word
+nmap <leader>u mQviwU`Q
+nmap <leader>l mQviwu`Q
+
+" upper/lower first char of word
+nmap <leader>U mQgewvU`Q
+nmap <leader>L mQgewvu`Q
+
+" cd to the directory containing the file in the buffer
+nmap <silent> <leader>cd :lcd %:h<CR>
+
+" set text wrapping toggles
+nmap <silent> <leader>tw :set invwrap<CR>:set wrap?<CR>
+
+" find merge conflict markers
+nmap <silent> <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
+
+" toggle hlsearch with <leader>hs
+nmap <silent> <leader>hs :set hlsearch! hlsearch?<CR>
+
+" strip all trailing whitespace in file
+function! StripWhitespace ()
+  exec ':%s/ \+$//gc'
+endfunction
+map <leader>s :call StripWhitespace ()<CR>
+
 " ----------------------------------------------------------------------------
 "  Auto Commands
 " ----------------------------------------------------------------------------
 
-" jump to last position of buffer when opening
-au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
+" jump to last position of buffer when opening (but not for commit messages)
+au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$") |
                          \ exe "normal g'\"" | endif
 
 " ----------------------------------------------------------------------------
@@ -219,31 +256,22 @@ if system('uname') =~ 'Darwin'
 endif
 
 " ---------------------------------------------------------------------------
-"  sh config
-" ---------------------------------------------------------------------------
-
-au Filetype sh,bash set ts=4 sts=4 sw=4 expandtab
-let g:is_bash = 1
-
-" ---------------------------------------------------------------------------
-"  Strip all trailing whitespace in file
-" ---------------------------------------------------------------------------
-
-function! StripWhitespace ()
-  exec ':%s/ \+$//gc'
-endfunction
-map <leader>s :call StripWhitespace ()<CR>
-
-" ---------------------------------------------------------------------------
 " File Types
 " ---------------------------------------------------------------------------
 
+" sh config
+au Filetype sh,bash set ts=4 sts=4 sw=4 expandtab
+let g:is_bash = 1
+" git commit message
 au Filetype gitcommit set tw=68  spell
+" html variants
 au Filetype html,xml,xsl,rhtml source $HOME/.vim/scripts/closetag.vim
 " don't use cindent for javascript
 au FileType javascript setlocal nocindent
-" Use Octopress syntax-highlighting for *.markdown files
+" use Octopress syntax-highlighting for *.markdown files
 au BufNewFile,BufRead *.markdown set filetype=octopress
+" in Makefiles, use real tabs not tabs expanded to spaces
+au FileType make setlocal noexpandtab
 
 " --------------------------------------------------------------------------
 " ManPageView

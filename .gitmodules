@@ -30,3 +30,7 @@
 	path = .vim/bundle/surround
 	url = git://github.com/tpope/vim-surround.git
 	ignore = dirty
+[submodule ".vim/bundle/scriptease"]
+	path = .vim/bundle/scriptease
+	url = git://github.com/tpope/vim-scriptease.git
+	ignore = dirty

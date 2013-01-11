@@ -98,6 +98,7 @@ set report=0               " tell us about changes
 set nostartofline          " don't jump to the start of line when scrolling
 set scrolloff=4            " vertcal padding
 set sidescroll=40          " side-scrolling increment (for nowrap mode)
+set sidescrolloff=10       " horz padding
 
 " ----------------------------------------------------------------------------
 " Visual Cues
@@ -134,7 +135,7 @@ set softtabstop=2          " yep, two
 set shiftwidth=2           " ..
 set tabstop=4
 set expandtab              " expand tabs to spaces
-set nosmarttab             " screw tabs
+set smarttab               " smarter softtab handling
 set formatoptions+=n       " support for numbered/bullet lists
 set textwidth=0            " no line-wrapping by default
 set virtualedit=block      " allow virtual edit in visual block ..
@@ -170,6 +171,9 @@ set pastetoggle=<F2>
 
 " press <Space> to turn off highlighting and clear any message already displayed.
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+
+" make Y consistent with C (c$) and D (d$)
+nnoremap Y y$
 
 " disable default vim regex handling for searching
 nnoremap / /\v

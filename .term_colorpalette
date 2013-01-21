@@ -1,37 +1,54 @@
 # Use Linux "set palette" escape sequence to customize ANSI colors in mintty
 # http://groups.google.com/group/mintty-discuss/browse_thread/thread/33cb565e4f32f146
 
-echo -n -e "\e]P0000000"
-echo -n -e "\e]P1990000"
-echo -n -e "\e]P24B8700"
-echo -n -e "\e]P3A0A533"
-echo -n -e "\e]P40032BD"
-echo -n -e "\e]P5980094"
-echo -n -e "\e]P6009A91"
-echo -n -e "\e]P7B9C6CB"
-echo -n -e "\e]P8454655"
-echo -n -e "\e]P9DC322F"
-echo -n -e "\e]PA72D631"
-echo -n -e "\e]PBFEFF00"
-echo -n -e "\e]PC268BD2"
-echo -n -e "\e]PDE900E3"
-echo -n -e "\e]PE00D8CC"
-echo -e "\e]PFF8F6F4"
+# (Solarized-inspired)
+echo -n -e "\e]P0020303"  # black
+echo -n -e "\e]P1990000"  # red
+echo -n -e "\e]P24B8700"  # green
+echo -n -e "\e]P3A0A533"  # yellow
+echo -n -e "\e]P40A4BFF"  # blue
+echo -n -e "\e]P5980094"  # magenta
+echo -n -e "\e]P6009A91"  # cyan
+echo -n -e "\e]P78AA0A8"  # white
+echo -n -e "\e]P8454655"  # brblack
+echo -n -e "\e]P9DC322F"  # brred
+echo -n -e "\e]PA72D631"  # brgreen
+echo -n -e "\e]PBFEFF00"  # bryellow
+echo -n -e "\e]PC268BD2"  # brblue
+echo -n -e "\e]PDE900E3"  # brmagenta
+echo -n -e "\e]PE00D8CC"  # brcyan
+echo -e "\e]PFF8F6F4"     # brwhite
 
-# Solarized
+## (Solarized)
+##   let s:base02      = "0"
 #echo -n -e "\e]P0073642"
+##   let s:red         = "1"
 #echo -n -e "\e]P1DC322F"
-#echo -n -e "\e]P2859900"
+##   let s:green       = "2"
+#echo -n -e "\e]P2719E07"
+##   let s:yellow      = "3"
 #echo -n -e "\e]P3B58900"
+##   let s:blue        = "4"
 #echo -n -e "\e]P4268BD2"
+##   let s:magenta     = "5"
 #echo -n -e "\e]P5D33682"
+##   let s:cyan        = "6"
 #echo -n -e "\e]P62AA198"
+##   let s:base2       = "7"
 #echo -n -e "\e]P7EEE8D5"
+##   let s:base03      = "8"
 #echo -n -e "\e]P8002B36"
+##   let s:orange      = "9"
 #echo -n -e "\e]P9CB4B16"
+##   let s:base01      = "10"
 #echo -n -e "\e]PA586E75"
+##   let s:base00      = "11"
 #echo -n -e "\e]PB657B83"
+##   let s:base0       = "12"
 #echo -n -e "\e]PC839496"
+##   let s:violet      = "13"
 #echo -n -e "\e]PD6C71C4"
+##   let s:base1       = "14"
 #echo -n -e "\e]PE93A1A1"
+##   let s:base3       = "15"
 #echo -n -e "\e]PFFDF6E3"

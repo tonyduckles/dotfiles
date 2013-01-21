@@ -1,28 +1,28 @@
 # -------------------------------------------------------------------
 # Settings
 # -------------------------------------------------------------------
-crlf off                     # No Microsoft linebreaks
+crlf off                     # no DOS-style linebreaks
 startup_message off          # bypass GPL notice (we're aware)
-vbell off                    # Use audio bell
+vbell off                    # use audio bell
 defscrollback 15000          # big scrollback
 shell bash                   # don't start login shells
 shelltitle "sh"              # no title by default - set in PS1
-#defmonitor on                # turn on monitoring
-#activity "%c activity <%n>"  # let you know when stuff happens!
 nethack off                  # makes error messages cryptic
 pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."
 autodetach on
 term xterm-256color
 
-# Use UTF-8
+# use UTF-8
 defutf8 on
 defencoding UTF-8
 setenv LANG 'en_US.UTF-8'
 
 # status line to display a bar at the bottom listing the window
-# names and highlighting the current windowname in blue.
+# names and highlighting the current windowname.
 # (http://www.ibm.com/developerworks/aix/library/au-gnu_screen/index.html)
-hardstatus alwayslastline "%{.bw}%-w%{.rW}%n %t%{-}%+w %=%{..G} %H %{..Y} "
+# (http://superuser.com/questions/212392/how-to-include-screens-session-name-in-hardstatus)
+hardstatus alwayslastline '%{= K}%-w%{+b .KW}%n %t%{-}%+w %=%{..b} %H (%`) '
+backtick 0 30 30 sh -c 'screen -ls | grep --color=no -o "$PPID[^[:space:]]*"'
 
 # -------------------------------------------------------------------
 # Terminal Emulation Settings

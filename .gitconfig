@@ -31,7 +31,8 @@
 	sh           = !git-sh
 	thanks       = !git-thanks
 	who          = shortlog -s --
-	sup          = !git-subup
+	sub          = !git-subup
+	sup          = !git-subup pull
 	fp           = format-patch --stdout
 
 [core]

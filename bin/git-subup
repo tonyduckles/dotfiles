@@ -1,8 +1,22 @@
-#!/bin/sh
-# Checkout and update source for all registered submodules (.gitmodules)
+#!/bin/bash
+# Checkout and update source for all registered submodules (.gitmodules).
+# Optionally 'git pull' on each submodule to check for updates.
 
+# Change to root directory
 cd $(git rev-parse --show-toplevel)
-git submodule update --init --checkout --quiet
-git submodule sync --quiet
-git submodule foreach --quiet git checkout --quiet -B master origin/HEAD
-git submodule foreach git pull --prune origin
+
+# Ensure all submodules (and child submodules) are checked-out
+git submodule update --init --checkout --recursive
+
+# Update submodules' remotes based on .gitmodules
+git submodule sync --quiet --recursive
+
+# Forcibly update each submodule's "master" branch to be the current revision
+# in case HEAD is detached (e.g. due to "git submodule update --checkout")
+git submodule foreach --quiet --recursive 'git checkout --quiet -B master'
+
+if [ "$1" = "pull" ]; then
+    # Fetch & pull any new updates from submodule's origin (but *NOT* any child
+    # submodule updates -- those should come from the submodule proper)
+    git submodule foreach --quiet 'echo "\n\033[32m${path}:\033[0m" && git-up origin'
+fi

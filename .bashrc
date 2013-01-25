@@ -274,6 +274,11 @@ fi
 # Alias csh-style "rebash" to bash equivalent
 alias rehash="hash -r"
 
+# set 'screen' window title
+settitle() {
+    test -n "$STY" && printf "\033k%s\033\\" "$@"
+}
+
 # ----------------------------------------------------------------------
 # BASH COMPLETION
 # ----------------------------------------------------------------------
@@ -307,12 +312,6 @@ _expand() {
 
 # we always pass these to ls(1)
 unset LS_COMMON
-## OS-specific options
-#case "$UNAME" in
-#    "Linux" ) LS_COMMON="--color=auto";;
-#    "Cygwin" ) LS_COMMON="--color=auto";;
-#    "Darwin" ) LS_COMMON="--color=auto";;
-#esac
 
 # if the dircolors utility is available, set that up for ls
 dircolors="$(type -P gdircolors dircolors | head -1)"

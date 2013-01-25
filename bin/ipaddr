@@ -34,7 +34,7 @@ for ( ifnam in ifdata ) { split(ifdata[ifnam], data, "^"); for (v in data) { if 
 '
 
 case "$UNAME" in
-    Darwin|FreeBSD)
+    Darwin|FreeBSD|AIX)
         test -n "$IFACE" && if_args="$IFACE"
         test -z "$if_args" && if_args="-a"
         ifconfig $if_args | $awk "$awk_mask2cdr"'

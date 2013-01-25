@@ -10,7 +10,7 @@ echo -n -e "\e]P40A4BFF"  # blue
 echo -n -e "\e]P5980094"  # magenta
 echo -n -e "\e]P6009A91"  # cyan
 echo -n -e "\e]P78AA0A8"  # white
-echo -n -e "\e]P8454655"  # brblack
+echo -n -e "\e]P84C4D5D"  # brblack
 echo -n -e "\e]P9DC322F"  # brred
 echo -n -e "\e]PA72D631"  # brgreen
 echo -n -e "\e]PBFEFF00"  # bryellow

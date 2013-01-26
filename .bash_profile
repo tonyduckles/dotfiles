@@ -5,11 +5,9 @@ if [ -f ~/.bashrc ]; then
   source ~/.bashrc
 fi
 
-# Change ANSI colors to Solarized-style colors
+# Set mintty color-palette
 if [ "$UNAME" = "Cygwin" ]; then
-  if [ -f ~/.term_colorpalette ]; then
-    source ~/.term_colorpalette
-  fi
+  source ~/.mintty/colors/solarized-alt.sh
 fi
 
 # keychain

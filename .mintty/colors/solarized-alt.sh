@@ -17,5 +17,5 @@ echo -ne '\e]4;14;#00D8CC\a'  # bold cyan
 echo -ne '\e]4;15;#F8F6F4\a'  # bold white
 
 echo -ne '\e]10;#A0B4B4\a'  # foreground
-echo -ne '\e]11;#041623\a'  # background
+echo -ne '\e]11;#042129\a'  # background
 echo -ne '\e]12;#00FF00\a'  # cursor

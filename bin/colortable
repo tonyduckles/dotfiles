@@ -1,0 +1,35 @@
+#!/usr/bin/perl
+# Usage: colortable
+# Print a color table of ANSI colors (normal+bright)
+
+sub printrow {
+	$bg = $_[0];
+	for ($bright = 0; $bright < 2; $bright++) {
+		# Normal background
+		$bgc = $bg;
+		printf("\x1b[0m %2s ",$bgc);
+		for ($fg=30; $fg<=37; $fg++) {
+			$fgc = $bright == 1 ? ($fg+60) : $fg;
+			printf("\x1b[%sm\x1b[%sm %2s ", $bgc, $fgc, $fgc);
+		}
+		if ($bg > 0) {
+			# Bright background
+			$bgc = $bg+60;
+			printf("\x1b[0m    %3s ",$bgc);
+			for ($fg=30; $fg<=37; $fg++) {
+				$fgc = $bright == 1 ? ($fg+60) : $fg;
+				printf("\x1b[%sm\x1b[%sm %2s ", $bgc, $fgc, $fgc);
+			}
+		}
+		printf("\x1b[0m\n");
+	}
+}
+
+# No background
+for ($bg=0; $bg<=0; $bg++) {
+	printrow $bg;
+}
+# Background 40-47 (standard)
+for ($bg=40; $bg<48; $bg++) {
+	printrow $bg;
+}

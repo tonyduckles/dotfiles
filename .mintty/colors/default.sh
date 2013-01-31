@@ -16,6 +16,6 @@ echo -ne '\e]4;13;#FF40FF\a'  # bold magenta
 echo -ne '\e]4;14;#40FFFF\a'  # bold cyan
 echo -ne '\e]4;15;#FFFFFF\a'  # bold white
 
-echo -ne '\e]10;#C0C0C0\a'  # foreground
+echo -ne '\e]10;#BFBFBF\a'  # foreground
 echo -ne '\e]11;#000000\a'  # background
-echo -ne '\e]12;#00FF00\a'  # cursor
+echo -ne '\e]12;#BFBFBF\a'  # cursor

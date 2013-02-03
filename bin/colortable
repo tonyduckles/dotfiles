@@ -1,5 +1,5 @@
 #!/bin/bash
-# Usage: colortable
+# Usage: colortable [-x]
 #
 # Print a color table of ANSI colors (normal+bright) to demonstrate what
 # colors are available. Each line is the color code of one foreground
@@ -9,9 +9,12 @@
 # (Based on: http://www.faqs.org/docs/Linux-HOWTO/Bash-Prompt-HOWTO.html)
 
 T='gYw'   # The test text
+bright=0  # Don't print bright colors by default
+test "$1" = "-x" -o "$1" = "-a" && bright=1
 
 # Standard background colors
-echo -e "\n                 40m     41m     42m     43m     44m     45m     46m     47m";
+echo
+echo -e "                 40m     41m     42m     43m     44m     45m     46m     47m";
 for FGs in  '    m' '   1m' \
             '  30m' '  90m' '1;30m' \
             '  31m' '  91m' '1;31m' \
@@ -22,15 +25,19 @@ for FGs in  '    m' '   1m' \
             '  36m' '  96m' '1;36m' \
             '  37m' '  97m' '1;37m'; do
   FG=${FGs// /}
-  echo -en " $FGs \033[$FG  $T  \033[0m"
-  for BG in 40m 41m 42m 43m 44m 45m 46m 47m; do
-    echo -en " \033[$FG\033[$BG  $T  \033[0m";
-  done
-  echo;
+  if [ "${FG:0:1}" != "9" -o $bright -eq 1 ]; then
+    echo -en " $FGs \033[$FG  $T  \033[0m"
+    for BG in 40m 41m 42m 43m 44m 45m 46m 47m; do
+      echo -en " \033[$FG\033[$BG  $T  \033[0m";
+    done
+    echo;
+  fi
 done
+echo
 
 # Bright background colors
-echo -e "\n                 100m    101m    102m    103m    104m    105m    106m    107m";
+test $bright -eq 0 && exit 0
+echo -e "                 100m    101m    102m    103m    104m    105m    106m    107m";
 for FGs in  '    m' '   1m' \
             '  30m' '  90m' '1;30m' \
             '  31m' '  91m' '1;31m' \

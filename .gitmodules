@@ -34,3 +34,7 @@
 	path = .vim/bundle/scriptease
 	url = git://github.com/tpope/vim-scriptease.git
 	ignore = dirty
+[submodule ".vim/bundle/nerdtree"]
+	path = .vim/bundle/nerdtree
+	url = git://github.com/scrooloose/nerdtree.git
+	ignore = dirty

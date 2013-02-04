@@ -172,6 +172,18 @@ set pastetoggle=<F2>
 " press <Space> to turn off highlighting and clear any message already displayed.
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
+" NERDTreee
+let NERDTreeShowHidden=1   " show dotfiles by default
+noremap <F4> :NERDTreeToggle<CR>
+
+" Gundo
+nnoremap <F5> :GundoToggle<CR>
+
+" Command-T
+noremap <leader>o <Esc>:CommandT<CR>
+noremap <leader>O <Esc>:CommandTFlush<CR>
+noremap <leader>m <Esc>:CommandTBuffer<CR>
+
 " make Y consistent with C (c$) and D (d$)
 nnoremap Y y$
 
@@ -283,16 +295,4 @@ au FileType make setlocal noexpandtab
 
 let g:manpageview_pgm= 'man -P "/usr/bin/less -is"'
 let $MANPAGER = '/usr/bin/less -is'
-
-" --------------------------------------------------------------------------
-" Bundle Config
-" --------------------------------------------------------------------------
-
-"" Gundo
-nnoremap <F5> :GundoToggle<CR>
-
-"" Command-T
-noremap <leader>o <Esc>:CommandT<CR>
-noremap <leader>O <Esc>:CommandTFlush<CR>
-noremap <leader>m <Esc>:CommandTBuffer<CR>
 

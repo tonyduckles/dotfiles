@@ -7,7 +7,7 @@ fi
 
 # Set mintty color-palette
 if [ "$UNAME" = "Cygwin" ]; then
-  source ~/.mintty/colors/solarized-alt.sh
+  source ~/.mintty/colors/solarized-ansi.sh
 fi
 
 # keychain

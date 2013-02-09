@@ -29,7 +29,7 @@ backtick 0 30 30 sh -c 'screen -ls | grep --color=no -o "$PPID[^[:space:]]*"'
 # -------------------------------------------------------------------
 
 # allow 256 colors
-attrcolor b ".I"   # allow bold colors
+attrcolor b ".I"   # use bright colors for bold text
 termcapinfo xterm* 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'  # tell screen how to set colors. AB = background, AF=foreground
 defbce on          # erase background with current bg color
 
@@ -78,8 +78,9 @@ bind ^K
 bind \\
 bind ^\
 
-# add some useful key bindings
+# easier windowlist
 bind ' ' windowlist -b
+# shift+0-9 to select screens 10-19
 bind ')' select 10
 bind '!' select 11
 bind '@' select 12

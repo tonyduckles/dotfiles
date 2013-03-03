@@ -232,6 +232,15 @@ fi
 # ALIASES / FUNCTIONS
 # ----------------------------------------------------------------------
 
+# 'ls' helpers
+alias ll="ls -l"
+alias l.="ls -d .*"
+alias ll.="ls -ld .*"
+alias lla="ls -la"
+
+# use 'git diff --no-index' as a prettier 'diff' alternative (if available)
+test -n "$(type -P git)" && alias diff="git diff --no-index"
+
 # alias 'vi' to 'vim' if Vim is installed
 vim="$(type -P vim)"
 test -n "$vim" && {
@@ -311,12 +320,6 @@ test -n "$COLORS" &&
 # setup the main ls alias if we've established common args
 test -n "$LS_COMMON" &&
     alias ls="command ls $LS_COMMON"
-
-# these use the ls aliases above
-alias ll="ls -l"
-alias l.="ls -d .*"
-alias ll.="ls -ld .*"
-alias lla="ls -la"
 
 # setup color grep output if available
 if [ -n "$COLORS" ]; then

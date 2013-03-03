@@ -1,0 +1,26 @@
+#!/bin/sh
+# Wrapper around 'ack' to crawl all directories from $PWD to / (or $HOME)
+# looking for a "local" .ackrc file. Useful for setting project-level
+# --ignore-dir settings.
+
+PWD=$(pwd)
+HOME=~
+ACKARGS=""
+
+match=""
+dir="$PWD"
+while [ "$dir" != "/" -a "$match" = "" ]; do
+    if [ -e "$dir/.ackrc" ]; then
+        if [ "$dir" != "$HOME" ]; then
+            match=1
+            echo "(Include: ${dir}/.ackrc)"
+            ACKARGS="$(egrep "^[^#]" "${dir}/.ackrc" | xargs) $ACKARGS"
+        else
+            match=0
+        fi
+    else
+        dir=$(dirname "$dir")
+    fi
+done
+
+command ack $ACKARGS $*

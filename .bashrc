@@ -141,10 +141,6 @@ else
 fi
 export PAGER MANPAGER
 
-# ack
-ACK_PAGER="$PAGER"
-ACK_PAGER_COLOR="$PAGER"
-
 # ----------------------------------------------------------------------
 # PROMPT
 # ----------------------------------------------------------------------
@@ -267,6 +263,9 @@ alias rehash="hash -r"
 settitle() {
     printf "\033k%s\033\\" "$@"
 }
+
+# ack-wrapper
+alias ack="ack-wrapper"
 
 # ----------------------------------------------------------------------
 # BASH COMPLETION

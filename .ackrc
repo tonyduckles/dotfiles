@@ -12,6 +12,8 @@
 # no grouping
 --noheading
 --break
+# always use a PAGER
+--pager=less
 
 # Ack Type Settings
 # ####################################################################

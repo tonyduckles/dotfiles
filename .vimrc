@@ -65,7 +65,7 @@ highlight Comment                                    ctermfg=DarkGrey           
 highlight Visual          term=reverse cterm=reverse ctermfg=DarkGreen ctermbg=White     guifg=#4d830a guibg=#ffffff
 " statusline (active vs inactive)
 highlight StatusLine      term=reverse cterm=reverse ctermfg=DarkGrey  ctermbg=Grey      guifg=#444444 guibg=#aaaaaa
-highlight StatusLineNC    term=reverse cterm=reverse ctermfg=DarkGrey  ctermbg=DarkGrey  guifg=#444444 guibg=#666666
+highlight StatusLineNC    term=reverse cterm=reverse ctermfg=DarkGrey  ctermbg=Black     guifg=#444444 guibg=#666666
 " unprintable chars (listchars)
 highlight SpecialKey                                 ctermfg=DarkGray  ctermbg=Black     guifg=#374549 guibg=#010c0e
 

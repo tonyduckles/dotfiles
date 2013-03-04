@@ -140,7 +140,7 @@ HISTSIZE=10000
 # PAGER / EDITOR
 # ----------------------------------------------------------------------
 
-# See what we have to work with ...
+# see what we have to work with ...
 HAVE_VIM=$(command -v vim)
 
 # EDITOR
@@ -160,10 +160,6 @@ else
     MANPAGER="$PAGER"
 fi
 export PAGER MANPAGER
-
-# Ack
-ACK_PAGER="$PAGER"
-ACK_PAGER_COLOR="$PAGER"
 
 # ----------------------------------------------------------------------
 # PROMPT
@@ -210,9 +206,9 @@ prompt_compact() {
 }
 
 prompt_color() {
-    # If git and the git bash_completion scripts are installed, use __git_ps1() to show current branch info.
-    # Never show branch info for $HOME (dotfiles) repo.
-    # Use the following to exclude a given repo: `git config --local --bool --add bash.hidePrompt true`
+    # if git and the git bash_completion scripts are installed, use __git_ps1() to show current branch info.
+    # never show branch info for $HOME (dotfiles) repo.
+    # use the following to exclude a given repo: `git config --local --bool --add bash.hidePrompt true`
     if [ -n "$(type -P git)" -a "$(type -t __git_ps1)" = "function" ]; then
         PS_GIT='$(test -n "$(__git_ps1 %s)" &&
                   test "$(git rev-parse --show-toplevel)" != "$HOME" &&
@@ -252,6 +248,15 @@ fi
 # ALIASES / FUNCTIONS
 # ----------------------------------------------------------------------
 
+# 'ls' helpers
+alias ll="ls -l"
+alias l.="ls -d .*"
+alias ll.="ls -ld .*"
+alias lla="ls -la"
+
+# use 'git diff --no-index' as a prettier 'diff' alternative (if available)
+test -n "$(type -P git)" && alias diff="git diff --no-index"
+
 # alias 'vi' to 'vim' if Vim is installed
 vim="$(type -P vim)"
 test -n "$vim" && {
@@ -264,20 +269,23 @@ alias du1='du -h --max-depth=1'
 alias fn='find . -name'
 alias hi='history | tail -20'
 
-# For Solaris, use GNU versions of core utils
+# for Solaris, use GNU versions of core utils
 if [ "$UNAME" = SunOS ]; then
     test -x /usr/gnu/bin/grep && alias grep="/usr/gnu/bin/grep"
     test -x /usr/gnu/bin/sed  && alias sed="/usr/gnu/bin/sed"
     test -x /usr/gnu/bin/awk  && alias awk="/usr/gnu/bin/awk"
 fi
 
-# Alias csh-style "rebash" to bash equivalent
+# alias csh-style "rebash" to bash equivalent
 alias rehash="hash -r"
 
 # set 'screen' window title
 settitle() {
-    test -n "$STY" && printf "\033k%s\033\\" "$@"
+    printf "\033k%s\033\\" "$@"
 }
+
+# ack-wrapper
+alias ack="ack-wrapper"
 
 # ----------------------------------------------------------------------
 # BASH COMPLETION
@@ -334,17 +342,11 @@ test -n "$COLORS" &&
 test -n "$LS_COMMON" &&
     alias ls="command ls $LS_COMMON"
 
-# these use the ls aliases above
-alias ll="ls -l"
-alias l.="ls -d .*"
-alias ll.="ls -ld .*"
-alias lla="ls -la"
-
 # setup color grep output if available
 if [ -n "$COLORS" ]; then
     case "$UNAME" in
         "SunOS")
-            # For Solaris, use the GNU version of grep for color support
+            # for Solaris, use the GNU version of grep for color support
             test -x /usr/gnu/bin/grep && alias grep="/usr/gnu/bin/grep --color=always"
             ;;
         *)
@@ -435,7 +437,7 @@ test -r ~/.shenv &&
 PATH=$(puniq "$PATH")
 MANPATH=$(puniq "$MANPATH")
 
-# Use the color prompt by default when interactive
+# use the color prompt by default when interactive
 test -n "$PS1" &&
     prompt_color
 
@@ -444,8 +446,8 @@ test -n "$PS1" &&
 # -------------------------------------------------------------------
 
 test -n "$INTERACTIVE" -a -n "$LOGIN" && {
-    # Get current uname and uptime (if exists on this host)
-    # Strip any leading whitespace from uname and uptime commands
+    # get current uname and uptime (if exists on this host)
+    # strip any leading whitespace from uname and uptime commands
     t_uname="$(test -n "`type -P uname`" && uname -npsr | sed -e 's/^\s+//')"
     t_uptime="$(test -n "`type -P uptime`" && uptime | sed -e 's/^\s+//')"
     if [ -n "$t_uname" ] || [ -n "$t_uptime" ]; then

@@ -165,19 +165,23 @@ endif
 
 let mapleader = ","
 
+" <Space> to turn off highlighting and clear any message already displayed.
+nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+
 " <F2> to pastetoggle, to turn-off autoindent when pasting from system clipboard
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 
-" press <Space> to turn off highlighting and clear any message already displayed.
-nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
-
-" NERDTreee
+" <F4> to toggle NERDTreee
 let NERDTreeShowHidden=1   " show dotfiles by default
 noremap <F4> :NERDTreeToggle<CR>
 
-" Gundo
+" <F5> to toggle Gundo
 nnoremap <F5> :GundoToggle<CR>
+
+" <F7> to toggle spell-check
+nnoremap <F7> :setlocal spell! spelllang=en_us spell?<CR>
+inoremap <F7> <C-o>:setlocal spell! spelllang=en_us spell?<CR>
 
 " Command-T
 noremap <leader>o <Esc>:CommandT<CR>
@@ -279,13 +283,13 @@ endif
 au Filetype sh,bash set ts=4 sts=4 sw=4 expandtab
 let g:is_bash = 1
 " git commit message
-au Filetype gitcommit set tw=68  spell
+au Filetype gitcommit set tw=68  spell spelllang=en_us
 " html variants
 au Filetype html,xml,xsl,rhtml source $HOME/.vim/scripts/closetag.vim
 " don't use cindent for javascript
 au FileType javascript setlocal nocindent
 " use Octopress syntax-highlighting for *.markdown files
-au BufNewFile,BufRead *.markdown set filetype=octopress
+au BufNewFile,BufRead *.markdown set filetype=octopress  spell spelllang=en_us
 " in Makefiles, use real tabs not tabs expanded to spaces
 au FileType make setlocal noexpandtab
 

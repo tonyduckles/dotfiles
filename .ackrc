@@ -14,6 +14,10 @@
 --break
 # always use a PAGER
 --pager=less
+# always print filename prefix
+--with-filename
+# search *.txt files by default
+--text
 
 # Ack Type Settings
 # ####################################################################

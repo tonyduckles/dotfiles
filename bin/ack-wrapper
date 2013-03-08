@@ -5,7 +5,8 @@
 
 PWD=$(pwd)
 HOME=~
-ACKARGS=""
+ack=$(type -P ack)
+ackrc=""
 
 match=""
 dir="$PWD"
@@ -14,7 +15,7 @@ while [ "$dir" != "/" -a "$match" = "" ]; do
         if [ "$dir" != "$HOME" ]; then
             match=1
             echo "(Include: ${dir}/.ackrc)"
-            ACKARGS="$(egrep "^[^#]" "${dir}/.ackrc" | xargs) $ACKARGS"
+            ackrc=$(egrep "^[^#]" "${dir}/.ackrc" | tr '\n' ' ')
         else
             match=0
         fi
@@ -23,4 +24,9 @@ while [ "$dir" != "/" -a "$match" = "" ]; do
     fi
 done
 
-command ack $ACKARGS $*
+# Add quote-wrapping for any additional args to ensure proper passing to
+# real 'ack'.
+for arg in "$@"; do ackrc="${ackrc} '${arg}'"; done
+
+# Run the final command
+eval "${ack} ${ackrc}"

@@ -34,6 +34,7 @@
 	sub          = !git-subup
 	sup          = !git-subup pull
 	fp           = format-patch --stdout
+	ls           = ls-files
 
 [core]
 	filemode = true

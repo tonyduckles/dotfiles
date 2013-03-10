@@ -1,18 +1,16 @@
 #!/bin/sh
-# Wrapper around 'ack' to crawl all directories from $PWD to / (or $HOME)
+# Wrapper around 'ack' to crawl all directories from `pwd` to / (or $HOME)
 # looking for a "local" .ackrc file. Useful for setting project-level
 # --ignore-dir settings.
 
-PWD=$(pwd)
+# Search for "local" .ackrc file in CWD or any parents
 HOME=~
-ack=$(type -P ack)
 ackrc=""
-
 match=""
-dir="$PWD"
-while [ "$dir" != "/" -a "$match" = "" ]; do
-    if [ -e "$dir/.ackrc" ]; then
-        if [ "$dir" != "$HOME" ]; then
+dir=$(pwd)
+while [ "${dir}" != "/" -a "${match}" = "" ]; do
+    if [ -e "${dir}/.ackrc" ]; then
+        if [ "${dir}" != "${HOME}" ]; then
             match=1
             echo "(Include: ${dir}/.ackrc)"
             ackrc=$(egrep "^[^#]" "${dir}/.ackrc" | tr '\n' ' ')
@@ -20,13 +18,27 @@ while [ "$dir" != "/" -a "$match" = "" ]; do
             match=0
         fi
     else
-        dir=$(dirname "$dir")
+        dir=$(dirname "${dir}")
     fi
 done
 
 # Add quote-wrapping for any additional args to ensure proper passing to
 # real 'ack'.
-for arg in "$@"; do ackrc="${ackrc} '${arg}'"; done
+for arg in "$@"; do
+    if [ -z "${ackrc}" ]; then
+        ackrc="'${arg}'"
+    else
+        ackrc="${ackrc} '${arg}'"
+    fi
+done
 
-# Run the final command
-eval "${ack} ${ackrc}"
+# Build command to eval
+cmd="command ack ${ackrc}"
+if [ ! -t 0 ]; then
+    # If stdin is a pipe, use cat to redirect stdin to stdout and pipe
+    # that data into ack.
+    cmd="cat | ${cmd}"
+fi
+
+# Eval the final command
+eval "${cmd}"

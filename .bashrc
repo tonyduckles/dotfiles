@@ -213,7 +213,7 @@ prompt_color() {
         PS_GIT='$(test -n "$(__git_ps1 %s)" &&
                   test "$(git rev-parse --show-toplevel)" != "$HOME" &&
                   test "$(git config --bool bash.hidePrompt)" != "true" &&
-                  __git_ps1 "{\[\033[0;100m\]%s\[\033[0;90m\]}")'
+                  __git_ps1 "{\[\033[0;40;36m\]%s\[\033[0;90m\]}")'
         export GIT_PS1_SHOWDIRTYSTATE=1
     fi
     PS1="\[\033[0;90m\][${PS_C1}\u@\h\[\033[0m\]\[\033[0;90m\]:${PS_C2}\w\[\033[0;90m\]]${PS_GIT}${PS_P}\[\033[0m\] "
@@ -283,9 +283,6 @@ alias rehash="hash -r"
 settitle() {
     printf "\033k%s\033\\" "$@"
 }
-
-# ack-wrapper
-alias ack="ack-wrapper"
 
 # ----------------------------------------------------------------------
 # BASH COMPLETION

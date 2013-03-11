@@ -16,14 +16,12 @@
 --pager=less
 # always print filename prefix
 --with-filename
-# search *.txt files by default
---text
 
-# Ack Type Settings
+# Custom File-Types
 # ####################################################################
---type-set=mumps=.m,.ro,.ROU,.GLO
---type-set=markdown=.md,.mkd,.markdown
---type-set=css=.css,.scss
+--type-add=mumps:ext:m,ro,ROU,GLO
+--type-add=markdown:ext:md,mkd,markdown
+--type-add=css:ext:css,scss
 
 # Colors
 # ####################################################################

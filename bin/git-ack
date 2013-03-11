@@ -1,0 +1,6 @@
+#!/bin/sh
+# Usage: git-ack PATTERN
+# ack-based replacement for "git grep ...".  Look for specified patterns in the
+# tracked files in the work tree.
+
+git ls-files -z | xargs -0 ack $*

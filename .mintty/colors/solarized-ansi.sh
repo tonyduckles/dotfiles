@@ -3,7 +3,7 @@ echo -ne '\e]4;0;#073642\a'   # black                    [s:base02]
 echo -ne '\e]4;1;#990000\a'   # red
 echo -ne '\e]4;2;#4B8700\a'   # green
 echo -ne '\e]4;3;#A0A533\a'   # yellow
-echo -ne '\e]4;4;#1D49AF\a'   # blue
+echo -ne '\e]4;4;#2052C5\a'   # blue
 echo -ne '\e]4;5;#831792\a'   # magenta
 echo -ne '\e]4;6;#2AA198\a'   # cyan                     [s:cyan]
 echo -ne '\e]4;7;#93A1A1\a'   # white      (light grey)  [s:base1]

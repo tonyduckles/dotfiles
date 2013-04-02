@@ -265,7 +265,7 @@ settitle() {
 }
 
 # svn-wrapper
-alias svn=~/src/svn-wrapper/svn-wrapper.sh
+alias svn=svn-wrapper
 
 # ----------------------------------------------------------------------
 # BASH COMPLETION

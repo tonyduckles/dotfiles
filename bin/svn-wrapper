@@ -75,9 +75,12 @@ function strip(str) {
   sub(/[ \t]+$/, "", str);
   return str;
 }
-/^r[0-9]+ \| [A-Za-z]+/ {
+/^r[0-9]+ \| [A-Za-z(]+/ {
   in_rev=1;
-  revnum=strip($1); author=strip($2); date=substr(strip($3), 0, 26);
+  FS="|";
+  $0=$0 "";
+  revnum=strip($1); author=strip($2); date=strip(substr($3, 0, 26));
+  FS=" ";
   getline;
   if ($0 == "Changed paths:") {
     while ($0 != "") {
@@ -113,7 +116,7 @@ case $1 in
     ;;
   ll)
     shift
-    exec svn log --stop-on-copy "$@" | awk -F"|" "${awk_svn_log_ll}" | $PAGER
+    exec svn log --stop-on-copy "$@" | awk "${awk_svn_log_ll}" | $PAGER
     ;;
   log)
     exec svn "$@" | $PAGER

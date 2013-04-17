@@ -257,6 +257,16 @@ function! StripWhitespace ()
 endfunction
 map <leader>s :call StripWhitespace ()<CR>
 
+" toggle diffmode for a buffer
+function! DiffToggle()
+  if &diff
+    diffoff
+  else
+    diffthis
+  endif
+endfunction
+nnoremap <silent> <Leader>df :call DiffToggle()<CR>
+
 " ----------------------------------------------------------------------------
 "  Auto Commands
 " ----------------------------------------------------------------------------

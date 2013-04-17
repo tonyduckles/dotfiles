@@ -183,10 +183,11 @@ nnoremap <F5> :GundoToggle<CR>
 nnoremap <F7> :setlocal spell! spelllang=en_us spell?<CR>
 inoremap <F7> <C-o>:setlocal spell! spelllang=en_us spell?<CR>
 
-" Command-T
-noremap <leader>o <Esc>:CommandT<CR>
-noremap <leader>O <Esc>:CommandTFlush<CR>
-noremap <leader>m <Esc>:CommandTBuffer<CR>
+" Ctrl-P
+let g:ctrlp_map = ''
+noremap <leader>o <Esc>:CtrlP<CR>
+noremap <leader>O <Esc>:CtrlP<CR>
+noremap <leader>m <Esc>:CtrlPBuffer<CR>
 
 " make Y consistent with C (c$) and D (d$)
 nnoremap Y y$

@@ -62,10 +62,11 @@ endif
 " comments
 highlight Comment                                    ctermfg=DarkGrey                    guifg=#425257
 " visual block
-highlight Visual          term=reverse cterm=reverse ctermfg=DarkGreen ctermbg=White     guifg=#4d830a guibg=#ffffff
+highlight Visual          term=reverse cterm=reverse ctermfg=DarkGreen ctermbg=White     guifg=#4d830a guibg=#fdf6e3
 " statusline (active vs inactive)
-highlight StatusLine      term=reverse cterm=reverse ctermfg=Black     ctermbg=Grey      guifg=#444444 guibg=#aaaaaa
-highlight StatusLineNC    term=reverse cterm=reverse ctermfg=Black     ctermbg=DarkGrey  guifg=#444444 guibg=#666666
+highlight StatusLine      term=reverse cterm=reverse ctermfg=Black     ctermbg=Grey      guifg=#073642 guibg=#93A1A1
+highlight StatusLineNC    term=reverse cterm=reverse ctermfg=Black     ctermbg=DarkGrey  guifg=#073642 guibg=#37555c
+highlight User1           term=reverse cterm=reverse ctermfg=Black     ctermbg=DarkGreen guifg=#4d830a guibg=#073642
 " unprintable chars (listchars)
 highlight SpecialKey                                 ctermfg=DarkGray  ctermbg=Black     guifg=#374549 guibg=#010c0e
 
@@ -118,7 +119,7 @@ set list listchars=trail:.,tab:>.  " show trailing whitespace and tab chars
 " Status Line
 " ----------------------------------------------------------------------------
 
-set statusline=\ %n\ %<%f  " buffer #, filename
+set statusline=%1*\ %n%0*\ %<%f  " buffer #, filename
 set statusline+=\ %h%m%r   " file-state flags
 set statusline+=%=         " left-right divider
 set statusline+=%{strlen(&fenc)?&fenc:&enc},%{&ff}\ %y  " file-encoding, format, type

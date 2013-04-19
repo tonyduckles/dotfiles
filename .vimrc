@@ -125,6 +125,11 @@ set statusline+=%=         " left-right divider
 set statusline+=%{strlen(&fenc)?&fenc:&enc},%{&ff}\ %y  " file-encoding, format, type
 set statusline+=\ %12.(%v,%l/%L%)\ \ %-4P  " cursor position, % through file of viewport
 
+let g:Powerline_theme = 'default'             " standard segments
+let g:Powerline_colorscheme = 'solarized16'   " modified solarized16 theme
+let g:Powerline_stl_path_style = 'relative'   " show parent folders
+let g:Powerline_cache_enabled = 0             " don't cache
+
 " ----------------------------------------------------------------------------
 " Text Formatting
 " ----------------------------------------------------------------------------

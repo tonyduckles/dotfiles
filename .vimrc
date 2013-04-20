@@ -267,6 +267,14 @@ function! DiffToggle()
 endfunction
 nnoremap <silent> <Leader>df :call DiffToggle()<CR>
 
+" Git (Fugitive) support
+nmap <silent> <leader>gb :Gblame<CR>
+nmap <silent> <leader>gs :Gstatus<CR>
+nmap <silent> <leader>gd :Gdiff<CR>
+nmap <silent> <leader>gl :Glog<CR>
+nmap <silent> <leader>gc :Gcommit<CR>
+nmap <silent> <leader>gp :Gpush<CR>
+
 " ----------------------------------------------------------------------------
 "  Auto Commands
 " ----------------------------------------------------------------------------

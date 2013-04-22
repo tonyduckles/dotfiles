@@ -20,10 +20,10 @@ use 5.008;
 
 use Getopt::Long 2.36 ();
 
-use Carp 1.10 ();
+use Carp 1.04 ();
 
-our $VERSION = '2.00b06';
-# Check http://betterthangrep.com/ for updates
+our $VERSION = '2.02';
+# Check http://beyondgrep.com/ for updates
 
 # These are all our globals.
 
@@ -74,7 +74,13 @@ MAIN: {
 sub _compile_descend_filter {
     my ( $opt ) = @_;
 
-    my $idirs = $opt->{idirs};
+    my $idirs            = $opt->{idirs};
+    my $dont_ignore_dirs = $opt->{no_ignore_dirs};
+
+    # if we have one or more --noignore-dir directives, we can't ignore
+    # entire subdirectory hierarchies, so we return an "accept all"
+    # filter and scrutinize the files more in _compile_file_filter
+    return if $dont_ignore_dirs;
     return unless $idirs && @{$idirs};
 
     my %ignore_dirs;
@@ -89,7 +95,7 @@ sub _compile_descend_filter {
             }
         }
         else {
-            Carp::croak( qq{Invalid filter specification "$_"} );
+            Carp::croak( qq{Invalid filter specification "$idir"} );
         }
     }
 
@@ -123,11 +129,59 @@ sub _compile_file_filter {
 
     my %is_member_of_starting_set = map { (App::Ack::get_file_id($_) => 1) } @{$start};
 
+    my $ignore_dir_list      = $opt->{idirs};
+    my $dont_ignore_dir_list = $opt->{no_ignore_dirs};
+
+    my %ignore_dir_set;
+    my %dont_ignore_dir_set;
+
+    foreach my $filter (@{ $ignore_dir_list }) {
+        if ( $filter =~ /^(\w+):(.*)/ ) {
+            if ( $1 eq 'is' ) {
+                $ignore_dir_set{ $2 } = 1;
+            } else {
+                Carp::croak( 'Non-is filters are not yet supported for --ignore-dir' );
+            }
+        } else {
+            Carp::croak( qq{Invalid filter specification "$filter"} );
+        }
+    }
+    foreach my $filter (@{ $dont_ignore_dir_list }) {
+        if ( $filter =~ /^(\w+):(.*)/ ) {
+            if ( $1 eq 'is' ) {
+                $dont_ignore_dir_set{ $2 } = 1;
+            } else {
+                Carp::croak( 'Non-is filters are not yet supported for --ignore-dir' );
+            }
+        } else {
+            Carp::croak( qq{Invalid filter specification "$filter"} );
+        }
+    }
+
     return sub {
         # ack always selects files that are specified on the command
         # line, regardless of filetype.  If you want to ack a JPEG,
         # and say "ack foo whatever.jpg" it will do it for you.
         return 1 if $is_member_of_starting_set{ App::Ack::get_file_id($File::Next::name) };
+
+        if ( $dont_ignore_dir_list ) {
+            my ( undef, $dirname ) = File::Spec->splitpath($File::Next::name);
+            my @dirs               = File::Spec->splitdir($dirname);
+
+            my $is_ignoring = 0;
+
+            foreach my $dir ( @dirs ) {
+                if ( $ignore_dir_set{ $dir } ) {
+                    $is_ignoring = 1;
+                }
+                elsif ( $dont_ignore_dir_set{ $dir } ) {
+                    $is_ignoring = 0;
+                }
+            }
+            if ( $is_ignoring ) {
+                return 0;
+            }
+        }
 
         # Ignore named pipes found in directory searching.  Named
         # pipes created by subprocesses get specified on the command
@@ -488,7 +542,7 @@ B<-l>, some line counts may be zeroes.
 If combined with B<-h> (B<--no-filename>) ack outputs only one total
 count.
 
-=item B<--color>, B<--nocolor>, B<--colour>, B<--nocolour>
+=item B<--[no]color>, B<--[no]colour>
 
 B<--color> highlights the matching text.  B<--nocolor> supresses
 the color.  This is on by default unless the output is redirected.
@@ -524,7 +578,7 @@ when you want to customize the defaults.
 Writes the list of options loaded and where they came from to standard
 output.  Handy for debugging.
 
-=item B<--env>, B<--noenv>
+=item B<--[no]env>
 
 B<--noenv> disables all environment processing. No F<.ackrc> is
 read and all environment variables are ignored. By default, F<ack>
@@ -552,18 +606,18 @@ from standard input.
 
 Forces ack to act as if it were recieving input via a pipe.
 
-=item B<--follow>, B<--nofollow>
+=item B<--[no]follow>
 
 Follow or don't follow symlinks, other than whatever starting files
 or directories were specified on the command line.
 
 This is off by default.
 
-=item B<-g I<REGEX>>
+=item B<-g I<PATTERN>>
 
-Print files where the relative path + filename matches I<REGEX>.
+Print files where the relative path + filename matches I<PATTERN>.
 
-=item B<--group>, B<--nogroup>
+=item B<--[no]group>
 
 B<--group> groups matches by file name.  This is the default
 when used interactively.
@@ -573,7 +627,8 @@ default when output is redirected.
 
 =item B<-H>, B<--with-filename>
 
-Print the filename for each match.
+Print the filename for each match. This is the default unless searching
+a single explicitly specified file.
 
 =item B<-h>, B<--no-filename>
 
@@ -595,7 +650,7 @@ Print all known types.
 
 =item B<-i>, B<--ignore-case>
 
-Ignore case in the search strings.
+Ignore case distinctions in PATTERN
 
 =item B<--ignore-ack-defaults>
 
@@ -642,9 +697,9 @@ Only print the filenames of matching files, instead of the matching text.
 
 Only print the filenames of files that do I<NOT> match.
 
-=item B<--match I<REGEX>>
+=item B<--match I<PATTERN>>
 
-Specify the I<REGEX> explicitly. This is helpful if you don't want to put the
+Specify the I<PATTERN> explicitly. This is helpful if you don't want to put the
 regex as your first argument, e.g. when executing multiple searches over the
 same set of files.
 
@@ -723,7 +778,7 @@ from fgrep.
 
 Ignore case in the search strings if PATTERN contains no uppercase
 characters. This is similar to C<smartcase> in vim. This option is
-off by default.
+off by default, and ignored if C<-i> is specified.
 
 B<-i> always overrides this option.
 
@@ -738,7 +793,7 @@ Outputs the filetypes that ack associates with each file.
 
 Works with B<-f> and B<-g> options.
 
-=item B<--type=TYPE>, B<--type=noTYPE>
+=item B<--type=[no]TYPE>
 
 Specify the types of files to include or exclude from a search.
 TYPE is a filetype, like I<perl> or I<xml>.  B<--type=perl> can
@@ -900,7 +955,7 @@ Example:
 
     --type-set perl:ext:pl,pm,t
 
-=item match:I<REGEX>
+=item match:I<PATTERN>
 
 I<match> filters match the target filename against a regular expression.
 The regular expression is made case insensitive for the search.
@@ -909,7 +964,7 @@ Example:
 
     --type-set make:match:/(gnu)?makefile/
 
-=item firstlinematch:I<REGEX>
+=item firstlinematch:I<PATTERN>
 
 I<firstlinematch> matches the first line of the target file against a
 regular expression.  Like I<match>, the regular expression is made
@@ -1009,6 +1064,11 @@ knows about, but you may use other default flags. Now you can search
 with F<ack> and easily step through the results in Vim:
 
   :grep Dumper perllib
+
+Miles Sterrett has written a Vim plugin for F<ack> which allows you to use
+C<:Ack> instead of C<:grep>, as well as several other advanced features.
+
+L<https://github.com/mileszs/ack.vim>
 
 =head2 Emacs integration
 
@@ -1463,7 +1523,7 @@ Support for and information about F<ack> can be found at:
 
 =item * The ack homepage
 
-L<http://betterthangrep.com/>
+L<http://beyondgrep.com/>
 
 =item * The ack-users mailing list
 
@@ -1496,6 +1556,7 @@ L<https://github.com/petdance/ack2>
 How appropriate to have I<ack>nowledgements!
 
 Thanks to everyone who has contributed to ack in any way, including
+Michael McClimon,
 Andrew Black,
 Ralph Bodenner,
 Shaun Patterson,
@@ -1819,9 +1880,9 @@ our $VERSION;
 our $GIT_REVISION;
 our $COPYRIGHT;
 BEGIN {
-    $VERSION = '2.00b06';
+    $VERSION = '2.02';
     $COPYRIGHT = 'Copyright 2005-2013 Andy Lester.';
-    $GIT_REVISION = q{04e8986};
+    $GIT_REVISION = q{f3c8827};
 }
 
 our $fh;
@@ -2140,7 +2201,8 @@ Search output:
   --match PATTERN               Specify PATTERN explicitly.
   -m, --max-count=NUM           Stop searching in each file after NUM matches
   -1                            Stop searching after one match of any kind
-  -H, --with-filename           Print the filename for each match
+  -H, --with-filename           Print the filename for each match (default:
+                                on unless explicitly searching a single file)
   -h, --no-filename             Suppress the prefixing filename on output
   -c, --count                   Show number of lines matching per file
   --[no]column                  Show the column number of the first match
@@ -2260,7 +2322,7 @@ END_OF_HELP
         my $ext_list = $mappings{$type};
 
         if ( ref $ext_list ) {
-            $ext_list = join( ' ', map { $_->to_string } @{$ext_list} );
+            $ext_list = join( '; ', map { $_->to_string } @{$ext_list} );
         }
         App::Ack::print( sprintf( "    --[no]%-*.*s %s\n", $maxlen, $maxlen, $type, $ext_list ) );
     }
@@ -2319,7 +2381,7 @@ sub get_copyright {
 
 
 sub load_colors {
-    eval 'use Term::ANSIColor 1.12 ()';
+    eval 'use Term::ANSIColor 1.10 ()';
 
     $ENV{ACK_COLOR_MATCH}    ||= 'black on_yellow';
     $ENV{ACK_COLOR_FILENAME} ||= 'bold green';
@@ -2813,9 +2875,7 @@ sub get_file_id {
 }
 
 sub create_ackrc {
-    my @lines = App::Ack::ConfigDefault::options();
-
-    print join("\n", '--ignore-ack-defaults', @lines);
+    print "$_\n" for ( '--ignore-ack-defaults', App::Ack::ConfigDefault::options() );
 }
 
 
@@ -3078,7 +3138,7 @@ use warnings;
 use overload
     '""' => 'to_string';
 
-use Carp 1.10 ();
+use Carp 1.04 ();
 
 my %filter_types;
 
@@ -3196,20 +3256,21 @@ sub new {
     }, $class;
 }
 
-# XXX This test checks the first "line" of the file, but we need
-# it to be less piggy.  If it's something like a .min.js file, then
-# the "line" could be the entire file.  Instead, it should read the
-# first, say, 100 characters of the first line.
+# This test reads the first 250 characters of a file, then just uses the
+# first line found in that. This prevents reading something  like an entire
+# .min.js file (which might be only one "line" long) into memory.
 
 sub filter {
     my ( $self, $resource ) = @_;
 
     my $re = $self->{'regex'};
 
-    local $_;
-    return unless $resource->next_text;
+    my $buffer;
+    my $rc = sysread( $resource->{fh}, $buffer, 250 );
+    return unless $rc;
+    $buffer =~ s/[\r\n].*//s;
 
-    return /$re/;
+    return $buffer =~ /$re/;
 }
 
 sub inspect {
@@ -3223,9 +3284,9 @@ sub inspect {
 sub to_string {
     my ( $self ) = @_;
 
-    my $re = $self->{'regex'};
+    (my $re = $self->{regex}) =~ s{\([^:]*:(.*)\)$}{$1};
 
-    return "first line matches $re";
+    return "first line matches /$re/";
 }
 
 BEGIN {
@@ -3491,7 +3552,7 @@ package App::Ack::ConfigLoader;
 use strict;
 use warnings;
 
-use Carp 1.10 ();
+use Carp 1.04 ();
 use Getopt::Long 2.36 ();
 use Text::ParseWords 3.1 ();
 
@@ -3728,6 +3789,8 @@ EOT
                                 @{ $opt->{idirs} } = grep {
                                     $_ ne $dir
                                 } @{ $opt->{idirs} };
+
+                                push @{ $opt->{no_ignore_dirs} }, $dir;
                                },
         'nopager'           => sub { $opt->{pager} = undef },
         'passthru'          => \$opt->{passthru},
@@ -4103,10 +4166,14 @@ sub _options_block {
 # This is the default ackrc for ack 2.0
 
 # There are four different ways to match
+#
 # is:  Match the filename exactly
+#
 # ext: Match the extension of the filename exactly
+#
 # match: Match the filename against a Perl regular expression
-# firstlinematch: Match the first 80 characters of the first line
+#
+# firstlinematch: Match the first 250 characters of the first line
 #   of text against a Perl regular expression.  This is only for
 #   the --type-add option.
 
@@ -4188,7 +4255,7 @@ sub _options_block {
 
 # Perl http://perl.org/
 --type-add=perl:ext:pl,pm,pod,t
---type-add=perl:firstlinematch:/#!.*\bperl/
+--type-add=perl:firstlinematch:/^#!.*\bperl/
 
 # Makefiles http://www.gnu.org/s/make/
 --type-add=make:ext:mk
@@ -4297,14 +4364,14 @@ sub _options_block {
 
 # PHP http://www.php.net/
 --type-add=php:ext:php,phpt,php3,php4,php5,phtml
---type-add=php:firstlinematch:/#!.*\bphp/
+--type-add=php:firstlinematch:/^#!.*\bphp/
 
 # Plone http://plone.org/
 --type-add=plone:ext:pt,cpt,metadata,cpy,py
 
 # Python http://www.python.org/
 --type-add=python:ext:py
---type-add=python:firstlinematch:/#!.*\bpython/
+--type-add=python:firstlinematch:/^#!.*\bpython/
 
 # R http://www.r-project.org/
 --type-add=rr:ext:R
@@ -4312,7 +4379,10 @@ sub _options_block {
 # Ruby http://www.ruby-lang.org/
 --type-add=ruby:ext:rb,rhtml,rjs,rxml,erb,rake,spec
 --type-add=ruby:is:Rakefile
---type-add=ruby:firstlinematch:/#!.*\bruby/
+--type-add=ruby:firstlinematch:/^#!.*\bruby/
+
+# Rust http://www.rust-lang.org/
+--type-add=rust:ext:rs
 
 # Scala http://www.scala-lang.org/
 --type-add=scala:ext:scala
@@ -4322,7 +4392,7 @@ sub _options_block {
 
 # Shell
 --type-add=shell:ext:sh,bash,csh,tcsh,ksh,zsh
---type-add=shell:firstlinematch:/(?:ba|t?c|k|z)?sh\b/
+--type-add=shell:firstlinematch:/^#!.*\b(?:ba|t?c|k|z)?sh\b/
 
 # Smalltalk http://www.smalltalk.org/
 --type-add=smalltalk:ext:st

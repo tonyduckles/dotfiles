@@ -191,6 +191,7 @@ inoremap <F7> <C-o>:setlocal spell! spelllang=en_us spell?<CR>
 
 " Ctrl-P
 let g:ctrlp_map = ''
+let g:ctrlp_show_hidden = 1
 noremap <leader>o <Esc>:CtrlP<CR>
 noremap <leader>O <Esc>:CtrlP<CR>
 noremap <leader>m <Esc>:CtrlPBuffer<CR>

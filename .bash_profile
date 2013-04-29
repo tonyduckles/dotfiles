@@ -11,7 +11,7 @@ if [ "$UNAME" = "Cygwin" ]; then
 fi
 
 # keychain
-keychain="$(type -P keychain)"
+keychain=$(type -P keychain)
 test -n "$keychain" && {
   if [ -f ~/.ssh/id_rsa ]; then
     eval `$keychain -q ~/.ssh/id_rsa`
@@ -28,5 +28,7 @@ test -n "$kinit" && {
 }
 unset kinit
 
-# Load RVM function
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+# rbenv
+rbenv=$(type -P rbenv)
+test -n "$rbenv" && eval "$(rbenv init -)"
+unset rbenv

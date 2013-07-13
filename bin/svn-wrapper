@@ -98,15 +98,24 @@ function strip(str) {
     msg = "";
   }
   printf("'${yellow}'%s'${std}' %s '${lblack}'(by %s, %s)'${std}'\n", revnum, msg, author, date);
-};
-'
+};'
+
+awk_svn_diff='
+{ str=$0;
+  if (substr(str,1,1) == "@") { str = sprintf("'${lpurple}'%s'${std}'", str); }
+  if (substr(str,1,1) == "-") { str = sprintf("'${lred}'%s'${std}'", str); }
+  if (substr(str,1,1) == "+") { str = sprintf("'${lgreen}'%s'${std}'", str); }
+  if (substr(str,1,1) == "=") { str = sprintf("'${lblue}'%s'${std}'", str); }
+  if (substr(str,1,1) == "I") { str = sprintf("\n'${lblue}'%s'${std}'", str); }
+  print str;
+};'
 
 case $1 in
   cat)
     exec svn "$@" | $PAGER
     ;;
   diff)
-    exec svn "$@" | $PAGER
+    exec svn "$@" | awk "${awk_svn_diff}" | $PAGER
     ;;
   help)
     exec svn "$@" | $PAGER

@@ -1,0 +1,15 @@
+changeset = '\033[0;33m{rev} \033[0m{desc|firstline|strip} {bookmarks}{tags} \033[0;30;1m(by {author|person}, {date|age})\033[0m\n'
+
+start_branches = '\033[0;32;1m('
+branch = '{branch}'
+end_branches = ')\033[0m'
+
+start_bookmarks = '\033[0;32;1m('
+bookmark = '[{bookmark}] '
+last_bookmark = '[{bookmark}]'
+end_bookmark = ')\033[0m'
+
+start_tags = '\033[0;32;1m(tag: '
+tag = '{tag}, '
+last_tag = '{tag}'
+end_tags = ')\033[0m'

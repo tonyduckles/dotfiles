@@ -233,6 +233,10 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+" reselect visual block after indent/outdent
+vnoremap < <gv
+vnoremap > >gv
+
 " quickly edit/reload vimrc
 nmap <silent> <leader>ev :edit $MYVIMRC<CR>
 nmap <silent> <leader>sv :source $MYVIMRC<CR>

@@ -68,7 +68,7 @@ highlight StatusLine      term=reverse cterm=reverse ctermfg=Black     ctermbg=G
 highlight StatusLineNC    term=reverse cterm=reverse ctermfg=Black     ctermbg=DarkGrey  guifg=#073642 guibg=#37555c
 highlight User1           term=reverse cterm=reverse ctermfg=Black     ctermbg=DarkGreen guifg=#4d830a guibg=#073642
 " unprintable chars (listchars)
-highlight SpecialKey                                 ctermfg=DarkGray  ctermbg=Black     guifg=#374549 guibg=#010c0e
+highlight SpecialKey                                 ctermfg=DarkGray  ctermbg=Black     guifg=#374549 guibg=#06313c
 
 " ----------------------------------------------------------------------------
 "  Backups

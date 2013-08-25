@@ -113,7 +113,7 @@ set ignorecase             " ignore case when searching
 set smartcase              " case-sensitive if search contains an uppercase character
 set visualbell             " shut the heck up
 set hlsearch               " highlight all search matches
-set list listchars=trail:.,tab:>.  " show trailing whitespace and tab chars
+set list listchars=trail:·,tab:>·,precedes:<,extends:>  " show trailing whitespace and tab chars
 
 " ----------------------------------------------------------------------------
 " Status Line

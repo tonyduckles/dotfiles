@@ -175,7 +175,7 @@ let mapleader = ","
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
 " <F2> to pastetoggle, to turn-off autoindent when pasting from system clipboard
-nnoremap <F2> :set invpaste paste?<CR>
+nnoremap <F2> :set paste! paste?<CR>
 set pastetoggle=<F2>
 
 " <F4> to toggle NERDTreee
@@ -249,7 +249,10 @@ nmap <leader>L mQgewvu`Q
 nmap <silent> <leader>cd :lcd %:h<CR>
 
 " set text wrapping toggles
-nmap <silent> <leader>tw :set invwrap<CR>:set wrap?<CR>
+nmap <silent> <leader>tw :set wrap! wrap?<CR>
+
+" set list-whitespace-chars toggle
+nmap <silent> <leader>ws :set list! list?<CR>
 
 " find merge conflict markers
 nmap <silent> <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
@@ -258,10 +261,7 @@ nmap <silent> <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
 nmap <silent> <leader>hs :set hlsearch! hlsearch?<CR>
 
 " strip all trailing whitespace in file
-function! StripWhitespace ()
-  exec ':%s/ \+$//gc'
-endfunction
-map <leader>s :call StripWhitespace ()<CR>
+nmap <silent> <leader>s :%s/\s\+$//<CR>
 
 " toggle diffmode for a buffer
 function! DiffToggle()

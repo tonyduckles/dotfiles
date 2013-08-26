@@ -1,0 +1,48 @@
+[ui]
+username = Tony Duckles <tony@nynim.org>
+
+[extensions]
+color =
+graphlog =
+pager =
+rebase =
+purge =
+remotebranches = $HOME/.mercurial/extensions/hg-remotebranches/hg_remotebranches.py
+prompt = $HOME/.mercurial/extensions/hg-prompt/prompt.py
+hgext.bookmarks =
+hggit =
+hg-svn = $HOME/.mercurial/extensions/hg-svn/hgsubversion
+
+[alias]
+show = log --stat -vpr
+ll = log --style=$HOME/.mercurial/styles/oneline
+graph = glog --style=$HOME/.mercurial/styles/oneline
+
+[pager]
+pager = LESS='-FiRX' less
+ignore = version, update
+attend = annotate, cat, diff, export, glog, graph, help, incoming, ll, log, outgoing, show, status
+
+[color]
+status.modified = green bold
+status.added = yellow bold
+status.removed = red bold
+status.deleted = cyan
+status.unknown = blue bold
+status.ignored = black bold
+
+diff.diffline = blue bold
+diff.extended = cyan
+diff.file_a = red bold
+diff.file_b = green bold
+diff.hunk = magenta bold
+diff.deleted = red bold
+diff.inserted = green bold
+diff.changed = white
+diff.trailingwhitespace = bold black_background
+
+[diff]
+git = True
+
+[bookmarks]
+track.current = True

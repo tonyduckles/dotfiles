@@ -68,7 +68,7 @@ highlight StatusLine      term=reverse cterm=reverse ctermfg=Black     ctermbg=G
 highlight StatusLineNC    term=reverse cterm=reverse ctermfg=Black     ctermbg=DarkGrey  guifg=#073642 guibg=#37555c
 highlight User1           term=reverse cterm=reverse ctermfg=Black     ctermbg=DarkGreen guifg=#4d830a guibg=#073642
 " unprintable chars (listchars)
-highlight SpecialKey                                 ctermfg=DarkGray  ctermbg=Black     guifg=#374549 guibg=#010c0e
+highlight SpecialKey                                 ctermfg=DarkGray  ctermbg=Black     guifg=#374549 guibg=#06313c
 
 " ----------------------------------------------------------------------------
 "  Backups
@@ -113,7 +113,7 @@ set ignorecase             " ignore case when searching
 set smartcase              " case-sensitive if search contains an uppercase character
 set visualbell             " shut the heck up
 set hlsearch               " highlight all search matches
-set list listchars=trail:.,tab:>.  " show trailing whitespace and tab chars
+set list listchars=trail:·,tab:>·,precedes:<,extends:>  " show trailing whitespace and tab chars
 
 " ----------------------------------------------------------------------------
 " Status Line
@@ -175,7 +175,7 @@ let mapleader = ","
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
 " <F2> to pastetoggle, to turn-off autoindent when pasting from system clipboard
-nnoremap <F2> :set invpaste paste?<CR>
+nnoremap <F2> :set paste! paste?<CR>
 set pastetoggle=<F2>
 
 " <F4> to toggle NERDTreee
@@ -233,6 +233,10 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+" reselect visual block after indent/outdent
+vnoremap < <gv
+vnoremap > >gv
+
 " quickly edit/reload vimrc
 nmap <silent> <leader>ev :edit $MYVIMRC<CR>
 nmap <silent> <leader>sv :source $MYVIMRC<CR>
@@ -249,7 +253,10 @@ nmap <leader>L mQgewvu`Q
 nmap <silent> <leader>cd :lcd %:h<CR>
 
 " set text wrapping toggles
-nmap <silent> <leader>tw :set invwrap<CR>:set wrap?<CR>
+nmap <silent> <leader>tw :set wrap! wrap?<CR>
+
+" set list-whitespace-chars toggle
+nmap <silent> <leader>ws :set list! list?<CR>
 
 " find merge conflict markers
 nmap <silent> <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
@@ -258,10 +265,7 @@ nmap <silent> <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
 nmap <silent> <leader>hs :set hlsearch! hlsearch?<CR>
 
 " strip all trailing whitespace in file
-function! StripWhitespace ()
-  exec ':%s/ \+$//gc'
-endfunction
-map <leader>s :call StripWhitespace ()<CR>
+nmap <silent> <leader>s :%s/\s\+$//<CR>
 
 " toggle diffmode for a buffer
 function! DiffToggle()

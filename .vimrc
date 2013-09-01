@@ -257,7 +257,7 @@ nmap <leader>l mQviwu`Q
 nmap <leader>U mQgewvU`Q
 nmap <leader>L mQgewvu`Q
 " strip all trailing whitespace in file
-nmap <leader>s :%s/\s\+$//<CR>
+nmap <leader>s :call whitespace#strip_trailing()<CR>
 " toggle spell-check
 nmap <leader>sp :setlocal spell! spelllang=en_us spell?<CR>
 " set text wrapping toggles

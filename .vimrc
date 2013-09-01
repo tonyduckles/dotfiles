@@ -169,44 +169,6 @@ endif
 "  Mappings
 " ----------------------------------------------------------------------------
 
-let mapleader = ","
-
-" <Space> to turn off highlighting and clear any message already displayed.
-nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
-
-" <F2> to pastetoggle, to turn-off autoindent when pasting from system clipboard
-nnoremap <F2> :set paste! paste?<CR>
-set pastetoggle=<F2>
-
-" <F4> to toggle NERDTreee
-let NERDTreeShowHidden=1   " show dotfiles by default
-noremap <F4> :NERDTreeToggle<CR>
-
-" <F5> to toggle Gundo
-nnoremap <F5> :GundoToggle<CR>
-
-" <F7> to toggle spell-check
-nnoremap <F7> :setlocal spell! spelllang=en_us spell?<CR>
-inoremap <F7> <C-o>:setlocal spell! spelllang=en_us spell?<CR>
-
-" Ctrl-P
-let g:ctrlp_map = ''
-let g:ctrlp_show_hidden = 1
-noremap <leader>o <Esc>:CtrlP<CR>
-noremap <leader>O <Esc>:CtrlP<CR>
-noremap <leader>m <Esc>:CtrlPBuffer<CR>
-
-" make Y consistent with C (c$) and D (d$)
-nnoremap Y y$
-
-" disable default vim regex handling for searching
-nnoremap / /\v
-vnoremap / /\v
-
-" reflow paragraph with Q in normal and visual mode
-nnoremap Q gqap
-vnoremap Q gq
-
 " movement based on display lines not physical lines (sane movement with wrap turned on)
 nnoremap j gj
 nnoremap k gk
@@ -218,56 +180,62 @@ vnoremap <Down> gj
 vnoremap <Up> gk
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
-
-" do not menu with left / right in command line
-cnoremap <Left> <Space><BS><Left>
-cnoremap <Right> <Space><BS><Right>
-
 " buffer navigation
 nnoremap <C-n> :bnext<CR>
 nnoremap <C-p> :bprev<CR>
-
-" easier split-window movement
+" easier moving cursor between split-windows
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+" do not menu with left / right in command line
+cnoremap <Left> <Space><BS><Left>
+cnoremap <Right> <Space><BS><Right>
 
+" reflow paragraph with Q in normal and visual mode
+nnoremap Q gqap
+vnoremap Q gq
+" make Y consistent with C (c$) and D (d$)
+nnoremap Y y$
+" disable default vim regex handling for searching
+nnoremap / /\v
+vnoremap / /\v
 " reselect visual block after indent/outdent
 vnoremap < <gv
 vnoremap > >gv
 
-" quickly edit/reload vimrc
-nmap <silent> <leader>ev :edit $MYVIMRC<CR>
-nmap <silent> <leader>sv :source $MYVIMRC<CR>
+" <Space> to turn off highlighting and clear any message already displayed.
+nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+" <F2> to pastetoggle, to turn-off autoindent when pasting from system clipboard
+nnoremap <F2> :set paste! paste?<CR>
+" <F4> to toggle NERDTree
+nnoremap <F4> :NERDTreeToggle<CR>
+" <F5> to toggle Gundo
+nnoremap <F5> :GundoToggle<CR>
+" <F7> to toggle spell-check
+nnoremap <F7> :setlocal spell! spelllang=en_us spell?<CR>
+inoremap <F7> <C-o>:setlocal spell! spelllang=en_us spell?<CR>
 
-" upper/lower word
-nmap <leader>u mQviwU`Q
-nmap <leader>l mQviwu`Q
-
-" upper/lower first char of word
-nmap <leader>U mQgewvU`Q
-nmap <leader>L mQgewvu`Q
-
+" leader-based keyboard shortcuts
+let mapleader = ","
+" CtrlP
+nmap <leader>b :CtrlPBuffer<CR>
+nmap <leader>o :CtrlP<CR>
+nmap <leader>O :CtrlPClearCache<CR>:CtrlP<CR>
+" NERDTree
+nmap <leader>d :NERDTreeToggle<CR>
+nmap <leader>f :NERDTreeFind<CR>
+" Fugitive (Git)
+nmap <leader>gb :Gblame<CR>
+nmap <leader>gs :Gstatus<CR>
+nmap <leader>gd :Gdiff<CR>
+nmap <leader>gl :Glog<CR>
+nmap <leader>gc :Gcommit<CR>
+nmap <leader>gp :Gpush<CR>
 " cd to the directory containing the file in the buffer
-nmap <silent> <leader>cd :lcd %:h<CR>
-
-" set text wrapping toggles
-nmap <silent> <leader>tw :set wrap! wrap?<CR>
-
-" set list-whitespace-chars toggle
-nmap <silent> <leader>ws :set list! list?<CR>
-
-" find merge conflict markers
-nmap <silent> <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
-
-" toggle hlsearch with <leader>hs
-nmap <silent> <leader>hs :set hlsearch! hlsearch?<CR>
-
-" strip all trailing whitespace in file
-nmap <silent> <leader>s :%s/\s\+$//<CR>
-
+nmap <leader>cd :lcd %:h<CR>
 " toggle diffmode for a buffer
+nmap <leader>df :call DiffToggle()<CR>
 function! DiffToggle()
   if &diff
     diffoff
@@ -275,15 +243,37 @@ function! DiffToggle()
     diffthis
   endif
 endfunction
-nnoremap <silent> <Leader>df :call DiffToggle()<CR>
+" quickly edit/reload vimrc
+nmap <leader>ev :edit $MYVIMRC<CR>
+nmap <leader>sv :source $MYVIMRC<CR>
+" find merge conflict markers
+nmap <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
+" toggle hlsearch
+nmap <leader>hs :set hlsearch! hlsearch?<CR>
+" upper/lower word
+nmap <leader>u mQviwU`Q
+nmap <leader>l mQviwu`Q
+" upper/lower first char of word
+nmap <leader>U mQgewvU`Q
+nmap <leader>L mQgewvu`Q
+" strip all trailing whitespace in file
+nmap <leader>s :%s/\s\+$//<CR>
+" toggle spell-check
+nmap <leader>sp :setlocal spell! spelllang=en_us spell?<CR>
+" set text wrapping toggles
+nmap <leader>tw :set wrap! wrap?<CR>
+" set list-whitespace-chars toggle
+nmap <leader>ws :set list! list?<CR>
 
-" Git (Fugitive) support
-nmap <silent> <leader>gb :Gblame<CR>
-nmap <silent> <leader>gs :Gstatus<CR>
-nmap <silent> <leader>gd :Gdiff<CR>
-nmap <silent> <leader>gl :Glog<CR>
-nmap <silent> <leader>gc :Gcommit<CR>
-nmap <silent> <leader>gp :Gpush<CR>
+" ----------------------------------------------------------------------------
+"  Plugin Settings
+" ----------------------------------------------------------------------------
+
+" NERDTree
+let NERDTreeShowHidden=1              " show dotfiles by default
+" Ctrl-P
+let g:ctrlp_map = ''
+let g:ctrlp_show_hidden = 1
 
 " ----------------------------------------------------------------------------
 "  Auto Commands

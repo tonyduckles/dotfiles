@@ -21,7 +21,6 @@
 # ####################################################################
 --type-add=mumps:ext:m,ro,ROU,GLO
 --type-add=markdown:ext:md,mkd,markdown
---type-add=css:ext:css,scss
 
 # Colors
 # ####################################################################

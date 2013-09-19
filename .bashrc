@@ -319,7 +319,7 @@ _expand() {
 # ----------------------------------------------------------------------
 
 # we always pass these to ls(1)
-unset LS_COMMON
+LS_COMMON="-p"
 
 # if the dircolors utility is available, set that up for ls
 dircolors="$(type -P gdircolors dircolors | head -1)"

@@ -275,43 +275,29 @@ let NERDTreeShowHidden=1              " show dotfiles by default
 let g:ctrlp_map = ''
 let g:ctrlp_show_hidden = 1
 
-" ----------------------------------------------------------------------------
-"  Auto Commands
-" ----------------------------------------------------------------------------
-
-" jump to last position of buffer when opening (but not for commit messages)
-au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$") |
-                         \ exe "normal g'\"" | endif
-
-" ----------------------------------------------------------------------------
-"  PATH on MacOS X
-" ----------------------------------------------------------------------------
-
-if system('uname') =~ 'Darwin'
-  let $PATH = $HOME .
-    \ '/usr/local/bin:/usr/local/sbin:' .
-    \ '/usr/pkg/bin:' .
-    \ '/opt/local/bin:/opt/local/sbin:' .
-    \ $PATH
-endif
-
 " ---------------------------------------------------------------------------
-" File Types
+" Auto Commands / File Types
 " ---------------------------------------------------------------------------
 
-" sh config
-au Filetype sh,bash set ts=4 sts=4 sw=4 expandtab
-let g:is_bash = 1
-" git commit message
-au Filetype gitcommit set tw=68  spell spelllang=en_us
-" html variants
-au Filetype html,xml,xsl,rhtml source $HOME/.vim/scripts/closetag.vim
-" don't use cindent for javascript
-au FileType javascript setlocal nocindent
-" use Octopress syntax-highlighting for *.markdown files
-au BufNewFile,BufRead *.markdown set filetype=octopress  spell spelllang=en_us
-" in Makefiles, use real tabs not tabs expanded to spaces
-au FileType make setlocal noexpandtab
+augroup vimrc_autocmds
+  autocmd!
+  " jump to last position of buffer when opening (but not for commit messages)
+  au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$") |
+                     \ exe "normal g'\"" | endif
+  " sh config
+  au Filetype sh,bash set ts=4 sts=4 sw=4 expandtab
+  let g:is_bash = 1
+  " git commit message
+  au Filetype gitcommit set tw=68  spell spelllang=en_us
+  " html variants
+  au Filetype html,xml,xsl,rhtml source $HOME/.vim/scripts/closetag.vim
+  " don't use cindent for javascript
+  au FileType javascript setlocal nocindent
+  " use Octopress syntax-highlighting for *.markdown files
+  au BufNewFile,BufRead *.markdown set filetype=octopress  spell spelllang=en_us
+  " in Makefiles, use real tabs not tabs expanded to spaces
+  au FileType make setlocal noexpandtab
+augroup END
 
 " --------------------------------------------------------------------------
 " ManPageView

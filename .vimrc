@@ -208,6 +208,7 @@ vnoremap > >gv
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 " <F2> to pastetoggle, to turn-off autoindent when pasting from system clipboard
 nnoremap <F2> :set paste! paste?<CR>
+set pastetoggle=<F2>
 " <F4> to toggle NERDTree
 nnoremap <F4> :NERDTreeToggle<CR>
 " <F5> to toggle Gundo

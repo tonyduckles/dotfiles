@@ -1,4 +1,0 @@
-#!/bin/sh -e
-curl -sLo ~/bin/ack http://betterthangrep.com/ack-standalone
-chmod 755 ~/bin/ack
-~/bin/ack --version

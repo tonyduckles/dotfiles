@@ -1,0 +1,5 @@
+#!/bin/sh
+# Usage: git-show-tree
+# Display a tree summarizing the lineage of all branches in the repo.
+
+git log --all --graph --decorate --oneline --simplify-by-decoration

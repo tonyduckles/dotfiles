@@ -64,6 +64,10 @@
 	remote = green
 	plain = red bold
 
+[color "decorate"]
+	branch = green bold
+	remoteBranch = green
+
 [color "status"]
 	added = yellow
 	changed = green bold

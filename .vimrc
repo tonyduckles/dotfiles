@@ -258,6 +258,8 @@ nmap <leader>l mQviwu`Q
 " upper/lower first char of word
 nmap <leader>U mQgewvU`Q
 nmap <leader>L mQgewvu`Q
+" smart paste - enable paste-mode and paste contents of system clipboard
+map <leader>p :set paste<CR>o<esc>"*]p:set nopaste<cr>
 " strip all trailing whitespace in file
 nmap <leader>s :call whitespace#strip_trailing()<CR>
 " toggle spell-check

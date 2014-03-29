@@ -278,6 +278,7 @@ let NERDTreeShowHidden=1              " show dotfiles by default
 " Ctrl-P
 let g:ctrlp_map = ''
 let g:ctrlp_show_hidden = 1
+let g:ctrlp_cache_dir = $HOME.'/.vim/.cache/ctrlp'
 
 " ---------------------------------------------------------------------------
 " Auto Commands / File Types

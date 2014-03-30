@@ -1,42 +1,42 @@
 [submodule ".vim/bundle/fugitive"]
 	path = .vim/bundle/fugitive
-	url = git@github.com:tpope/vim-fugitive.git
+	url = https://github.com/tpope/vim-fugitive.git
 	ignore = dirty
 [submodule ".vim/bundle/octopress"]
 	path = .vim/bundle/octopress
-	url = git@github.com:tangledhelix/vim-octopress.git
+	url = https://github.com/tangledhelix/vim-octopress.git
 	ignore = dirty
 [submodule ".vim/bundle/solarized"]
 	path = .vim/bundle/solarized
-	url = git@github.com:altercation/vim-colors-solarized.git
+	url = https://github.com/altercation/vim-colors-solarized.git
 	ignore = dirty
 [submodule ".vim/bundle/git"]
 	path = .vim/bundle/git
-	url = git@github.com:tpope/vim-git.git
+	url = https://github.com/tpope/vim-git.git
 	ignore = dirty
 [submodule ".vim/bundle/gundo"]
 	path = .vim/bundle/gundo
-	url = git@github.com:sjl/gundo.vim.git
+	url = https://github.com/sjl/gundo.vim.git
 	ignore = dirty
 [submodule ".vim/bundle/ack"]
 	path = .vim/bundle/ack
-	url = git@github.com:mileszs/ack.vim.git
+	url = https://github.com/mileszs/ack.vim.git
 	ignore = dirty
 [submodule ".vim/bundle/surround"]
 	path = .vim/bundle/surround
-	url = git@github.com:tpope/vim-surround.git
+	url = https://github.com/tpope/vim-surround.git
 	ignore = dirty
 [submodule ".vim/bundle/scriptease"]
 	path = .vim/bundle/scriptease
-	url = git@github.com:tpope/vim-scriptease.git
+	url = https://github.com/tpope/vim-scriptease.git
 	ignore = dirty
 [submodule ".vim/bundle/nerdtree"]
 	path = .vim/bundle/nerdtree
-	url = git@github.com:scrooloose/nerdtree.git
+	url = https://github.com/scrooloose/nerdtree.git
 	ignore = dirty
 [submodule ".vim/bundle/ctrlp"]
 	path = .vim/bundle/ctrlp
-	url = git@github.com:kien/ctrlp.vim.git
+	url = https://github.com/kien/ctrlp.vim.git
 	ignore = dirty
 [submodule ".vim/bundle/powerline"]
 	path = .vim/bundle/powerline
@@ -44,5 +44,5 @@
 	ignore = dirty
 [submodule ".vim/bundle/unimpaired"]
 	path = .vim/bundle/unimpaired
-	url = git@github.com:tpope/vim-unimpaired.git
+	url = https://github.com/tpope/vim-unimpaired.git
 	ignore = dirty

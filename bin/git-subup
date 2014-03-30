@@ -6,14 +6,10 @@
 cd $(git rev-parse --show-toplevel)
 
 # Ensure all submodules (and child submodules) are checked-out
-git submodule update --init --checkout --recursive
+git submodule update --init --recursive
 
 # Update submodules' remotes based on .gitmodules
 git submodule sync
-
-# Forcibly update each submodule's "master" branch to be the current revision
-# in case HEAD is detached (e.g. due to "git submodule update --checkout")
-git submodule foreach --recursive 'git checkout --quiet -B master'
 
 if [ "$1" = "pull" ]; then
     # Fetch & pull any new updates from submodule's origin (but *NOT* any child

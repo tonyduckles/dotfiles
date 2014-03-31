@@ -145,6 +145,7 @@ set smarttab               " smarter softtab handling
 set formatoptions+=n       " support for numbered/bullet lists
 set textwidth=0            " no line-wrapping by default
 set virtualedit=block      " allow virtual edit in visual block ..
+set spelllang=en_us        " spell-check dictionary
 
 " ----------------------------------------------------------------------------
 " Filename exclusions
@@ -214,8 +215,8 @@ nnoremap <F4> :NERDTreeToggle<CR>
 " <F5> to toggle Gundo
 nnoremap <F5> :GundoToggle<CR>
 " <F7> to toggle spell-check
-nnoremap <F7> :setlocal spell! spelllang=en_us spell?<CR>
-inoremap <F7> <C-o>:setlocal spell! spelllang=en_us spell?<CR>
+nnoremap <F7> :setlocal spell! spell?<CR>
+inoremap <F7> <C-o>:setlocal spell! spell?<CR>
 
 " leader-based keyboard shortcuts
 let mapleader = ","
@@ -257,10 +258,12 @@ nmap <leader>l mQviwu`Q
 " upper/lower first char of word
 nmap <leader>U mQgewvU`Q
 nmap <leader>L mQgewvu`Q
+" smart paste - enable paste-mode and paste contents of system clipboard
+map <leader>p :set paste<CR>o<esc>"*]p:set nopaste<cr>
 " strip all trailing whitespace in file
 nmap <leader>s :call whitespace#strip_trailing()<CR>
 " toggle spell-check
-nmap <leader>sp :setlocal spell! spelllang=en_us spell?<CR>
+nmap <leader>sp :setlocal spell! spell?<CR>
 " set text wrapping toggles
 nmap <leader>tw :set wrap! wrap?<CR>
 " set list-whitespace-chars toggle
@@ -275,6 +278,7 @@ let NERDTreeShowHidden=1              " show dotfiles by default
 " Ctrl-P
 let g:ctrlp_map = ''
 let g:ctrlp_show_hidden = 1
+let g:ctrlp_cache_dir = $HOME.'/.vim/.cache/ctrlp'
 
 " ---------------------------------------------------------------------------
 " Auto Commands / File Types
@@ -289,13 +293,13 @@ augroup vimrc_autocmds
   au Filetype sh,bash set ts=4 sts=4 sw=4 expandtab
   let g:is_bash = 1
   " git commit message
-  au Filetype gitcommit set tw=68  spell spelllang=en_us
+  au Filetype gitcommit set tw=68  spell
   " html variants
   au Filetype html,xml,xsl,rhtml source $HOME/.vim/scripts/closetag.vim
   " don't use cindent for javascript
   au FileType javascript setlocal nocindent
   " use Octopress syntax-highlighting for *.markdown files
-  au BufNewFile,BufRead *.markdown set filetype=octopress  spell spelllang=en_us
+  au BufNewFile,BufRead *.markdown set filetype=octopress  spell
   " in Makefiles, use real tabs not tabs expanded to spaces
   au FileType make setlocal noexpandtab
 augroup END
@@ -306,4 +310,3 @@ augroup END
 
 let g:manpageview_pgm= 'man -P "/usr/bin/less -is"'
 let $MANPAGER = '/usr/bin/less -is'
-

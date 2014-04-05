@@ -181,14 +181,6 @@ vnoremap <Down> gj
 vnoremap <Up> gk
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
-" buffer navigation
-nnoremap <C-n> :bnext<CR>
-nnoremap <C-p> :bprev<CR>
-" easier moving cursor between split-windows
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
 " do not menu with left / right in command line
 cnoremap <Left> <Space><BS><Left>
 cnoremap <Right> <Space><BS><Right>
@@ -196,6 +188,8 @@ cnoremap <Right> <Space><BS><Right>
 " reflow paragraph with Q in normal and visual mode
 nnoremap Q gqap
 vnoremap Q gq
+" remap U to <C-r> for easier redo
+nnoremap U <C-r>
 " make Y consistent with C (c$) and D (d$)
 nnoremap Y y$
 " disable default vim regex handling for searching
@@ -207,16 +201,10 @@ vnoremap > >gv
 
 " <Space> to turn off highlighting and clear any message already displayed.
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
-" <F2> to pastetoggle, to turn-off autoindent when pasting from system clipboard
-nnoremap <F2> :set paste! paste?<CR>
-set pastetoggle=<F2>
 " <F4> to toggle NERDTree
 nnoremap <F4> :NERDTreeToggle<CR>
 " <F5> to toggle Gundo
 nnoremap <F5> :GundoToggle<CR>
-" <F7> to toggle spell-check
-nnoremap <F7> :setlocal spell! spell?<CR>
-inoremap <F7> <C-o>:setlocal spell! spell?<CR>
 
 " leader-based keyboard shortcuts
 let mapleader = ","
@@ -238,13 +226,6 @@ nmap <leader>gp :Gpush<CR>
 nmap <leader>cd :lcd %:h<CR>
 " toggle diffmode for a buffer
 nmap <leader>df :call DiffToggle()<CR>
-function! DiffToggle()
-  if &diff
-    diffoff
-  else
-    diffthis
-  endif
-endfunction
 " quickly edit/reload vimrc
 nmap <leader>ev :edit $MYVIMRC<CR>
 nmap <leader>sv :source $MYVIMRC<CR>
@@ -253,21 +234,54 @@ nmap <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
 " toggle hlsearch
 nmap <leader>hs :set hlsearch! hlsearch?<CR>
 " upper/lower word
-nmap <leader>u mQviwU`Q
-nmap <leader>l mQviwu`Q
+nmap <leader>wu mQviwU`Q
+nmap <leader>wl mQviwu`Q
 " upper/lower first char of word
-nmap <leader>U mQgewvU`Q
-nmap <leader>L mQgewvu`Q
+nmap <leader>wU mQgewvU`Q
+nmap <leader>wL mQgewvu`Q
 " smart paste - enable paste-mode and paste contents of system clipboard
 map <leader>p :set paste<CR>o<esc>"*]p:set nopaste<cr>
 " strip all trailing whitespace in file
-nmap <leader>s :call whitespace#strip_trailing()<CR>
+nmap <leader>sw :call whitespace#strip_trailing()<CR>
 " toggle spell-check
 nmap <leader>sp :setlocal spell! spell?<CR>
 " set text wrapping toggles
 nmap <leader>tw :set wrap! wrap?<CR>
 " set list-whitespace-chars toggle
 nmap <leader>ws :set list! list?<CR>
+
+" --------------------------------------------------------------------------
+" Functions
+" --------------------------------------------------------------------------
+
+" Toggle diff-mode
+function! DiffToggle()
+  if &diff
+    diffoff
+  else
+    diffthis
+  endif
+endfunction
+
+" Make a scratch buffer with all of the leader keybindings.
+" Adapted from http://ctoomey.com/posts/an-incremental-approach-to-vim/
+function! ListLeaders()
+  silent! redir @b
+  silent! nmap <LEADER>
+  silent! redir END
+  silent! new
+  silent! set buftype=nofile
+  silent! set bufhidden=hide
+  silent! setlocal noswapfile
+  silent! put! b
+  silent! g/^s*$/d
+  silent! %s/^.*,//
+  silent! normal ggVg
+  silent! sort
+  silent! let lines = getline(1,"$")
+  silent! normal <esc>
+endfunction
+command! ListLeaders :call ListLeaders()
 
 " ----------------------------------------------------------------------------
 "  Plugin Settings
@@ -285,6 +299,7 @@ let g:ctrlp_cache_dir = $HOME.'/.vim/.cache/ctrlp'
 " ---------------------------------------------------------------------------
 
 augroup vimrc_autocmds
+  " clear auto command group so we don't define it multiple times
   autocmd!
   " jump to last position of buffer when opening (but not for commit messages)
   au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$") |

@@ -2,9 +2,6 @@
 # Checkout and update source for all registered submodules (.gitmodules).
 # Optionally 'git pull' on each submodule to check for updates.
 
-# Change to root directory
-cd $(git rev-parse --show-toplevel)
-
 # Ensure all submodules (and child submodules) are checked-out
 git submodule update --init --recursive
 
@@ -12,7 +9,7 @@ git submodule update --init --recursive
 git submodule sync
 
 if [ "$1" = "pull" ]; then
-    # Fetch & pull any new updates from submodule's origin (but *NOT* any child
-    # submodule updates -- those should come from the submodule proper)
-    git submodule foreach 'git-up origin'
+    # Fetch & pull any new updates from submodule's origin
+    # [http://scribu.net/blog/git-alias-for-updating-submodules.html]
+    git submodule foreach 'git fetch origin --tags; git checkout master; git pull'
 fi

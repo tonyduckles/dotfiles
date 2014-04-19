@@ -97,7 +97,7 @@ set whichwrap+=<,>,h,l,[,] " backspace and cursor keys wrap to
 set shortmess=filtIoO      " shorten messages
 set report=0               " tell us about changes
 set nostartofline          " don't jump to the start of line when scrolling
-set scrolloff=4            " vertcal padding
+set scrolloff=4            " vertical padding
 set sidescroll=40          " side-scrolling increment (for nowrap mode)
 set sidescrolloff=10       " horz padding
 

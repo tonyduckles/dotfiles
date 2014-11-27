@@ -9,9 +9,6 @@ rebase =
 purge =
 remotebranches = $HOME/.mercurial/extensions/hg-remotebranches/hg_remotebranches.py
 prompt = $HOME/.mercurial/extensions/hg-prompt/prompt.py
-hgext.bookmarks =
-hggit =
-hg-svn = $HOME/.mercurial/extensions/hg-svn/hgsubversion
 
 [alias]
 show = log --stat -vpr

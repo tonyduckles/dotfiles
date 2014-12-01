@@ -21,8 +21,8 @@ setenv LANG 'en_US.UTF-8'
 # names and highlighting the current windowname.
 # (http://www.ibm.com/developerworks/aix/library/au-gnu_screen/index.html)
 # (http://superuser.com/questions/212392/how-to-include-screens-session-name-in-hardstatus)
-hardstatus alwayslastline '%{= K}%-w%{+b .KW}%n %t%{-}%+w %=%{..b} %H (%`) '
-backtick 0 30 30 sh -c 'screen -ls | grep --color=no -o "$PPID[^[:space:]]*"'
+hardstatus alwayslastline '%{= K}%-w%{+b .KW}%n %t%{-}%+w %=%{..b} %H '
+#backtick 0 30 30 sh -c 'screen -ls | grep --color=no -o "$PPID[^[:space:]]*"'
 
 # -------------------------------------------------------------------
 # Terminal Emulation Settings
@@ -96,10 +96,11 @@ bind '(' select 19
 # Default Windows
 # -------------------------------------------------------------------
 screen -t sh 0
-screen -t tlg 1
+screen -t dev 1
 screen -t trk 2
 screen -t trkdev 3
 screen -t fnd 4
 screen -t rel 5
 screen -t qacur 6
+screen -t gh 7
 select 0

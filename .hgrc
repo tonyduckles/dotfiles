@@ -7,6 +7,7 @@ graphlog =
 pager =
 rebase =
 purge =
+eol =
 remotebranches = $HOME/.mercurial/extensions/hg-remotebranches/hg_remotebranches.py
 prompt = $HOME/.mercurial/extensions/hg-prompt/prompt.py
 
@@ -19,6 +20,9 @@ graph = glog --style=$HOME/.mercurial/styles/oneline
 pager = LESS='-FiRX' less
 ignore = version, update
 attend = annotate, cat, diff, export, glog, graph, help, incoming, ll, log, outgoing, show, status
+
+[eol]
+native = CRLF
 
 [color]
 status.modified = green bold

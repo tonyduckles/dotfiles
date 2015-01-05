@@ -241,6 +241,8 @@ nmap <leader>wU mQgewvU`Q
 nmap <leader>wL mQgewvu`Q
 " smart paste - enable paste-mode and paste contents of system clipboard
 map <leader>p :set paste<CR>o<esc>"*]p:set nopaste<cr>
+" redraw screen
+nmap <leader>r :redraw!<CR>
 " strip all trailing whitespace in file
 nmap <leader>sw :call whitespace#strip_trailing()<CR>
 " toggle spell-check

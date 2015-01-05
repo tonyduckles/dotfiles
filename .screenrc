@@ -24,6 +24,10 @@ setenv LANG 'en_US.UTF-8'
 hardstatus alwayslastline '%{= K}%-w%{+b .KW}%n %t%{-}%+w %=%{..b} %H '
 #backtick 0 30 30 sh -c 'screen -ls | grep --color=no -o "$PPID[^[:space:]]*"'
 
+# auto-log
+logfile $HOME/.screen/logs/screen_%H_%Y%m%d_%0C:%s_%n.log
+deflog on
+
 # -------------------------------------------------------------------
 # Terminal Emulation Settings
 # -------------------------------------------------------------------
@@ -102,5 +106,5 @@ screen -t trkdev 3
 screen -t fnd 4
 screen -t rel 5
 screen -t qacur 6
-screen -t gh 7
+screen -t clor 7
 select 0

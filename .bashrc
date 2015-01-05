@@ -36,15 +36,13 @@ esac
 #  SHELL OPTIONS
 # ----------------------------------------------------------------------
 
-# bring in system bashrc
-test -r /etc/bashrc &&
-    . /etc/bashrc
-
 # notify of bg job completion immediately
 set -o notify
 
 # shell opts. see bash(1) for details
 shopt -s cdspell >/dev/null 2>&1
+shopt -s checkjobs >/dev/null 2>&1
+shopt -s checkwinsize >/dev/null 2>&1
 shopt -s extglob >/dev/null 2>&1
 shopt -s histappend >/dev/null 2>&1
 shopt -s hostcomplete >/dev/null 2>&1

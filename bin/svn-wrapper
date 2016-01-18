@@ -2,7 +2,14 @@
 # Wrapper script around SVN to support using $PAGER and other handy tools.
 
 : ${PAGER=missing}
+: ${UNAME=`uname`}
 export PAGER
+SED=sed
+# for Solaris, use GNU versions of core utils
+if [ "$UNAME" = SunOS ]; then
+    test -x /usr/gnu/bin/sed  && SED="/usr/gnu/bin/sed"
+    test -x /usr/xpg4/bin/sed  && SED="/usr/xpg4/bin/sed"
+fi
 
 set_colors()
 {
@@ -131,7 +138,7 @@ case $1 in
     exec svn "$@" | $PAGER
     ;;
   status|stat|st)
-    exec svn "$@" | sed "$sed_svn_st_color" | $PAGER
+    exec svn "$@" | $SED "$sed_svn_st_color" | $PAGER
     ;;
   *)
     exec svn "$@"

@@ -278,6 +278,8 @@ if [ "$UNAME" = SunOS ]; then
     test -x /usr/gnu/bin/grep && alias grep="/usr/gnu/bin/grep"
     test -x /usr/gnu/bin/sed  && alias sed="/usr/gnu/bin/sed"
     test -x /usr/gnu/bin/awk  && alias awk="/usr/gnu/bin/awk"
+    test -x /usr/xpg4/bin/sed  && alias sed="/usr/xpg4/bin/sed"
+    test -x /usr/xpg4/bin/awk  && alias awk="/usr/xpg4/bin/awk"
 fi
 
 # alias csh-style "rebash" to bash equivalent

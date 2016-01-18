@@ -83,6 +83,12 @@ test -d "$HOME/bin" &&
 test -d "$HOME/sbin" &&
     PATH="$HOME/sbin:$PATH"
 
+# setup $GOPATH
+test -d "/usr/local/share/golang" &&
+    export GOPATH=/usr/local/share/golang
+test -n "$GOPATH" &&
+    PATH="$PATH:$GOPATH/bin"
+
 # ----------------------------------------------------------------------
 # ENVIRONMENT CONFIGURATION
 # ----------------------------------------------------------------------

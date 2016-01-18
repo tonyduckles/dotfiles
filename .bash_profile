@@ -12,7 +12,8 @@ fi
 
 # keychain
 keychain=$(type -P keychain)
-test -n "$keychain" && {
+test -n "$keychain" && \
+  test -z "$SUDO_USER" && {
   if [ -f ~/.ssh/id_rsa ]; then
     eval `$keychain -q ~/.ssh/id_rsa`
     source ~/.keychain/`hostname`-sh > /dev/null

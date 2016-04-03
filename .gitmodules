@@ -40,7 +40,7 @@
 	ignore = dirty
 [submodule ".vim/bundle/powerline"]
 	path = .vim/bundle/powerline
-	url = ssh://tduckles@nynim.org/home/tduckles/git/vim-powerline.git
+	url = ssh://tony@nynim.org/data/repo/git/vim-powerline.git
 	ignore = dirty
 [submodule ".vim/bundle/unimpaired"]
 	path = .vim/bundle/unimpaired

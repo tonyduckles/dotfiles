@@ -62,31 +62,29 @@ umask 0022
 # PATH
 # ----------------------------------------------------------------------
 
-# we want the various sbin's on the path along with /usr/local/bin
+# include the various sbin's along with /usr/local/bin
 PATH="$PATH:/usr/local/sbin:/usr/sbin:/sbin"
 PATH="/usr/local/bin:$PATH"
 
-# put /opt/csw/* on PATH if exists (OpenCSW Solaris packages)
-test -d "/opt/csw" &&
-    PATH="/opt/csw/sbin:/opt/csw/bin:$PATH"
+# use $HOME specific bin and sbin
+test -d "$HOME/bin" && PATH="$HOME/bin:$PATH"
+test -d "$HOME/sbin" && PATH="$HOME/sbin:$PATH"
 
-# ~/.rvm/bin on PATH if exists (RVM)
-test -d "$HOME/.rvm/bin" &&
-    PATH="$PATH:$HOME/.rvm/bin"
+# SmartOS pkgin
+test -d "/opt/local" && PATH="/opt/local/sbin:/opt/local/bin:$PATH"
+# SmartOS local files
+test -d "/opt/custom" && PATH="/opt/custom/sbin:/opt/custom/bin:$PATH"
+# SmartOS SDC
+test -d "/smartdc" && PATH="/smartdc/bin:/opt/smartdc/bin:/opt/smartdc/agents/bin:$PATH"
+# SmartOS native binaries, for OS/LX zones
+test -d "/native" && PATH="$PATH:/native/sbin:/native/bin"
 
-# put ~/bin on PATH if exists
-test -d "$HOME/bin" &&
-    PATH="$HOME/bin:$PATH"
-
-# put ~/sbin on PATH if exists
-test -d "$HOME/sbin" &&
-    PATH="$HOME/sbin:$PATH"
+# RVM
+test -d "$HOME/.rvm/bin" && PATH="$PATH:$HOME/.rvm/bin"
 
 # setup $GOPATH
-test -d "/usr/local/share/golang" &&
-    export GOPATH=/usr/local/share/golang
-test -n "$GOPATH" &&
-    PATH="$PATH:$GOPATH/bin"
+test -d "/usr/local/share/golang" && export GOPATH=/usr/local/share/golang
+test -n "$GOPATH" && PATH="$PATH:$GOPATH/bin"
 
 # ----------------------------------------------------------------------
 # ENVIRONMENT CONFIGURATION
@@ -229,6 +227,20 @@ if [ "$UNAME" = Darwin ]; then
 fi
 
 # ----------------------------------------------------------------------
+# SOLARIS SPECIFIC
+# ----------------------------------------------------------------------
+
+if [ "$UNAME" = SunOS ]; then
+    # use GNU versions of core utils
+    test -x /usr/gnu/bin/grep && alias grep="/usr/gnu/bin/grep"
+    test -x /usr/gnu/bin/sed  && alias sed="/usr/gnu/bin/sed"
+    test -x /usr/gnu/bin/awk  && alias awk="/usr/gnu/bin/awk"
+
+    # setup MANPATH
+    MANPATH="/usr/share/man:/smartdc/man:/opt/smartdc/man:/opt/local/man:/opt/custom/man:$MANPATH"
+fi
+
+# ----------------------------------------------------------------------
 # ALIASES / FUNCTIONS
 # ----------------------------------------------------------------------
 
@@ -253,13 +265,6 @@ alias du1='du -h --max-depth=1'
 alias fn='find . -name'
 alias hi='history | tail -20'
 
-# for Solaris, use GNU versions of core utils
-if [ "$UNAME" = SunOS ]; then
-    test -x /usr/gnu/bin/grep && alias grep="/usr/gnu/bin/grep"
-    test -x /usr/gnu/bin/sed  && alias sed="/usr/gnu/bin/sed"
-    test -x /usr/gnu/bin/awk  && alias awk="/usr/gnu/bin/awk"
-fi
-
 # alias csh-style "rebash" to bash equivalent
 alias rehash="hash -r"
 
@@ -282,7 +287,8 @@ test -z "$BASH_COMPLETION" && {
         for f in /usr/local/etc/bash_completion \
                  /usr/pkg/etc/bash_completion \
                  /opt/local/etc/bash_completion \
-                 /etc/bash_completion
+                 /etc/bash_completion \
+                 /etc/bash/bash_completion
         do
             test -f $f && {
                 . $f
@@ -292,6 +298,12 @@ test -z "$BASH_COMPLETION" && {
     }
     unset bash bmajor bminor
 }
+
+# restore some key environment variables which may have been unset
+# by bash_completion script
+: ${HOME=~}
+: ${LOGNAME=$(id -un)}
+: ${UNAME=$(uname)}
 
 # override and disable tilde expansion
 _expand() {
@@ -328,8 +340,8 @@ test -n "$LS_COMMON" &&
 if [ -n "$COLORS" ]; then
     case "$UNAME" in
         "SunOS")
-            # for Solaris, use the GNU version of grep for color support
             test -x /usr/gnu/bin/grep && alias grep="/usr/gnu/bin/grep --color=always"
+            test -x /opt/local/bin/grep && alias grep="/opt/local/bin/grep --color=always"
             ;;
         *)
             alias grep="command grep --color=always"

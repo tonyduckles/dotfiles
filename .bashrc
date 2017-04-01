@@ -77,7 +77,7 @@ test -d "/opt/custom" && PATH="/opt/custom/sbin:/opt/custom/bin:$PATH"
 # SmartOS SDC
 test -d "/smartdc" && PATH="/smartdc/bin:/opt/smartdc/bin:/opt/smartdc/agents/bin:$PATH"
 # SmartOS native binaries, for OS/LX zones
-test -d "/native" && PATH="$PATH:/native/sbin:/native/bin"
+test -d "/native" && PATH="$PATH:/native/usr/sbin:/native/usr/bin:/native/sbin:/native/bin"
 
 # RVM
 test -d "$HOME/.rvm/bin" && PATH="$PATH:$HOME/.rvm/bin"

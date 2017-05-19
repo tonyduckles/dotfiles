@@ -126,6 +126,7 @@ set statusline+=%{strlen(&fenc)?&fenc:&enc},%{&ff}\ %y  " file-encoding, format,
 set statusline+=\ %12.(%v,%l/%L%)\ \ %-4P  " cursor position, % through file of viewport
 
 let g:airline_theme='solarized16'
+let g:airline_symbols_ascii = 1  " use plain ascii symbols
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif

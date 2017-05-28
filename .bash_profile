@@ -20,8 +20,3 @@ test -n "$keychain" && \
   fi
 }
 unset keychain
-
-# rbenv
-rbenv=$(type -P rbenv)
-test -n "$rbenv" && eval "$(rbenv init -)"
-unset rbenv

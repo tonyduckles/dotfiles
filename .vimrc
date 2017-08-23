@@ -268,6 +268,8 @@ nmap <leader>sp :setlocal spell! spell?<CR>
 nmap <leader>tw :set wrap! wrap?<CR>
 " set list-whitespace-chars toggle
 nmap <leader>ws :set list! list?<CR>
+" open tag definition in a horz split
+nmap <leader>tag :split <CR>:exec("tag ".expand("<cword>"))<CR>
 
 " --------------------------------------------------------------------------
 " Functions

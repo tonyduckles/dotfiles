@@ -314,6 +314,7 @@ let NERDTreeShowHidden=1              " show dotfiles by default
 let g:ctrlp_map = ''
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_cache_dir = $HOME.'/.vim/.cache/ctrlp'
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
 
 " ---------------------------------------------------------------------------
 " Auto Commands / File Types

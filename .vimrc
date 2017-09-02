@@ -220,10 +220,6 @@ vnoremap > >gv
 
 " <Space> to turn off highlighting and clear any message already displayed.
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
-" <F4> to toggle NERDTree
-nnoremap <F4> :NERDTreeToggle<CR>
-" <F5> to toggle Gundo
-nnoremap <F5> :GundoToggle<CR>
 
 " leader-based keyboard shortcuts
 let mapleader = ","
@@ -234,6 +230,8 @@ nmap <leader>O :CtrlPClearCache<CR>:CtrlP<CR>
 " NERDTree
 nmap <leader>d :NERDTreeToggle<CR>
 nmap <leader>f :NERDTreeFind<CR>
+" Gundo
+nmap <leader>u :GundoToggle<CR>
 " Fugitive (Git)
 nmap <leader>gb :Gblame<CR>
 nmap <leader>gs :Gstatus<CR>
@@ -310,6 +308,7 @@ command! ListLeaders :call ListLeaders()
 
 " NERDTree
 let NERDTreeShowHidden=1              " show dotfiles by default
+let NERDTreeMinimalUI=1               " disable 'Press ? for help' text
 " Ctrl-P
 let g:ctrlp_map = ''
 let g:ctrlp_show_hidden = 1

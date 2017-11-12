@@ -50,3 +50,7 @@
 	path = .vim/bundle/airline-themes
 	url = https://github.com/vim-airline/vim-airline-themes.git
 	ignore = dirty
+[submodule ".vim/bundle/fetch"]
+	path = .vim/bundle/fetch
+	url = https://github.com/kopischke/vim-fetch.git
+	ignore = dirty

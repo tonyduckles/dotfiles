@@ -63,10 +63,12 @@ endif
 highlight Comment                                    ctermfg=DarkGrey                    guifg=#425257
 " visual block
 highlight Visual          term=reverse cterm=reverse ctermfg=DarkGreen ctermbg=White     guifg=#4d830a guibg=#fdf6e3
-" statusline (active vs inactive)
-highlight StatusLine      term=reverse cterm=reverse ctermfg=Black     ctermbg=Grey      guifg=#073642 guibg=#93A1A1
-highlight StatusLineNC    term=reverse cterm=reverse ctermfg=Black     ctermbg=DarkGrey  guifg=#073642 guibg=#37555c
-highlight User1           term=reverse cterm=reverse ctermfg=Black     ctermbg=DarkGreen guifg=#4d830a guibg=#073642
+"" statusline (active vs inactive)
+if !exists(':AirlineTheme')
+  highlight StatusLine      term=reverse cterm=reverse ctermfg=Black     ctermbg=Grey      guifg=#073642 guibg=#93A1A1
+  highlight StatusLineNC    term=reverse cterm=reverse ctermfg=Black     ctermbg=DarkGrey  guifg=#073642 guibg=#37555c
+  highlight User1           term=reverse cterm=reverse ctermfg=Black     ctermbg=DarkGreen guifg=#4d830a guibg=#073642
+endif
 " unprintable chars (listchars)
 highlight SpecialKey                                 ctermfg=DarkGray  ctermbg=Black     guifg=#374549 guibg=#06313c
 
@@ -119,11 +121,13 @@ set list listchars=trail:·,tab:▸\ ,precedes:<,extends:>  " show trailing whit
 " Status Line
 " ----------------------------------------------------------------------------
 
-set statusline=%1*\ %n%0*\ %<%f  " buffer #, filename
-set statusline+=\ %h%m%r   " file-state flags
-set statusline+=%=         " left-right divider
-set statusline+=%{strlen(&fenc)?&fenc:&enc},%{&ff}\ %y  " file-encoding, format, type
-set statusline+=\ %12.(%v,%l/%L%)\ \ %-4P  " cursor position, % through file of viewport
+if !exists(':AirlineTheme')
+  set statusline=%1*\ %n%0*\ %<%f  " buffer #, filename
+  set statusline+=\ %h%m%r   " file-state flags
+  set statusline+=%=         " left-right divider
+  set statusline+=%{strlen(&fenc)?&fenc:&enc},%{&ff}\ %y  " file-encoding, format, type
+  set statusline+=\ %12.(%v,%l/%L%)\ \ %-4P  " cursor position, % through file of viewport
+endif
 
 let g:airline_theme='solarized16'
 let g:airline_mode_map = {
@@ -139,13 +143,15 @@ let g:airline_mode_map = {
   \ 'S'  : 'S',
   \ '' : 'S',
   \ }
-let g:airline_symbols_ascii = 1  " use plain ascii symbols
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-let g:airline_symbols.branch = 'BR:'
+if has("gui_running") || filereadable(expand("~/.vim/bundle/airline/.powerline_fonts_enabled"))
+  let g:airline_powerline_fonts = 1  " use powerline font symbols
+else
+  let g:airline_symbols_ascii = 1  " use plain ascii symbols
+  let g:airline_symbols.branch = 'BR:'
+endif
 let g:airline_symbols.linenr = ''
 let g:airline_symbols.maxlinenr = ''
 

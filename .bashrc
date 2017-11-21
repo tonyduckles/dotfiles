@@ -269,8 +269,12 @@ alias hi='history | tail -20'
 alias rehash="hash -r"
 
 # set 'screen' window title
-settitle() {
+settitle_screen() {
     printf "\033k%s\033\\" "$@"
+}
+# set 'xterm' window title
+settitle_window() {
+    printf "\033]0;%s\007" "$@"
 }
 
 # svn-wrapper

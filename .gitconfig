@@ -22,7 +22,8 @@
 	# Diff helpers
 	df           = diff --patience
 	dfc          = diff --patience --cached
-	dfw          = diff --patience --word-diff=plain
+	dfw          = diff --patience --word-diff=color
+	dfcw         = diff --patience --cached --word-diff=color
 	# Searching
 	ls           = ls-files
 	ack          = !git-ack

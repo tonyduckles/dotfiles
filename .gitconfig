@@ -20,10 +20,10 @@
 	bv           = !git branch --color -vv
 	cv           = !git-cherry-view
 	# Diff helpers
-	df           = diff --patience
-	dfc          = diff --patience --cached
-	dfw          = diff --patience --word-diff=color
-	dfcw         = diff --patience --cached --word-diff=color
+	df           = diff
+	dfc          = diff --cached
+	dfw          = diff --word-diff=color
+	dfcw         = diff --cached --word-diff=color
 	# Searching
 	ls           = ls-files
 	ack          = !git-ack
@@ -34,6 +34,7 @@
 	root         = rev-parse --show-toplevel
 	who          = shortlog -s --
 	fp           = format-patch --stdout
+	patch        = !git --no-pager diff --no-color
 
 [core]
 	filemode = true
@@ -43,6 +44,7 @@
 
 [diff]
 	renames = copies
+	algorithm  = patience
 
 [sendemail]
 	smtpserver = smtp.gmail.com
@@ -73,6 +75,12 @@
 	added = yellow
 	changed = green bold
 	untracked = blue bold
+
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
 
 [push]
 	default = matching

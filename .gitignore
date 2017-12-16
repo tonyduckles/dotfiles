@@ -3,5 +3,6 @@
 .lesshst
 .ssh/
 .viminfo
+.vim/.cache/
 .vim/spell/
 .vim/plugged/

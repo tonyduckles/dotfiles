@@ -4,3 +4,4 @@
 .ssh/
 .viminfo
 .vim/spell/
+.vim/plugged/

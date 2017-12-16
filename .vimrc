@@ -12,12 +12,33 @@ set modeline                          " make sure modeline support is enabled
 set autoread                          " reload files (no local changes only)
 
 " ---------------------------------------------------------------------------
-"  Pathogen Init (Bundles)
+"  Plugins
 " ---------------------------------------------------------------------------
-filetype off
-call pathogen#infect()
-call pathogen#helptags()
-filetype plugin indent on             " enable plugins, detection and indenting in one step
+
+call plug#begin('~/.vim/plugged')
+Plug 'altercation/vim-colors-solarized'
+Plug 'kien/ctrlp.vim'
+Plug 'kopischke/vim-fetch'
+Plug 'mileszs/ack.vim'
+Plug 'sjl/gundo.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'tangledhelix/vim-octopress'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-git'
+Plug 'tpope/vim-scriptease'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug '~/.vim/bundle/matchit'
+Plug '~/.vim/bundle/mumps'
+Plug '~/.vim/bundle/whitespace'
+call plug#end()
+
+" Automatic install
+if empty(glob('~/.vim/plugged'))
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
 " ---------------------------------------------------------------------------
 " Colors / Theme

@@ -41,27 +41,44 @@ if empty(glob('~/.vim/plugged'))
 endif
 
 " ---------------------------------------------------------------------------
+" Terminal Settings
+" ---------------------------------------------------------------------------
+
+if !has("gui_running") && !(&term =~ '256color')
+  if has("terminfo") && ! (&term == 'linux' || &term == 'Eterm' || &term == 'vt220' || &term == 'nsterm-16color' || &term == 'xterm-16color')
+    " Force these terminals to accept my authority! (default)
+    set t_Co=16
+    set t_AB=[%?%p1%{8}%<%t%p1%{40}%+%e%p1%{92}%+%;%dm  " ANSI background
+    set t_AF=[%?%p1%{8}%<%t%p1%{30}%+%e%p1%{82}%+%;%dm  " ANSI foreground
+  elseif &term == 'term' || &term == 'rxvt' || &term == 'vt100' || &term == 'screen'
+    " Less-Cool Terminals (no terminfo)
+    set t_Co=16
+    set t_AB=[%?%p1%{8}%<%t4%p1%d%e%p1%{32}%+%d;1%;m
+    set t_AF=[%?%p1%{8}%<%t3%p1%d%e%p1%{22}%+%d;1%;m
+  else
+    " Terminals that have trustworthy terminfo entries
+    if &term == 'vt220'
+      set t_Co=8
+      set t_Sf=[3%dm  " foreground
+      set t_Sb=[4%dm  " background
+    elseif $TERM == 'xterm'
+      set term=xterm-color
+    endif
+  endif
+endif
+
+" ---------------------------------------------------------------------------
 " Colors / Theme
 " ---------------------------------------------------------------------------
 
 if &t_Co > 2 || has("gui_running")
-  if has("terminfo")
-    set t_Co=16
-    set t_AB=[%?%p1%{8}%<%t%p1%{40}%+%e%p1%{92}%+%;%dm
-    set t_AF=[%?%p1%{8}%<%t%p1%{30}%+%e%p1%{82}%+%;%dm
-  else
-    set t_Co=16
-    set t_Sf=[3%dm
-    set t_Sb=[4%dm
-  endif
-
   set background=dark                 " dark background
   syntax enable                       " syntax highligting
 
   " Define to-do color(s)
   if !exists("autocmd_colorscheme_loaded")
     let autocmd_colorscheme_loaded = 1
-    autocmd ColorScheme * highlight TodoRed ctermbg=LightRed guibg=#E01B1B ctermfg=White guifg=#002b37
+    autocmd ColorScheme * highlight TodoRed ctermbg=Red guibg=#E01B1B ctermfg=White guifg=#002b37
   endif
 
   " Solarized color-scheme
@@ -84,14 +101,14 @@ endif
 highlight Comment                                    ctermfg=DarkGrey                    guifg=#425257
 " visual block
 highlight Visual          term=reverse cterm=reverse ctermfg=DarkGreen ctermbg=White     guifg=#4d830a guibg=#fdf6e3
-"" statusline (active vs inactive)
+" statusline (active vs inactive)
 if !exists(':AirlineTheme')
-  highlight StatusLine      term=reverse cterm=reverse ctermfg=Black     ctermbg=Grey      guifg=#073642 guibg=#93A1A1
-  highlight StatusLineNC    term=reverse cterm=reverse ctermfg=Black     ctermbg=DarkGrey  guifg=#073642 guibg=#37555c
-  highlight User1           term=reverse cterm=reverse ctermfg=Black     ctermbg=DarkGreen guifg=#4d830a guibg=#073642
+  highlight StatusLine    term=reverse cterm=reverse ctermfg=Black     ctermbg=Grey      guifg=#073642 guibg=#93A1A1
+  highlight StatusLineNC  term=reverse cterm=reverse ctermfg=Black     ctermbg=DarkGrey  guifg=#073642 guibg=#37555c
+  highlight User1         term=reverse cterm=reverse ctermfg=Black     ctermbg=DarkGreen guifg=#4d830a guibg=#073642
 endif
 " unprintable chars (listchars)
-highlight SpecialKey                                 ctermfg=DarkGray  ctermbg=Black     guifg=#374549 guibg=#06313c
+highlight SpecialKey                                 ctermfg=DarkGrey  ctermbg=Black     guifg=#374549 guibg=#06313c
 
 " ----------------------------------------------------------------------------
 "  Backups

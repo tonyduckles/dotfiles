@@ -75,22 +75,9 @@ if &t_Co > 2 || has("gui_running")
   set background=dark                 " dark background
   syntax enable                       " syntax highligting
 
-  " Define to-do color(s)
-  if !exists("autocmd_colorscheme_loaded")
-    let autocmd_colorscheme_loaded = 1
-    autocmd ColorScheme * highlight TodoRed ctermbg=Red guibg=#E01B1B ctermfg=White guifg=#002b37
-  endif
-
   " Solarized color-scheme
   let g:solarized_termtrans=1  " Always use terminal's default bg color
   colorscheme solarized
-
-  " Auto-highlight TODO's
-  if has("autocmd")
-    if v:version > 701
-      autocmd Syntax * call matchadd('TodoRed',  '\W\zs\(TODO\)')
-    endif
-  endif
 endif
 
 " ---------------------------------------------------------------------------
@@ -109,6 +96,8 @@ if !exists(':AirlineTheme')
 endif
 " unprintable chars (listchars)
 highlight SpecialKey                                 ctermfg=DarkGrey  ctermbg=Black     guifg=#374549 guibg=#06313c
+" To-do comments
+highlight Todo                                       ctermfg=White     ctermbg=Red       guifg=#f2f2f2 guibg=#dc322f
 
 " ----------------------------------------------------------------------------
 "  Backups

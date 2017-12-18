@@ -2,7 +2,8 @@
 .keychain/
 .lesshst
 .ssh/
-.viminfo
 .vim/.cache/
-.vim/spell/
 .vim/plugged/
+.vim/spell/
+.viminfo
+.vimrc.local

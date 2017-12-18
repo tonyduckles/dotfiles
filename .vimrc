@@ -390,3 +390,11 @@ augroup END
 
 let g:manpageview_pgm= 'man -P "/usr/bin/less -is"'
 let $MANPAGER = '/usr/bin/less -is'
+
+" --------------------------------------------------------------------------
+" Local Settings
+" --------------------------------------------------------------------------
+
+if filereadable(glob("~/.vimrc.local"))
+  source ~/.vimrc.local
+endif

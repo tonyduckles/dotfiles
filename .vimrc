@@ -175,7 +175,7 @@ let g:airline_mode_map = {
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
-if has("gui_running") || filereadable(expand("~/.vim/bundle/airline/.powerline_fonts_enabled"))
+if has("gui_running")
   let g:airline_powerline_fonts = 1  " use powerline font symbols
 else
   let g:airline_symbols_ascii = 1  " use plain ascii symbols

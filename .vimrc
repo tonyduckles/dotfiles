@@ -78,6 +78,9 @@ if &t_Co > 2 || has("gui_running")
   " Solarized color-scheme
   let g:solarized_termtrans=1  " Always use terminal's default bg color
   colorscheme solarized
+  " Airline solarized theme
+  let g:airline_theme='solarized16'
+  let g:solarized16_termcolors=16
 endif
 
 " ---------------------------------------------------------------------------
@@ -156,7 +159,6 @@ if !exists(':AirlineTheme')
   set statusline+=\ %12.(%v,%l/%L%)\ \ %-4P  " cursor position, % through file of viewport
 endif
 
-let g:airline_theme='solarized16'
 let g:airline_mode_map = {
   \ '__' : '-',
   \ 'n'  : 'N',

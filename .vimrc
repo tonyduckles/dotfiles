@@ -75,12 +75,10 @@ if &t_Co > 2 || has("gui_running")
   set background=dark                 " dark background
   syntax enable                       " syntax highligting
 
-  " Solarized color-scheme
-  let g:solarized_termtrans=1  " Always use terminal's default bg color
+  let g:solarized_termtrans=1         " always use terminal's default bg color
   colorscheme solarized
-  " Airline solarized theme
-  let g:airline_theme='solarized16'
-  let g:solarized16_termcolors=16
+  let g:airline_theme='solarized16'   " vim-airline theme
+  let g:solarized16_termcolors=16     " always use 16 colors for 'solarized16' vim-airline theme
 endif
 
 " ---------------------------------------------------------------------------

@@ -76,6 +76,9 @@ if &t_Co > 2 || has("gui_running")
   syntax enable                       " syntax highligting
 
   let g:solarized_termtrans=1         " always use terminal's default bg color
+  if &t_Co == 256
+    let g:solarized_termcolors=256    " use 256 colors for solarized
+  endif
   colorscheme solarized
   let g:airline_theme='solarized16'   " vim-airline theme
   let g:solarized16_termcolors=16     " always use 16 colors for 'solarized16' vim-airline theme

@@ -439,6 +439,10 @@ MANPATH=$(puniq "$MANPATH")
 test -n "$PS1" &&
     prompt_color
 
+# fzf
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules,*.swp,.venv}/*" 2> /dev/null'
+export FZF_DEFAULT_OPTS='--bind J:down,K:up --reverse --ansi --multi'
+
 # -------------------------------------------------------------------
 # MOTD / FORTUNE
 # -------------------------------------------------------------------

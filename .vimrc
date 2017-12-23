@@ -88,21 +88,15 @@ endif
 " ---------------------------------------------------------------------------
 
 " always use terminal's default bg color
-highlight Normal                                                       ctermbg=None
+highlight Normal ctermbg=None
 " comments
-highlight Comment                                    ctermfg=DarkGrey                    guifg=#425257
+highlight Comment ctermfg=DarkGrey
 " visual block
-highlight Visual          term=reverse cterm=reverse ctermfg=DarkGreen ctermbg=White     guifg=#4d830a guibg=#fdf6e3
-" statusline (active vs inactive)
-if !exists(':AirlineTheme')
-  highlight StatusLine    term=reverse cterm=reverse ctermfg=Black     ctermbg=Grey      guifg=#073642 guibg=#93A1A1
-  highlight StatusLineNC  term=reverse cterm=reverse ctermfg=Black     ctermbg=DarkGrey  guifg=#073642 guibg=#37555c
-  highlight User1         term=reverse cterm=reverse ctermfg=Black     ctermbg=DarkGreen guifg=#4d830a guibg=#073642
+highlight Visual term=reverse cterm=reverse ctermfg=DarkGreen ctermbg=White
+if &t_Co < 256 && !has("gui_running")
+  " unprintable chars (listchars)
+  highlight SpecialKey ctermfg=DarkGrey ctermbg=Black
 endif
-" unprintable chars (listchars)
-highlight SpecialKey                                 ctermfg=DarkGrey  ctermbg=Black     guifg=#374549 guibg=#06313c
-" to-do comments
-highlight Todo                                       ctermfg=White     ctermbg=Red       guifg=#f2f2f2 guibg=#dc322f
 
 " ----------------------------------------------------------------------------
 "  Backups

@@ -75,7 +75,6 @@ if &t_Co > 2 || has("gui_running")
   set background=dark                 " dark background
   syntax enable                       " syntax highligting
 
-  let g:solarized_termtrans=1         " always use terminal's default bg color
   if &t_Co == 256
     let g:solarized_termcolors=256    " use 256 colors for solarized
   endif
@@ -88,6 +87,8 @@ endif
 "  Highlight (Colors)
 " ---------------------------------------------------------------------------
 
+" always use terminal's default bg color
+highlight Normal                                                       ctermbg=None
 " comments
 highlight Comment                                    ctermfg=DarkGrey                    guifg=#425257
 " visual block
@@ -100,7 +101,7 @@ if !exists(':AirlineTheme')
 endif
 " unprintable chars (listchars)
 highlight SpecialKey                                 ctermfg=DarkGrey  ctermbg=Black     guifg=#374549 guibg=#06313c
-" To-do comments
+" to-do comments
 highlight Todo                                       ctermfg=White     ctermbg=Red       guifg=#f2f2f2 guibg=#dc322f
 
 " ----------------------------------------------------------------------------

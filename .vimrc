@@ -115,10 +115,9 @@ if &t_Co > 2 || has("gui_running")
   set background=dark                 " dark background
   syntax enable                       " syntax highligting
 
-  if &t_Co == 256
-    let g:solarized_termcolors=256    " use 256 colors for solarized
-  endif
+  let g:solarized_termcolors=&t_Co    " use 256 colors for solarized
   colorscheme solarized
+
   let g:airline_theme='solarized16'   " vim-airline theme
   let g:solarized16_termcolors=16     " always use 16 colors for 'solarized16' vim-airline theme
 endif
@@ -127,15 +126,21 @@ endif
 "  Highlight (Colors)
 " ---------------------------------------------------------------------------
 
-" always use terminal's default bg color
-highlight Normal ctermbg=None
-" comments
-highlight Comment ctermfg=DarkGrey
-" visual block
-highlight Visual term=reverse cterm=reverse ctermfg=DarkGreen ctermbg=White
-if &t_Co < 256 && !has("gui_running")
-  " unprintable chars (listchars)
-  highlight SpecialKey ctermfg=DarkGrey ctermbg=Black
+if !has("gui_running")
+  " always use terminal's default bg color, override solarized Normal ctermfg
+  highlight Normal ctermbg=None ctermfg=None
+  " override solarized Comment ctermfg
+  if &t_Co == 256
+    highlight Comment ctermfg=241
+  else
+    highlight Comment ctermfg=DarkGrey
+  endif
+  " visual block
+  highlight Visual term=reverse cterm=reverse ctermfg=DarkGreen ctermbg=White
+  if &t_Co < 256
+    " unprintable chars (listchars)
+    highlight SpecialKey ctermfg=DarkGrey ctermbg=Black
+  endif
 endif
 
 " ----------------------------------------------------------------------------

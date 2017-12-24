@@ -363,8 +363,6 @@ augroup vimrc_autocmds
   let g:is_bash = 1
   " git commit message
   au Filetype gitcommit set tw=68  spell
-  " html variants
-  au Filetype html,xml,xsl,rhtml source $HOME/.vim/scripts/closetag.vim
   " don't use cindent for javascript
   au FileType javascript setlocal nocindent
   " use Octopress syntax-highlighting for *.markdown files

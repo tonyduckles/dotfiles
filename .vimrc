@@ -40,6 +40,46 @@ if empty(glob('~/.vim/plugged'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+" ----------------------------------------------------------------------------
+"  Plugin Settings
+" ----------------------------------------------------------------------------
+
+" NERDTree
+let NERDTreeShowHidden=1              " show dotfiles by default
+let NERDTreeMinimalUI=1               " disable 'Press ? for help' text
+
+" Ctrl-P
+let g:ctrlp_map = ''
+let g:ctrlp_show_hidden = 1
+let g:ctrlp_cache_dir = $HOME.'/.vim/.cache/ctrlp'
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+
+" Airline
+let g:airline_mode_map = {
+  \ '__' : '-',
+  \ 'n'  : 'N',
+  \ 'i'  : 'I',
+  \ 'R'  : 'R',
+  \ 'c'  : 'C',
+  \ 'v'  : 'V',
+  \ 'V'  : 'V',
+  \ '' : 'V',
+  \ 's'  : 'S',
+  \ 'S'  : 'S',
+  \ '' : 'S',
+  \ }
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+if has("gui_running")
+  let g:airline_powerline_fonts = 1  " use powerline font symbols
+else
+  let g:airline_symbols_ascii = 1  " use plain ascii symbols
+  let g:airline_symbols.branch = 'BR:'
+endif
+let g:airline_symbols.linenr = ''
+let g:airline_symbols.maxlinenr = ''
+
 " ---------------------------------------------------------------------------
 " Terminal Settings
 " ---------------------------------------------------------------------------
@@ -128,6 +168,9 @@ set nostartofline          " don't jump to the start of line when scrolling
 set scrolloff=4            " vertical padding
 set sidescroll=40          " side-scrolling increment (for nowrap mode)
 set sidescrolloff=10       " horz padding
+if version >= 700
+  set tabpagemax=50        " open 50 tabs max
+endif
 
 " ----------------------------------------------------------------------------
 " Visual Cues
@@ -155,31 +198,6 @@ if !exists(':AirlineTheme')
   set statusline+=\ %12.(%v,%l/%L%)\ \ %-4P  " cursor position, % through file of viewport
 endif
 
-let g:airline_mode_map = {
-  \ '__' : '-',
-  \ 'n'  : 'N',
-  \ 'i'  : 'I',
-  \ 'R'  : 'R',
-  \ 'c'  : 'C',
-  \ 'v'  : 'V',
-  \ 'V'  : 'V',
-  \ '' : 'V',
-  \ 's'  : 'S',
-  \ 'S'  : 'S',
-  \ '' : 'S',
-  \ }
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-if has("gui_running")
-  let g:airline_powerline_fonts = 1  " use powerline font symbols
-else
-  let g:airline_symbols_ascii = 1  " use plain ascii symbols
-  let g:airline_symbols.branch = 'BR:'
-endif
-let g:airline_symbols.linenr = ''
-let g:airline_symbols.maxlinenr = ''
-
 " ----------------------------------------------------------------------------
 " Text Formatting
 " ----------------------------------------------------------------------------
@@ -198,7 +216,7 @@ set virtualedit=block      " allow virtual edit in visual block ..
 set spelllang=en_us        " spell-check dictionary
 
 " ----------------------------------------------------------------------------
-" Filename exclusions
+" Filename Exclusions
 " ----------------------------------------------------------------------------
 
 set wildignore+=.hg,.git,.svn         " version control directories
@@ -209,15 +227,7 @@ set wildignore+=*.sw?                 " Vim swap files
 set wildignore+=.DS_Store             " OSX junk
 
 " ----------------------------------------------------------------------------
-"  Tabs
-" ----------------------------------------------------------------------------
-
-if version >= 700
-  set tabpagemax=50        " open 50 tabs max
-endif
-
-" ----------------------------------------------------------------------------
-"  Mappings
+"  Key Mappings
 " ----------------------------------------------------------------------------
 
 " movement based on display lines not physical lines (sane movement with wrap turned on)
@@ -333,19 +343,6 @@ function! ListLeaders()
 endfunction
 command! ListLeaders :call ListLeaders()
 
-" ----------------------------------------------------------------------------
-"  Plugin Settings
-" ----------------------------------------------------------------------------
-
-" NERDTree
-let NERDTreeShowHidden=1              " show dotfiles by default
-let NERDTreeMinimalUI=1               " disable 'Press ? for help' text
-" Ctrl-P
-let g:ctrlp_map = ''
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_cache_dir = $HOME.'/.vim/.cache/ctrlp'
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
-
 " ---------------------------------------------------------------------------
 " Auto Commands / File Types
 " ---------------------------------------------------------------------------
@@ -370,13 +367,6 @@ augroup vimrc_autocmds
   " in Makefiles, use real tabs not tabs expanded to spaces
   au FileType make setlocal noexpandtab
 augroup END
-
-" --------------------------------------------------------------------------
-" ManPageView
-" --------------------------------------------------------------------------
-
-let g:manpageview_pgm= 'man -P "/usr/bin/less -is"'
-let $MANPAGER = '/usr/bin/less -is'
 
 " --------------------------------------------------------------------------
 " Local Settings

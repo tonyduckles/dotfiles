@@ -16,6 +16,7 @@ set autoread                          " reload files (no local changes only)
 " ---------------------------------------------------------------------------
 
 call plug#begin('~/.vim/plugged')
+
 Plug 'altercation/vim-colors-solarized'
 Plug 'kien/ctrlp.vim'
 Plug 'kopischke/vim-fetch'
@@ -30,9 +31,10 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
 Plug '~/.vim/bundle/matchit'
 Plug '~/.vim/bundle/mumps'
-Plug '~/.vim/bundle/whitespace'
+
 call plug#end()
 
 " Automatic install
@@ -288,6 +290,13 @@ nmap <leader>gp :Gpush<CR>
 " cd to the directory containing the file in the buffer
 nmap <leader>cd :lcd %:h<CR>
 " toggle diffmode for a buffer
+function! DiffToggle()
+  if &diff
+    diffoff
+  else
+    diffthis
+  endif
+endfunction
 nmap <leader>df :call DiffToggle()<CR>
 " quickly edit/reload vimrc
 nmap <leader>ev :edit $MYVIMRC<CR>
@@ -295,7 +304,7 @@ nmap <leader>sv :source $MYVIMRC<CR>
 " find merge conflict markers
 nmap <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
 " toggle hlsearch
-nmap <leader>hs :set hlsearch! hlsearch?<CR>
+nmap <leader>hls :set hlsearch! hlsearch?<CR>
 " upper/lower word
 nmap <leader>wu mQviwU`Q
 nmap <leader>wl mQviwu`Q
@@ -304,8 +313,6 @@ nmap <leader>wU mQgewvU`Q
 nmap <leader>wL mQgewvu`Q
 " smart paste - enable paste-mode and paste contents of system clipboard
 map <leader>p :set paste<CR>o<esc>"*]p:set nopaste<cr>
-" strip all trailing whitespace in file
-nmap <leader>sw :call whitespace#strip_trailing()<CR>
 " toggle spell-check
 nmap <leader>sp :setlocal spell! spell?<CR>
 " set text wrapping toggles
@@ -319,34 +326,63 @@ nmap <leader>tag :split <CR>:exec("tag ".expand("<cword>"))<CR>
 " Functions
 " --------------------------------------------------------------------------
 
-" Toggle diff-mode
-function! DiffToggle()
-  if &diff
-    diffoff
+" :Redir
+" Run vim command, redirect output to a scratch buffer
+function! s:redir(cmd)
+  redir => message
+  silent execute a:cmd
+  redir END
+  if empty(message)
+    echoerr "no output"
   else
-    diffthis
+    new
+    setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted nomodified
+    silent! put=message
+    silent! g/^s*$/d
   endif
 endfunction
+command! -nargs=+ -complete=command Redir call s:redir(<q-args>)
 
+" :ListLeaders
 " Make a scratch buffer with all of the leader keybindings.
-" Adapted from http://ctoomey.com/posts/an-incremental-approach-to-vim/
-function! ListLeaders()
-  silent! redir @b
-  silent! nmap <LEADER>
-  silent! redir END
-  silent! new
-  silent! set buftype=nofile
-  silent! set bufhidden=hide
-  silent! setlocal noswapfile
-  silent! put! b
-  silent! g/^s*$/d
-  silent! %s/^.*,//
-  silent! normal ggVg
-  silent! sort
-  silent! let lines = getline(1,"$")
-  silent! normal <esc>
+command! ListLeaders :call s:redir('nmap <leader>')
+
+" :Todo
+" Use `git grep` to search for to-do comments, add matches to qflist
+function! s:todo() abort
+  let entries = []
+  for cmd in ['git grep -nI -e TODO -e FIXME -e XXX 2> /dev/null',
+            \ 'grep -rnI -e TODO -e FIXME -e XXX * 2> /dev/null']
+    let lines = split(system(cmd), '\n')
+    if v:shell_error != 0 | continue | endif
+    for line in lines
+      let [fname, lno, text] = matchlist(line, '^\([^:]*\):\([^:]*\):\(.*\)')[1:3]
+      call add(entries, { 'filename': fname, 'lnum': lno, 'text': text })
+    endfor
+    break
+  endfor
+
+  if !empty(entries)
+    call setqflist(entries)
+    copen
+  endif
 endfunction
-command! ListLeaders :call ListLeaders()
+command! Todo call s:todo()
+
+" :StripTrailingWhitespace
+" Strip trailing whitespace
+function! StripTrailingWhitespace()
+  " preparation: save last search, and cursor position.
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  " do the business
+  %s/\s\+$//e
+  " clean up: restore previous search history, and cursor position
+  let @/=_s
+  call cursor(l, c)
+endfunction
+command! StripTrailingWhitespace call StripTrailingWhitespace()
 
 " ---------------------------------------------------------------------------
 " Auto Commands / File Types

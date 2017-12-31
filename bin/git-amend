@@ -23,12 +23,15 @@ test -z "$TARGET" && {
   exit 1
 }
 
-# stash off work tree modifications leaving the
-# index for amending to the target commit
-git stash save -q --keep-index git-amend
-
+# if there are local work tree modifications, stash those off leaving
+# the index for amending to the target commit
+DIRTY=0
+if ! git diff-files --quiet --ignore-submodules --; then
+  DIRTY=1
+fi
+test $DIRTY -eq 1 && git stash save -q --keep-index git-amend
 # always restore from stash before exiting
-trap 'git stash pop -q stash@{git-amend} 2>/dev/null' EXIT
+test $DIRTY -eq 1 && trap 'git stash pop -q stash@{0} 2>/dev/null' EXIT
 
 # go back in history
 git checkout -q "$TARGET" || {

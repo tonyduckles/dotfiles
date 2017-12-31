@@ -17,6 +17,7 @@ set autoread                          " reload files (no local changes only)
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
 Plug 'kien/ctrlp.vim'
 Plug 'kopischke/vim-fetch'
@@ -74,13 +75,16 @@ if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 if has("gui_running")
-  let g:airline_powerline_fonts = 1  " use powerline font symbols
+  let g:airline_powerline_fonts = 1   " use powerline font symbols
 else
-  let g:airline_symbols_ascii = 1  " use plain ascii symbols
+  let g:airline_symbols_ascii = 1     " use plain ascii symbols
   let g:airline_symbols.branch = 'BR:'
 endif
 let g:airline_symbols.linenr = ''
 let g:airline_symbols.maxlinenr = ''
+
+" gitgutter
+let g:gitgutter_enabled = 0           " disable by default
 
 " ---------------------------------------------------------------------------
 " Terminal Settings
@@ -154,6 +158,7 @@ set nowritebackup                      " do not keep a backup while working
 set backupcopy=yes                     " keep attributes of original file
 set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
 set directory=.,~/tmp,~/.vim/swap      " swap file directory-order
+set updatetime=1000                    " idle time before writing swap file to disk
 
 " ----------------------------------------------------------------------------
 "  UI
@@ -321,6 +326,11 @@ nmap <leader>tw :set wrap! wrap?<CR>
 nmap <leader>ws :set list! list?<CR>
 " open tag definition in a horz split
 nmap <leader>tag :split <CR>:exec("tag ".expand("<cword>"))<CR>
+" gitgutter
+nmap <leader>ht :GitGutterToggle<CR>
+nmap <leader>hp <Plug>GitGutterPreviewHunk
+nmap <leader>hu <Plug>GitGutterUndoHunk
+nmap <leader>hs <Plug>GitGutterStageHunk
 
 " --------------------------------------------------------------------------
 " Functions

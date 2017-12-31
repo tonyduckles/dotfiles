@@ -33,6 +33,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+Plug '~/.vim/bundle/autofolds'
 Plug '~/.vim/bundle/matchit'
 Plug '~/.vim/bundle/mumps'
 
@@ -424,3 +425,5 @@ augroup END
 if filereadable(glob("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
+
+" vim: foldmethod=expr foldexpr=autofolds#foldexpr(v\:lnum) foldtext=autofolds#foldtext() foldlevel=2

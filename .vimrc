@@ -181,9 +181,8 @@ set nostartofline          " don't jump to the start of line when scrolling
 set scrolloff=4            " vertical padding
 set sidescroll=40          " side-scrolling increment (for nowrap mode)
 set sidescrolloff=10       " horz padding
-if version >= 700
-  set tabpagemax=50        " open 50 tabs max
-endif
+set tabpagemax=15          " open 15 tabs max
+set splitright             " put new vsplit windows to the right of the current
 
 " ----------------------------------------------------------------------------
 " Visual Cues

@@ -19,6 +19,8 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
 Plug 'kien/ctrlp.vim'
 Plug 'kopischke/vim-fetch'
 Plug 'mileszs/ack.vim'
@@ -87,6 +89,27 @@ let g:airline_symbols.maxlinenr = ''
 " gitgutter
 let g:gitgutter_enabled = 0           " disable by default
 
+" goyo + limelight
+let g:goyo_width = 95
+let g:limelight_conceal_ctermfg = 240
+
+function! s:goyo_enter()
+  if exists('$TMUX')
+    silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
+  endif
+  Limelight
+endfunction
+
+function! s:goyo_leave()
+  if exists('$TMUX')
+    silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
+  endif
+  Limelight!
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
 " ---------------------------------------------------------------------------
 " Terminal Settings
 " ---------------------------------------------------------------------------
@@ -123,6 +146,7 @@ if &t_Co > 2 || has("gui_running")
   syntax enable                       " syntax highligting
 
   let g:solarized_termcolors=&t_Co    " use 256 colors for solarized
+  let g:solarized_termtrans=1
   colorscheme solarized
 
   let g:airline_theme='solarized16'   " vim-airline theme
@@ -331,6 +355,8 @@ nmap <leader>ht :GitGutterToggle<CR>
 nmap <leader>hp <Plug>GitGutterPreviewHunk
 nmap <leader>hu <Plug>GitGutterUndoHunk
 nmap <leader>hs <Plug>GitGutterStageHunk
+" goyo
+nnoremap <leader>G :Goyo<CR>
 
 " --------------------------------------------------------------------------
 " Functions

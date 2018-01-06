@@ -90,13 +90,17 @@ let g:airline_symbols.maxlinenr = ''
 let g:gitgutter_enabled = 0           " disable by default
 
 " goyo + limelight
-let g:goyo_width = 95
+let g:goyo_width = 80
 let g:limelight_conceal_ctermfg = 240
+let g:limelight_default_coefficient = '.6'
+let g:limelight_paragraph_span = 1    " show adjacent paragraphs
+let g:limelight_priority = -1         " don't overrule hlsearch
 
 function! s:goyo_enter()
   if exists('$TMUX')
     silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
   endif
+  set scrolloff=999
   Limelight
 endfunction
 
@@ -104,6 +108,7 @@ function! s:goyo_leave()
   if exists('$TMUX')
     silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
   endif
+  set scrolloff=4
   Limelight!
 endfunction
 

@@ -156,33 +156,33 @@ if &t_Co > 2 || has("gui_running")
   set background=dark                 " dark background
   syntax enable                       " syntax highligting
 
+  " override colors in solarized colorscheme
+  augroup vimrc_colorscheme_solarized
+    autocmd!
+    if !has("gui_running")
+      " override Normal ctermfg
+      autocmd ColorScheme solarized highlight Normal ctermfg=None
+      " override Comment ctermfg
+      if &t_Co == 256
+        autocmd ColorScheme solarized highlight Comment ctermfg=241
+      else
+        autocmd ColorScheme solarized highlight Comment ctermfg=DarkGrey
+      endif
+      " override visual block
+      autocmd ColorScheme solarized highlight Visual term=reverse cterm=reverse ctermfg=DarkGreen ctermbg=White
+      if &t_Co < 256
+        " override unprintable chars (listchars)
+        autocmd ColorScheme solarized highlight SpecialKey ctermfg=DarkGrey ctermbg=Black
+      endif
+    endif
+  augroup END
+
   let g:solarized_termcolors=&t_Co    " use 256 colors for solarized
   let g:solarized_termtrans=1
   colorscheme solarized
 
   let g:airline_theme='solarized16'   " vim-airline theme
   let g:solarized16_termcolors=16     " always use 16 colors for 'solarized16' vim-airline theme
-endif
-
-" ---------------------------------------------------------------------------
-"  Highlight (Colors)
-" ---------------------------------------------------------------------------
-
-if !has("gui_running")
-  " always use terminal's default bg color, override solarized Normal ctermfg
-  highlight Normal ctermbg=None ctermfg=None
-  " override solarized Comment ctermfg
-  if &t_Co == 256
-    highlight Comment ctermfg=241
-  else
-    highlight Comment ctermfg=DarkGrey
-  endif
-  " visual block
-  highlight Visual term=reverse cterm=reverse ctermfg=DarkGreen ctermbg=White
-  if &t_Co < 256
-    " unprintable chars (listchars)
-    highlight SpecialKey ctermfg=DarkGrey ctermbg=Black
-  endif
 endif
 
 " ----------------------------------------------------------------------------

@@ -26,7 +26,6 @@ Plug 'kopischke/vim-fetch'
 Plug 'mileszs/ack.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'sjl/gundo.vim'
-Plug 'tangledhelix/vim-octopress'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-git'
 Plug 'tpope/vim-scriptease'
@@ -34,6 +33,8 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 
 Plug '~/.vim/bundle/autofolds'
 Plug '~/.vim/bundle/matchit'
@@ -114,6 +115,11 @@ endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+" vim-pandoc
+let g:pandoc#syntax#conceal#use = 0   " disable conceal pretty display
+let g:pandoc#folding#fdc = 0          " disable foldcolumn
+let g:pandoc#folding#level = 6        " open all folds by default
 
 " ---------------------------------------------------------------------------
 " Terminal Settings
@@ -337,6 +343,12 @@ nmap <leader>ev :edit $MYVIMRC<CR>
 nmap <leader>sv :source $MYVIMRC<CR>
 " find merge conflict markers
 nmap <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
+" markdown headings
+nnoremap <leader>h1 m`yypVr=``
+nnoremap <leader>h2 m`yypVr-``
+nnoremap <leader>h3 m`^i### <esc>``4l
+nnoremap <leader>h4 m`^i#### <esc>``5l
+nnoremap <leader>h5 m`^i##### <esc>``6l
 " toggle hlsearch
 nmap <leader>hls :set hlsearch! hlsearch?<CR>
 " upper/lower word
@@ -442,8 +454,6 @@ augroup vimrc_autocmds
   au Filetype gitcommit set tw=68  spell
   " don't use cindent for javascript
   au FileType javascript setlocal nocindent
-  " use Octopress syntax-highlighting for *.markdown files
-  au BufNewFile,BufRead *.markdown set filetype=octopress  spell
   " in Makefiles, use real tabs not tabs expanded to spaces
   au FileType make setlocal noexpandtab
 augroup END

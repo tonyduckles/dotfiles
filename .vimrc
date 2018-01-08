@@ -106,7 +106,7 @@ let g:gitgutter_enabled = 0           " disable by default
 " goyo + limelight
 let g:goyo_width = 80
 let g:limelight_conceal_ctermfg = 240
-let g:limelight_default_coefficient = '.6'
+let g:limelight_default_coefficient = 0.6
 let g:limelight_paragraph_span = 1    " show adjacent paragraphs
 let g:limelight_priority = -1         " don't overrule hlsearch
 

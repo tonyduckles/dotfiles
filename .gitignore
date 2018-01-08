@@ -1,8 +1,10 @@
 .bash_history
 .keychain/
 .lesshst
+.shenv
 .ssh/
 .vim/.cache/
+.vim/.netrwhist
 .vim/plugged/
 .vim/spell/
 .viminfo

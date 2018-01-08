@@ -17,28 +17,41 @@ set autoread                          " reload files (no local changes only)
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'airblade/vim-gitgutter'
+" Colors
+Plug 'AlessandroYorba/Despacio'
 Plug 'altercation/vim-colors-solarized'
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/limelight.vim'
-Plug 'kien/ctrlp.vim'
-Plug 'kopischke/vim-fetch'
-Plug 'mileszs/ack.vim'
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'sjl/gundo.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-git'
-Plug 'tpope/vim-scriptease'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'vim-pandoc/vim-pandoc'
-Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'junegunn/seoul256.vim'
+Plug 'morhetz/gruvbox'
+Plug 'yuttie/hydrangea-vim'
 
-Plug '~/.vim/bundle/autofolds'
-Plug '~/.vim/bundle/matchit'
-Plug '~/.vim/bundle/mumps'
+" Interface
+Plug 'airblade/vim-gitgutter'         " shows git diff in the gutter
+Plug 'junegunn/goyo.vim'              " distraction-free writing
+Plug 'junegunn/limelight.vim'         " hyperfocus-writing
+Plug 'kien/ctrlp.vim'                 " fuzzy file, buffer, mru, etc finder
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }  " file system explorer
+Plug 'sjl/gundo.vim'                  " visualize undo tree
+Plug 'vim-airline/vim-airline'        " lean & mean status/tabline
+Plug 'vim-airline/vim-airline-themes' " themes for vim-airline
+
+" Integrations
+Plug 'mileszs/ack.vim'                " Ack wrapper
+Plug 'tpope/vim-fugitive'             " Git wrappers
+
+" Edit
+Plug 'tpope/vim-surround'             " quoting/parenthesizing made simple
+Plug 'tpope/vim-unimpaired'           " pairs of handy bracket mappings
+
+" Language / Syntax
+Plug 'tpope/vim-git'                  " filetype=gitcommit
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'   " filetype=markdown
+Plug '~/.vim/bundle/mumps'            " filetype=mumps
+
+" Other
+Plug 'kopischke/vim-fetch'            " handle opening filenames with line+column numbers
+Plug 'tpope/vim-scriptease'           " misc collection of helper commands
+Plug '~/.vim/bundle/autofolds'        " folds for my *rc files
 
 call plug#end()
 

@@ -51,6 +51,7 @@ Plug '~/.vim/bundle/mumps'            " filetype=mumps
 " Other
 Plug 'kopischke/vim-fetch'            " handle opening filenames with line+column numbers
 Plug 'tpope/vim-scriptease'           " misc collection of helper commands
+Plug '~/.vim/bundle/airlinetheme-map' " override AirlineTheme for certain colorscheme's
 Plug '~/.vim/bundle/autofolds'        " folds for my *rc files
 
 call plug#end()
@@ -190,12 +191,23 @@ if &t_Co > 2 || has("gui_running")
     endif
   augroup END
 
+  " colorscheme theme options
   let g:solarized_termcolors=&t_Co    " use 256 colors for solarized
   let g:solarized_termtrans=1
-  colorscheme solarized
 
-  let g:airline_theme='solarized16'   " vim-airline theme
+  if !exists('s:set_colorscheme')
+    colorscheme solarized
+    let s:set_colorscheme=1
+  endif
+
+  " airline theme options
   let g:solarized16_termcolors=16     " always use 16 colors for 'solarized16' vim-airline theme
+  let g:colorscheme_airlinetheme_map = {
+        \ 'seoul256-light': 'zenburn',
+        \ 'solarized': 'solarized16',
+        \ }
+  let g:colorscheme_airlinetheme_default = 'distinguished'
+
 endif
 
 " ----------------------------------------------------------------------------

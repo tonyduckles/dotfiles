@@ -36,6 +36,7 @@ Plug 'zacanger/angr.vim'
 
 " Interface
 Plug 'airblade/vim-gitgutter'         " shows git diff in the gutter
+Plug 'farmergreg/vim-lastplace'       " intelligently reopen files at your last edit position
 Plug 'godlygeek/csapprox'             " make gui-only colorschemes work automagically in terminal vim
 Plug 'junegunn/goyo.vim'              " distraction-free writing
 Plug 'junegunn/limelight.vim'         " hyperfocus-writing
@@ -480,9 +481,6 @@ command! StripTrailingWhitespace call StripTrailingWhitespace()
 augroup vimrc_autocmds
   " clear auto command group so we don't define it multiple times
   autocmd!
-  " jump to last position of buffer when opening (but not for commit messages)
-  au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$") |
-                     \ exe "normal g'\"" | endif
   " sh config
   au Filetype sh,bash set ts=4 sts=4 sw=4 expandtab
   let g:is_bash = 1

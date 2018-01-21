@@ -1,7 +1,6 @@
 #!/bin/bash
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # A basically sane bash environment.
-# Tony Duckles <http://nynim.org/about/> (based on http://github.com/rtomayko/dotfiles)
 
 # ----------------------------------------------------------------------
 #  BASICS

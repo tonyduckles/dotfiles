@@ -1,14 +1,19 @@
-# This file controls the behaviour of line input editing for
-# programs that use the GNU Readline library.  Existing
-# programs include FTP, Bash, and GDB.
-#
-# See 'man bash' >> READLINE for documentation on all the readline options and commands.
-# You can use 'bind' (bash built-in command) to view current readline config:
-#   bind -p ... Display readline function names and bindings in such a way that they can be re-read.
-#   bind -P ... List current readline function names and bindings.
-#   bind -V ... List current readline variable names and values.
-#   (See 'man bash' >> SHELL BUILTIN COMMANDS for additional details...)
-# You can re-read the inputrc file with C-x C-r (re-read-init-file).
+# This file controls the behaviour of line input editing for programs that use
+# the GNU Readline library. See 'man bash' >> "READLINE" for documentation on
+# readline options and commands.
+# https://www.gnu.org/software/bash/manual/bashref.html#Command-Line-Editing
+
+# Use 'bind' ('man bash' >> "SHELL BUILTIN COMMANDS") to view current readline
+# config:
+#   bind -p
+#      Display readline function names and bindings in such a way that they can
+#      be re-read.
+#   bind -p | egrep -v "^#" | LC_ALL='C' egrep -v "(self-insert|do-lowercase-version|digit-argument)"
+#      Display only "interesting" mappings from `bind -p`.
+#   bind -P | grep -v "is not bound"
+#      List current readline function names and bindings.
+#   bind -V
+#      List current readline variable names and values.
 
 set bell-style visible
 set expand-tilde off
@@ -20,6 +25,7 @@ set history-preserve-point on
 set mark-directories on
 set mark-symlinked-directories on
 set match-hidden-files off
+set colored-stats on
 
 # completion settings
 set page-completions off
@@ -35,8 +41,8 @@ set editing-mode emacs
 # reload file
 "\C-x\C-r": re-read-init-file
 
-C-n: history-search-forward
-C-p: history-search-backward
+"\C-n": history-search-forward
+"\C-p": history-search-backward
 
 $if mode=emacs
 
@@ -50,13 +56,12 @@ $if mode=emacs
 "\e[6~": end-of-history
 "\e[3~": delete-char
 "\e[2~": quoted-insert
-"\e[5C": forward-word
-"\e[5D": backward-word
-"\e\e[C": forward-word
-"\e\e[D": backward-word
-"\e[1;5C": forward-word
-"\e[1;5D": backward-word
-
+# for non RH/Debian xterm, can't hurt for RH/Debian xterm
+"\eOH": beginning-of-line
+"\eOF": end-of-line
+# for freebsd console
+"\e[H": beginning-of-line
+"\e[F": end-of-line
 # for rxvt
 $if term=rxvt
 "\e[8~": end-of-line
@@ -64,12 +69,12 @@ $if term=rxvt
 "\eOd": backward-word
 $endif
 
-# for non RH/Debian xterm, can't hurt for RH/DEbian xterm
-"\eOH": beginning-of-line
-"\eOF": end-of-line
-
-# for freebsd console
-"\e[H": beginning-of-line
-"\e[F": end-of-line
+# Ctrl-left-arrow and Ctrl-right-arrow for word moving
+"\e[5C": forward-word
+"\e[5D": backward-word
+"\e\e[C": forward-word
+"\e\e[D": backward-word
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
 
 $endif

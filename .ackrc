@@ -1,6 +1,6 @@
+# --------------------------------------------------------------------
 # General Ack Settings
-# ####################################################################
-
+# --------------------------------------------------------------------
 # only search with case sensitivity if there is mixed case
 --smart-case
 # follow symlinks
@@ -9,21 +9,23 @@
 --sort-files
 # always color, even if piping to a another program
 --color
-# no grouping
---noheading
+# grouping
+--heading
 --break
 # always use a PAGER
 --pager=less
 # always print filename prefix
 --with-filename
 
+# --------------------------------------------------------------------
 # Custom File-Types
-# ####################################################################
+# --------------------------------------------------------------------
 --type-add=mumps:ext:m,ro,ROU,GLO
 --type-add=markdown:ext:md,mkd,markdown
 
+# --------------------------------------------------------------------
 # Colors
-# ####################################################################
---color-filename=cyan
---color-lineno=yellow bold
---color-match=white on_green bold
+# --------------------------------------------------------------------
+--color-filename=cyan underline
+--color-lineno=yellow
+--color-match=green bold

@@ -41,6 +41,10 @@
 	logallrefupdates = true
 	whitespace = space-before-tab, trailing-space
 	excludesfile = ~/.gitignore_global
+	pager = diff-pager
+
+[interactive]
+	diffFilter = diff-filter
 
 [diff]
 	renames = copies
@@ -77,10 +81,10 @@
 	untracked = blue bold
 
 [color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
+	oldNormal = nobold
+	oldHighlight = red bold
+	newNormal = nobold
+	newHighlight = green bold
 
 [push]
 	default = matching

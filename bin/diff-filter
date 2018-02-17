@@ -1,0 +1,14 @@
+#!/bin/sh
+# Filter script for git-diff patch output
+
+# Use `diff-highlight` if available
+# Look for script in several expected locations
+for f in /usr/local/share/git-core/contrib/diff-highlight/diff-highlight \
+         /usr/share/git-core/contrib/diff-highlight/diff-highlight
+do
+    test -x $f && \
+        tee | $f && \
+        exit 0
+done
+# Else, degrade gracefully
+tee

@@ -360,9 +360,9 @@ if [ -n "$COLORS" ]; then
             ;;
     esac
     # older versions of grep only support a singular highlight color
-    export GREP_COLOR='1;37;42'
+    export GREP_COLOR='1;32'
     # newer versions of grep have more flexible color configuration
-    export GREP_COLORS='fn=36:ln=1;33:ms=1;37;42'
+    export GREP_COLORS='fn=36:ln=33:ms=1;32'
 fi
 
 # --------------------------------------------------------------------

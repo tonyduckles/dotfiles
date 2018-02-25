@@ -478,17 +478,19 @@ command! StripTrailingWhitespace call StripTrailingWhitespace()
 " Auto Commands / File Types
 " ---------------------------------------------------------------------------
 
-augroup vimrc_autocmds
-  " clear auto command group so we don't define it multiple times
+" override Filetype settings
+augroup vimrc_filetype
   autocmd!
   " sh config
-  au Filetype sh,bash set ts=4 sts=4 sw=4 expandtab
+  au Filetype sh,bash setlocal ts=4 sts=4 sw=4 expandtab
   let g:is_bash = 1
-  " git commit message
-  au Filetype gitcommit set tw=68  spell
-  " don't use cindent for javascript
+  " git commit message: enable spell checking
+  au Filetype gitcommit setlocal spell
+  " gitconfig file: use real tabs
+  au Filetype gitconfig setlocal noexpandtab
+  " javascript: don't use cindent
   au FileType javascript setlocal nocindent
-  " in Makefiles, use real tabs not tabs expanded to spaces
+  " makefiles: use real tabs
   au FileType make setlocal noexpandtab
 augroup END
 

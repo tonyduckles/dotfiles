@@ -75,35 +75,40 @@ PATH="$PATH:/usr/local/sbin:/usr/sbin:/sbin"
 PATH="/usr/local/bin:$PATH"
 
 # use $HOME specific bin and sbin
-test -d "$HOME/bin" && PATH="$HOME/bin:$PATH"
-test -d "$HOME/sbin" && PATH="$HOME/sbin:$PATH"
+path_start="$path_start:$HOME/bin"
+test -d "$HOME/sbin" && path_start="$path_start:$HOME/sbin"
 
 # macOS homebrew: include non-prefixed coreutils
-test -x /usr/local/opt/coreutils/libexec -a ! -L /usr/local/opt/coreutils/libexec && {
-    # setup the PATH and MANPATH
-    PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-    MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-}
+if [ -d "/usr/local/opt/coreutils/libexec" ]; then
+    path_start="$path_start:/usr/local/opt/coreutils/libexec/gnubin"
+    manpath_start="$manpath_start:/usr/local/opt/coreutils/libexec/gnuman"
+fi
 
-# SmartOS pkgin
-test -d "/opt/local" && PATH="/opt/local/sbin:/opt/local/bin:$PATH"
-test -d "/opt/local/man" && MANPATH="/opt/local/man:$MANPATH"
-# SmartOS local files
-test -d "/opt/custom" && PATH="/opt/custom/sbin:/opt/custom/bin:$PATH"
-test -d "/opt/custom/man" && MANPATH="/opt/custom/man:$MANPATH"
-# SmartOS SDC
-test -d "/smartdc" && PATH="/smartdc/bin:/opt/smartdc/bin:/opt/smartdc/agents/bin:$PATH"
-test -d "/smartdc/man" && MANPATH="/smartdc/man:$MANPATH"
-# SmartOS native binaries, for OS/LX zones
-test -d "/native" && PATH="$PATH:/native/usr/sbin:/native/usr/bin:/native/sbin:/native/bin"
-test -d "/native/usr/share/man" && MANPATH="$MANPATH:/native/usr/share/man"
+# SmartOS: local pkgin binaries
+if [ -d "/opt/local" ]; then
+    path_start="$path_start:/opt/local/sbin:/opt/local/bin"
+    manpath_start="$manpath_start:/opt/local/man"
+fi
+# SmartOS: local custom scripts
+if [ -d "/opt/custom" ]; then
+    path_start="$path_start:/opt/custom/sbin:/opt/custom/bin"
+    manpath_start="$manpath_start:/opt/custom/man"
+fi
+# SmartOS: SDC
+if [ -d "/smartdc" ]; then
+    path_start="$path_start:/smartdc/bin:/opt/smartdc/bin:/opt/smartdc/agents/bin"
+    manpath_start="$manpath_start:/smartdc/man"
+fi
+# SmartOS: native binaries, for OS/LX zones
+if [ -d "/native" ]; then
+    path_end="$path_end:/native/usr/sbin:/native/usr/bin:/native/sbin:/native/bin"
+    manpath_end="$manpath_end:/native/usr/share/man"
+fi
 
-# RVM
-test -d "$HOME/.rvm/bin" && PATH="$PATH:$HOME/.rvm/bin"
 
-# setup $GOPATH
-test -d "/usr/local/share/golang" && export GOPATH=/usr/local/share/golang
-test -n "$GOPATH" && PATH="$PATH:$GOPATH/bin"
+PATH="$path_start:$PATH:$path_end"
+MANPATH="$manpath_start:$MANPATH:$manpath_end"
+unset path_start path_end manpath_start manpath_end
 
 # ---------------------------------------------------------------------------
 # ENVIRONMENT CONFIGURATION

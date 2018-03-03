@@ -1,10 +1,12 @@
 #!/bin/bash
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # A basically sane bash environment.
+# Resources:
+# - https://github.com/rtomayko/dotfiles/blob/rtomayko/.bashrc
 
-# ----------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 #  BASICS
-# ----------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 
 # short-circuit for non-interactive sessions
 [ -z "$PS1" ] && return
@@ -34,9 +36,9 @@ case $(tput colors 2>&1) in
         ;;
 esac
 
-# ----------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 #  SHELL OPTIONS
-# ----------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 
 # notify of bg job completion immediately
 set -o notify
@@ -61,13 +63,12 @@ ulimit -S -c 0
 # default umask
 umask 0022
 
-# ----------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 # PATH
-# ----------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 
 # make sure $MANPATH has some sane defaults
-: ${MANPATH="/usr/share/man"}
-test -d "/usr/share/man" && MANPATH="/usr/share/man:$MANPATH"
+MANPATH="/usr/share/man:/usr/local/share/man:$MANPATH"
 
 # include the various sbin's along with /usr/local/bin
 PATH="$PATH:/usr/local/sbin:/usr/sbin:/sbin"
@@ -76,6 +77,13 @@ PATH="/usr/local/bin:$PATH"
 # use $HOME specific bin and sbin
 test -d "$HOME/bin" && PATH="$HOME/bin:$PATH"
 test -d "$HOME/sbin" && PATH="$HOME/sbin:$PATH"
+
+# macOS homebrew: include non-prefixed coreutils
+test -x /usr/local/opt/coreutils/libexec -a ! -L /usr/local/opt/coreutils/libexec && {
+    # setup the PATH and MANPATH
+    PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+    MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+}
 
 # SmartOS pkgin
 test -d "/opt/local" && PATH="/opt/local/sbin:/opt/local/bin:$PATH"
@@ -97,9 +105,9 @@ test -d "$HOME/.rvm/bin" && PATH="$PATH:$HOME/.rvm/bin"
 test -d "/usr/local/share/golang" && export GOPATH=/usr/local/share/golang
 test -n "$GOPATH" && PATH="$PATH:$GOPATH/bin"
 
-# ----------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 # ENVIRONMENT CONFIGURATION
-# ----------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 
 # detect interactive shell
 case "$-" in
@@ -129,9 +137,9 @@ HISTCONTROL=ignoreboth
 HISTFILESIZE=10000
 HISTSIZE=10000
 
-# ----------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 # PAGER / EDITOR
-# ----------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 
 # see what we have to work with ...
 HAVE_VIM=$(command -v vim)
@@ -154,9 +162,9 @@ else
 fi
 export PAGER MANPAGER
 
-# ----------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 # PROMPT
-# ----------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 
 # http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
 
@@ -213,44 +221,9 @@ prompt_color() {
     PS2="> "
 }
 
-# ----------------------------------------------------------------------
-# MACOS X / DARWIN SPECIFIC
-# ----------------------------------------------------------------------
-
-if [ "$UNAME" = Darwin ]; then
-    # put ports on the paths if /opt/local exists
-    test -x /opt/local -a ! -L /opt/local && {
-        PORTS=/opt/local
-
-        # setup the PATH and MANPATH
-        PATH="$PORTS/bin:$PORTS/sbin:$PATH"
-        MANPATH="$PORTS/share/man:$MANPATH"
-
-        # nice little port alias
-        alias port="sudo nice -n +18 $PORTS/bin/port"
-    }
-    # put coreutils on the paths if /usr/local/opt/coreutils/libexec exists
-    test -x /usr/local/opt/coreutils/libexec -a ! -L /usr/local/opt/coreutils/libexec && {
-        # setup the PATH and MANPATH
-        PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-        MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-    }
-fi
-
-# ----------------------------------------------------------------------
-# SOLARIS SPECIFIC
-# ----------------------------------------------------------------------
-
-if [ "$UNAME" = SunOS ]; then
-    # use GNU versions of core utils
-    test -x /usr/gnu/bin/grep && alias grep="/usr/gnu/bin/grep"
-    test -x /usr/gnu/bin/sed  && alias sed="/usr/gnu/bin/sed"
-    test -x /usr/gnu/bin/awk  && alias awk="/usr/gnu/bin/awk"
-fi
-
-# ----------------------------------------------------------------------
-# ALIASES / FUNCTIONS
-# ----------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# ALIASES
+# ---------------------------------------------------------------------------
 
 # 'ls' helpers
 alias ll="ls -l"
@@ -262,35 +235,24 @@ alias lla="ls -la"
 test -n "$(type -P git)" && alias diff="git diff --no-index"
 
 # alias 'vi' to 'vim' if Vim is installed
-vim="$(type -P vim)"
-test -n "$vim" && {
-    alias vi='vim'
-}
-unset vim
-
-# disk usage with human sizes and minimal depth
-alias du1='du -h --max-depth=1'
-alias fn='find . -name'
-alias hi='history | tail -20'
+test -n "$(type -P vim)" && alias vi='vim'
 
 # alias csh-style "rebash" to bash equivalent
 alias rehash="hash -r"
 
-# set 'screen' window title
-settitle_screen() {
-    printf "\033k%s\033\\" "$@"
-}
-# set 'xterm' window title
-settitle_window() {
-    printf "\033]0;%s\007" "$@"
-}
-
 # svn-wrapper
 alias svn=svn-wrapper
 
-# ----------------------------------------------------------------------
+if [ "$UNAME" = SunOS ]; then
+    # Solaris: use GNU versions of coreutils
+    test -x /usr/gnu/bin/grep && alias grep="/usr/gnu/bin/grep"
+    test -x /usr/gnu/bin/sed  && alias sed="/usr/gnu/bin/sed"
+    test -x /usr/gnu/bin/awk  && alias awk="/usr/gnu/bin/awk"
+fi
+
+# ---------------------------------------------------------------------------
 # BASH COMPLETION
-# ----------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 
 test -z "$BASH_COMPLETION" && {
     bash=${BASH_VERSION%.*}; bmajor=${bash%.*}; bminor=${bash#*.}
@@ -322,9 +284,9 @@ _expand() {
     return 0
 }
 
-# ----------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 # LS AND DIRCOLORS
-# ----------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 
 # we always pass these to ls(1)
 LS_COMMON="-p"
@@ -365,9 +327,18 @@ if [ -n "$COLORS" ]; then
     export GREP_COLORS='fn=36:ln=33:ms=1;32'
 fi
 
-# --------------------------------------------------------------------
-# MISC COMMANDS
-# --------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# MISC FUNCTIONS
+# ---------------------------------------------------------------------------
+
+# set 'screen' window title
+settitle_screen() {
+    printf "\033k%s\033\\" "$@"
+}
+# set 'xterm' window title
+settitle_window() {
+    printf "\033]0;%s\007" "$@"
+}
 
 # push SSH public key to another box
 push_ssh_cert() {
@@ -380,9 +351,9 @@ push_ssh_cert() {
     done
 }
 
-# --------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 # PATH MANIPULATION FUNCTIONS
-# --------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 
 # Usage: pls [<var>]
 # List path entries of PATH or environment variable <var>.
@@ -431,9 +402,9 @@ puniq () {
     cut -f 2- | tr '\n' : | sed -e 's/:$//' -e 's/^://'
 }
 
-# -------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 # USER SHELL ENVIRONMENT
-# -------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 
 # source ~/.shenv now if it exists
 test -r ~/.shenv &&
@@ -451,9 +422,9 @@ test -n "$PS1" &&
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules,*.swp,.venv}/*" 2> /dev/null'
 export FZF_DEFAULT_OPTS='--bind J:down,K:up --reverse --ansi --multi'
 
-# -------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 # MOTD / FORTUNE
-# -------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 
 test -n "$INTERACTIVE" -a -n "$LOGIN" && {
     # get current uname and uptime (if exists on this host)

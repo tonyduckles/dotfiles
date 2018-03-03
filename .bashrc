@@ -105,6 +105,14 @@ if [ -d "/native" ]; then
     manpath_end="$manpath_end:/native/usr/share/man"
 fi
 
+# python pip --user
+for python in "python" "python2" "python3"; do
+    if [ -n "$(type -P $python)" ]; then
+        pybin="$($python -m site --user-base)/bin"
+        test -d "$pybin" && path_end="$path_end:$pybin"
+    fi
+done
+unset python pybin
 
 PATH="$path_start:$PATH:$path_end"
 MANPATH="$manpath_start:$MANPATH:$manpath_end"

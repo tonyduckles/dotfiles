@@ -1,8 +1,17 @@
 #!/bin/bash
-# Usage: git-brdate
+# Usage: git-branch-dates
 # Show git branches by date - useful for showing active branches
-# http://www.commandlinefu.com/commands/view/2345/show-git-branches-by-date-useful-for-showing-active-branches
+# Inspired by:
+# - http://www.commandlinefu.com/commands/view/2345/show-git-branches-by-date-useful-for-showing-active-branches
+# - https://stackoverflow.com/a/30076212
 
-for k in `git branch | perl -pe s/^..//`; do
-  echo -e `git show --pretty=format:"%Cgreen%ci %Cblue%cr%Creset" $k | head -n 1`\\t$k
-done | sort -r
+format='%(HEAD) %(color:green)%(refname:short)%(color:reset)|%(color:bold black)%(committerdate:relative)%(color:reset)'
+if [[ "$1" = "-v" || "$1" = "-vv" ]]; then
+    shift
+    format="$format"'|%(color:yellow)%(objectname:short)%(color:reset) %(contents:subject)'
+fi
+git branch \
+    --color=always \
+    --sort=-committerdate \
+    --format="$format" \
+    $* | column -ts'|'

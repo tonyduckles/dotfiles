@@ -17,7 +17,7 @@
 	out          = !git-outgoing
 	# Branch helpers
 	bd           = !git-branch-dates
-	bv           = !git branch --color -vv
+	bv           = !git-branch-dates -v
 	cv           = !git-cherry-view
 	# Diff helpers
 	df           = diff

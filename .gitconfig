@@ -40,7 +40,8 @@
 	filemode = true
 	logallrefupdates = true
 	whitespace = space-before-tab, trailing-space
-	excludesfile = ~/.gitignore_global
+	excludesfile = ~/.gitfiles/gitignore-global
+	attributesfile = ~/.gitfiles/gitattributes-global
 	pager = diff-pager
 
 [interactive]

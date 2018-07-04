@@ -61,6 +61,7 @@
 	ui = auto
 
 [color "diff"]
+	plain = 241
 	meta = blue bold
 	frag = magenta bold
 	old = red bold
@@ -83,9 +84,9 @@
 
 [color "diff-highlight"]
 	oldNormal = nobold
-	oldHighlight = red bold
+	oldHighlight = red bold 235
 	newNormal = nobold
-	newHighlight = green bold
+	newHighlight = green bold black
 
 [push]
 	default = matching

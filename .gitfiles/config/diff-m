@@ -1,0 +1,4 @@
+[diff "m"]
+	wordregex = "[%]?[[:alnum:]]+|[0-9.]+"  # MUMPS variable-name pattern
+
+# vim: ft=gitconfig

@@ -427,7 +427,7 @@ prm () { eval "${2:-PATH}='$(pls $2 | grep -v "^$1\$" | tr '\n' ':')'"; }
 # Example:
 #   $ puniq /usr/bin:/usr/local/bin:/usr/bin
 #   /usr/bin:/usr/local/bin
-puniq () { echo "$1" | tr ':' '\n' | grep -v "^$" | nl | sort -u -k 2,2 | sort -n | cut -f 2- | paste -s -d ':'; }
+puniq () { echo "$1" | tr ':' '\n' | grep -v "^$" | nl | sort -u -k 2,2 | sort -n | cut -f 2- | paste -s -d ':' -; }
 
 # ---------------------------------------------------------------------------
 # USER SHELL ENVIRONMENT

@@ -385,6 +385,16 @@ nmap <leader>gc :Gcommit<CR>
 nmap <leader>gp :Gpush<CR>
 " cd to the directory containing the file in the buffer
 nmap <leader>cd :lcd %:h<CR>
+" toggle quickfix window
+function! QuickfixToggle()
+  let wcnt_old = winnr("$")
+  cwindow
+  let wcnt_cur = winnr("$")
+  if wcnt_old == wcnt_cur
+    cclose
+  endif
+endfunction
+nmap <leader>cc :call QuickfixToggle()<CR>
 " toggle diffmode for a buffer
 function! DiffToggle()
   if &diff

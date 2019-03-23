@@ -47,6 +47,7 @@ Plug 'vim-airline/vim-airline'        " lean & mean status/tabline
 Plug 'vim-airline/vim-airline-themes' " themes for vim-airline
 
 " Integrations
+Plug 'ludovicchabant/vim-gutentags'   " automatic ctags
 Plug 'mileszs/ack.vim'                " Ack wrapper
 Plug 'tpope/vim-fugitive'             " Git wrappers
 
@@ -142,10 +143,28 @@ endfunction
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
-" vim-pandoc
+" pandoc
 let g:pandoc#syntax#conceal#use = 0   " disable conceal pretty display
 let g:pandoc#folding#fdc = 0          " disable foldcolumn
 let g:pandoc#folding#level = 6        " open all folds by default
+
+" gutentags
+let g:gutentags_enabled_user_func = 'GutentagsCheckEnabled'
+function! GutentagsCheckEnabled(file)
+  let file_path = fnamemodify(a:file, ':p:h')
+
+  " enable gutentags if ctags file already exists
+  " tip: `touch tags` in project root to enable gutentags auto-updating
+  try
+    let gutentags_root = gutentags#get_project_root(file_path)
+    if filereadable(gutentags_root . '/tags')
+      return 1
+    endif
+  catch
+  endtry
+
+  return 0
+endfunction
 
 " ---------------------------------------------------------------------------
 " Terminal Settings

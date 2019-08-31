@@ -9,6 +9,7 @@ for f in \
     /usr/share/git-core/contrib/diff-highlight/diff-highlight
 do
     test -x $f && \
+        test -z $DIFFHIGHLIGHT_OFF && \
         tee | $f && \
         exit 0
 done

@@ -468,4 +468,3 @@ test -n "$INTERACTIVE" -a -n "$LOGIN" && {
 }
 
 # vim: ts=4 sts=4 shiftwidth=4 expandtab
-# vim: foldmethod=expr foldexpr=autofolds#foldexpr(v\:lnum,'sh') foldtext=autofolds#foldtext() foldlevel=2

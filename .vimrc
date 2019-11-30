@@ -521,6 +521,9 @@ augroup vimrc_filetype
   au FileType javascript setlocal nocindent
   " makefiles: use real tabs
   au FileType make setlocal noexpandtab
+  " autofolds
+  au FileType vim setlocal foldmethod=expr foldexpr=autofolds#foldexpr(v\:lnum) foldtext=autofolds#foldtext() foldlevel=2
+  au FileType sh setlocal foldmethod=expr foldexpr=autofolds#foldexpr(v\:lnum,'sh') foldtext=autofolds#foldtext() foldlevel=2
 augroup END
 
 " --------------------------------------------------------------------------
@@ -530,5 +533,3 @@ augroup END
 if filereadable(glob("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
-
-" vim: foldmethod=expr foldexpr=autofolds#foldexpr(v\:lnum) foldtext=autofolds#foldtext() foldlevel=2

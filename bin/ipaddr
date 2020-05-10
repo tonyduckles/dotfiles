@@ -39,17 +39,32 @@ case "$UNAME" in
         test -z "$if_args" && if_args="-a"
         ifconfig $if_args | $awk "$awk_mask2cdr"'
             /^[a-z0-9:]+/ { ifnam=$1 };
+
+            # Ex: `inet x.x.x.x netmask 0xffffff00 broadcast x.x.x.x`
             $1 == "inet" { ifdata[ifnam]=ifdata[ifnam] "^" $2 "/" mask2cdr($4) };
+            # Ex: `inet6 xx:xx::1 prefixlen 64 autoconf secured`
             $1 == "inet6" && !/scopeid|inet6 ::1|temporary/ { ifdata[ifnam]=ifdata[ifnam] "^" $2 "/" $4 };
+
             END { '"$awk_print_ifdata"'}'
         ;;
     Linux)
         test -n "$IFACE" && if_args="$IFACE"
         test -z "$if_args" && if_args="-a"
         ifconfig $if_args | $awk "$awk_mask2cdr"'
-            /^[^ ]+/ { ifnam=$1 ":" };
-            $1 == "inet" { ifdata[ifnam]=ifdata[ifnam] "^" substr($2,6) "/" mask2cdr(substr($0,index($0,"Mask:")+5)) };
+            /^[^ ]+/ { gsub(":", "", $1); ifnam=$1 ":" };
+
+            # ifconfig net-tools 1.x
+            # Ex: `inet addr:x.x.x.x  Bcast:x.x.x.x  Mask:255.255.255.0`
+            $1 == "inet" && /inet addr/ { ifdata[ifnam]=ifdata[ifnam] "^" substr($2,6) "/" mask2cdr(substr($0,index($0,"Mask:")+5)) };
+            # Ex: `inet6 addr: xx:xx::1/64 Scope:Global`
             $1 == "inet6" && /Scope:Global/ { ifdata[ifnam]=ifdata[ifnam] "^" $3 }
+
+            # ifconfig net-tools 2.x
+            # Ex: `inet x.x.x.x  netmask 255.255.255.0  broadcast x.x.x.x`
+            $1 == "inet" && !/inet addr/ { ifdata[ifnam]=ifdata[ifnam] "^" $2 "/" mask2cdr($4) };
+            # Ex: `inet6 xx:xx::1  prefixlen 64  scopeid 0x0<global>`
+            $1 == "inet6" && /scopeid 0x0<global>/ { ifdata[ifnam]=ifdata[ifnam] "^" $2 "/" $4 }
+
             END { '"$awk_print_ifdata"'}'
         ;;
     SunOS)
@@ -58,8 +73,10 @@ case "$UNAME" in
         test -z "$if_args" && if_args="-a"
         ifconfig $if_args | $awk "$awk_mask2cdr"'
             /^[a-z0-9:]+/ { ifnam=$1 };
+
             $1 == "inet" { ifdata[ifnam]=ifdata[ifnam] "^" $2 "/" mask2cdr($4) };
             $1 == "inet6" && !/inet6 ::|inet6 fe80:/ { ifdata[ifnam]=ifdata[ifnam] "^" $2 }
+
             END { '"$awk_print_ifdata"'}'
         ;;
     *)

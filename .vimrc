@@ -18,21 +18,7 @@ set autoread                          " reload files (no local changes only)
 call plug#begin('~/.vim/plugged')
 
 " Colors
-Plug 'ajmwagar/vim-deus'
-Plug 'AlessandroYorba/Despacio'
-Plug 'altercation/vim-colors-solarized'
-Plug 'jacoborus/tender.vim'
-Plug 'jnurmine/Zenburn'
-Plug 'junegunn/seoul256.vim'
-Plug 'Lokaltog/vim-distinguished'
-Plug 'mhartington/oceanic-next'
-Plug 'morhetz/gruvbox'
-Plug 'rakr/vim-two-firewatch'
-Plug 'vim-scripts/rdark-terminal2.vim'
-Plug 'vim-scripts/twilight256.vim'
-Plug 'yorickpeterse/happy_hacking.vim'
-Plug 'yuttie/hydrangea-vim'
-Plug 'zacanger/angr.vim'
+Plug 'tonyduckles/vim-colorschemes'
 
 " Interface
 Plug 'airblade/vim-gitgutter'         " shows git diff in the gutter

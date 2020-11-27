@@ -382,7 +382,7 @@ function! QuickfixToggle()
     cclose
   endif
 endfunction
-nmap <leader>cc :call QuickfixToggle()<CR>
+nmap <leader>q :call QuickfixToggle()<CR>
 " toggle diffmode for a buffer
 function! DiffToggle()
   if &diff

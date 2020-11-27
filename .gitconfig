@@ -88,6 +88,10 @@
 	newNormal = nobold
 	newHighlight = green bold black
 
+[pull]
+	rebase = false
+	ff = only
+
 [push]
 	default = matching
 

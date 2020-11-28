@@ -260,6 +260,13 @@ alias rehash="hash -r"
 # svn-wrapper
 alias svn=svn-wrapper
 
+# docker helpers
+if [ -n "$(type -P docker)" ]; then
+    alias docker-tail="docker logs -tf --tail 50"
+    alias docker-top="docker run --name ctop  -it --rm -v /var/run/docker.sock:/var/run/docker.sock quay.io/vektorlab/ctop"
+    alias ctop="docker-top"
+fi
+
 if [ "$UNAME" = SunOS ]; then
     # Solaris: use GNU versions of coreutils
     test -x /usr/gnu/bin/grep && alias grep="/usr/gnu/bin/grep"

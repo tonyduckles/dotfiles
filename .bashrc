@@ -262,6 +262,7 @@ alias svn=svn-wrapper
 
 # docker helpers
 if [ -n "$(type -P docker)" ]; then
+    alias docker-ps="docker ps -a --format \"table {{.ID}}\t{{.Names}}\t{{.State}}\t{{.Status}}\t{{.Networks}}\""
     alias docker-tail="docker logs -tf --tail 50"
     alias docker-top="docker run --name ctop  -it --rm -v /var/run/docker.sock:/var/run/docker.sock quay.io/vektorlab/ctop"
     alias ctop="docker-top"

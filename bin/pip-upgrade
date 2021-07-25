@@ -1,0 +1,8 @@
+#!/bin/sh
+# Upgrade all outdated `pip` packages
+# https://stackoverflow.com/a/3452888
+pip=$(type -P pip3)
+$pip list --outdated --format=freeze | \
+    grep -v '^\-e' | \
+    cut -d = -f 1  | \
+    xargs -n1 sudo -H $pip install --upgrade

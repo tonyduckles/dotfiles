@@ -429,6 +429,8 @@ nmap <leader>hu <Plug>GitGutterUndoHunk
 nmap <leader>hs <Plug>GitGutterStageHunk
 " goyo
 nnoremap <leader>G :Goyo<CR>
+" enable soft tabs
+nmap <leader>st :set tabstop=2 softtabstop=2 shiftwidth=2 expandtab<CR>
 
 " --------------------------------------------------------------------------
 " Functions

@@ -97,9 +97,9 @@ else
   let g:airline_symbols_ascii = 1     " use plain ascii symbols
   let g:airline_symbols.branch = ''
 endif
-let g:airline_symbols.colnr = ''
+let g:airline_symbols.colnr = ' '
 let g:airline_symbols.dirty = '*'
-let g:airline_symbols.linenr = ''
+let g:airline_symbols.linenr = ' '
 let g:airline_symbols.maxlinenr = ''
 let g:airline_symbols.notexists = '?'
 

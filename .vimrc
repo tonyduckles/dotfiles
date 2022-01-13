@@ -46,6 +46,7 @@ Plug 'tpope/vim-git'                  " filetype=gitcommit
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'   " filetype=markdown
 Plug '~/.vim/bundle/mumps'            " filetype=mumps
+Plug 'pearofducks/ansible-vim'        " filetype=yaml.ansible
 
 " Other
 Plug 'kopischke/vim-fetch'            " handle opening filenames with line+column numbers

@@ -365,17 +365,6 @@ settitle_window() {
     printf "\033]0;%s\007" "$@"
 }
 
-# push SSH public key to another box
-push_ssh_cert() {
-    local _host
-    test -f ~/.ssh/id_rsa.pub || ssh-keygen -t rsa -b 4096
-    for _host in "$@";
-    do
-        echo $_host
-        ssh $_host 'cat >> ~/.ssh/authorized_keys' < ~/.ssh/id_rsa.pub
-    done
-}
-
 # ---------------------------------------------------------------------------
 # PATH MANIPULATION FUNCTIONS
 # ---------------------------------------------------------------------------

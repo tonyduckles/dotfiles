@@ -79,9 +79,9 @@ path_start="$path_start:$HOME/bin"
 test -d "$HOME/sbin" && path_start="$path_start:$HOME/sbin"
 
 # macOS homebrew: include non-prefixed coreutils
-if [ -d "/usr/local/opt/coreutils/libexec" ]; then
-    path_start="$path_start:/usr/local/opt/coreutils/libexec/gnubin"
-    manpath_start="$manpath_start:/usr/local/opt/coreutils/libexec/gnuman"
+if [ -d "/opt/homebrew/opt/coreutils/libexec" ]; then
+    path_start="$path_start:/opt/homebrew/opt/coreutils/libexec/gnubin"
+    manpath_start="$manpath_start:/opt/homebrew/opt/coreutils/libexec/gnuman"
 fi
 
 # SmartOS: local pkgin binaries

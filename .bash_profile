@@ -14,9 +14,13 @@ fi
 keychain=$(type -P keychain)
 test -n "$keychain" && \
   test -z "$SUDO_USER" && {
-  if [ -f ~/.ssh/id_rsa ]; then
-    eval `$keychain -q ~/.ssh/id_rsa`
+  ids=""
+  test -f ~/.ssh/id_rsa && ids="$ids id_rsa"
+  test -f ~/.ssh/id_ed25519 && ids="$ids id_ed25519"
+  if [ -n "$ids" ]; then
+    eval `$keychain -q $ids`
     source ~/.keychain/`hostname`-sh > /dev/null
   fi
+  unset ids
 }
 unset keychain

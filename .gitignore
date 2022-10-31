@@ -1,12 +1,7 @@
-.bash_history
 .gitconfig.local
-.keychain/
-.lesshst
 .shenv
-.ssh/
 .vim/.cache/
 .vim/.netrwhist
 .vim/plugged/
 .vim/spell/
-.viminfo
 .vimrc.local

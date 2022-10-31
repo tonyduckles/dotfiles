@@ -1,0 +1,13 @@
+# homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
+export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+
+# bash-completion
+[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
+
+# allow multithreading under new macOS security rules
+# https://stackoverflow.com/questions/50168647/multiprocessing-causes-python-to-crash-and-gives-an-error-may-have-been-in-progr
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
+# linkpad
+export LINKPAD_DBNAME='aether'

@@ -3,16 +3,16 @@
 # Create a new bare git respository
 
 if [ -z $1 ]; then
-    echo "usage: $FUNCNAME path/to project-name.git"
+    echo "usage: $FUNCNAME path/to/project-name.git"
 else
-    gitdir="$1/$2"
+    gitdir="$1"
     mkdir $gitdir
-    pushd $gitdir
+    pushd $gitdir > /dev/null
     git --bare init
     git --bare update-server-info
     mv hooks/post-update.sample hooks/post-update
     chmod a+x hooks/post-update
     touch git-daemon-export-ok
-    popd
+    popd > /dev/null
 fi
 

@@ -516,6 +516,9 @@ augroup vimrc_filetype
   " autofolds
   au FileType vim setlocal foldmethod=expr foldexpr=autofolds#foldexpr(v\:lnum) foldtext=autofolds#foldtext() foldlevel=2
   au FileType sh setlocal foldmethod=expr foldexpr=autofolds#foldexpr(v\:lnum,'sh') foldtext=autofolds#foldtext() foldlevel=2
+  " pearofducks/ansible-vim
+  au BufRead,BufNewFile */playbooks/*.yml set filetype=yaml.ansible
+  au BufNewFile,BufRead hosts.ini set filetype=yaml.ansible
 augroup END
 
 " --------------------------------------------------------------------------

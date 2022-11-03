@@ -446,8 +446,11 @@ MANPATH=$(puniq "$MANPATH")
 test -n "$PS1" &&
     prompt_color
 
+# ripgrep
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+
 # fzf
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules,*.swp,.venv}/*" 2> /dev/null'
+export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --color=never 2> /dev/null"
 export FZF_DEFAULT_OPTS='--bind J:down,K:up --reverse --ansi --multi'
 
 # ---------------------------------------------------------------------------

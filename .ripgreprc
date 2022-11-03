@@ -1,0 +1,38 @@
+# --------------------------------------------------------------------
+# General Settings
+# --------------------------------------------------------------------
+# Only search with case sensitivity if there is mixed case
+--smart-case
+# Follow symlinks
+--follow
+# Always sort the files
+--sort=path
+# Always color, even if piping to a another program
+--color=always
+# Grouping
+--heading
+# Always print filename prefix
+--with-filename
+
+# --------------------------------------------------------------------
+# Global Inclusions/Exclusions
+# --------------------------------------------------------------------
+# Always search dotfiles
+--hidden
+# Always ignore VCS and cache files
+--glob=!{.git,node_modules,*.swp,.venv}/*
+
+# --------------------------------------------------------------------
+# Custom File-Types
+# --------------------------------------------------------------------
+--type-add=mumps:*.{m,ro,ROU,GLO}
+--type-add=markdown:*.{md,mkd,markdown}
+
+# --------------------------------------------------------------------
+# Colors
+# --------------------------------------------------------------------
+--colors=path:fg:cyan
+--colors=path:style:underline
+--colors=line:fg:yellow
+--colors=match:fg:green
+--colors=match:style:bold

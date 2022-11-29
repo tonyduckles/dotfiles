@@ -10,8 +10,17 @@ if [[ "$1" = "-v" || "$1" = "-vv" ]]; then
     shift
     format="$format"'|%(color:yellow)%(objectname:short)%(color:reset) %(contents:subject)'
 fi
+
+# For the `cut`-based line truncation handling below, since `cut` works based
+# on chars/bytes and since the `git branch` will contain SGR escape sequences
+# for coloring, predict how many "extra" bytes will be in each line due to the
+# coloring in the `format` defined above.
+extra_color_len=26
+
 git branch \
     --color=always \
     --sort=-committerdate \
     --format="$format" \
-    $* | column -ts'|'
+    $* \
+    | column -ts'|' \
+    | cut -c 1-$(expr $(tput cols) + $extra_color_len)

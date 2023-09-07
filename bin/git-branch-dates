@@ -19,7 +19,6 @@ extra_color_len=26
 
 git branch \
     --color=always \
-    --sort=-committerdate \
     --format="$format" \
     $* \
     | column -ts'|' \

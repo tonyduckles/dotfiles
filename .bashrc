@@ -338,6 +338,14 @@ test -n "$LS_COMMON" &&
 # setup color grep output if available
 if [ -n "$COLORS" ]; then
     case "$UNAME" in
+        "Darwin")
+            export GREP_COLOR='1;32'  # BSD grep
+            ;;
+        *)
+            export GREP_COLORS='fn=36:ln=33:ms=1;32'  # GNU grep
+            ;;
+    esac
+    case "$UNAME" in
         "SunOS")
             test -x /usr/gnu/bin/grep && alias grep="/usr/gnu/bin/grep --color=always"
             test -x /opt/local/bin/grep && alias grep="/opt/local/bin/grep --color=always"
@@ -346,10 +354,6 @@ if [ -n "$COLORS" ]; then
             alias grep="command grep --color=always"
             ;;
     esac
-    # older versions of grep only support a singular highlight color
-    export GREP_COLOR='1;32'
-    # newer versions of grep have more flexible color configuration
-    export GREP_COLORS='fn=36:ln=33:ms=1;32'
 fi
 
 # ---------------------------------------------------------------------------

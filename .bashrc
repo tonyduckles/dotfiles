@@ -67,6 +67,8 @@ umask 0022
 # PATH
 # ---------------------------------------------------------------------------
 
+unset path_start path_end manpath_start manpath_end
+
 # make sure $MANPATH has some sane defaults
 MANPATH="/usr/share/man:/usr/local/share/man:$MANPATH"
 
@@ -78,10 +80,14 @@ PATH="/usr/local/bin:$PATH"
 path_start="$path_start:$HOME/bin"
 test -d "$HOME/sbin" && path_start="$path_start:$HOME/sbin"
 
-# macOS homebrew: include non-prefixed coreutils
-if [ -d "/opt/homebrew/opt/coreutils/libexec" ]; then
-    path_start="$path_start:/opt/homebrew/opt/coreutils/libexec/gnubin"
-    manpath_start="$manpath_start:/opt/homebrew/opt/coreutils/libexec/gnuman"
+# macOS homebrew
+if [ -x "/opt/homebrew/bin/brew" ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+    # include non-prefixed coreutils
+    if [ -d "/opt/homebrew/opt/coreutils/libexec" ]; then
+        path_start="/opt/homebrew/opt/coreutils/libexec/gnubin:$path_start"
+        manpath_start="/opt/homebrew/opt/coreutils/libexec/gnuman:$manpath_start"
+    fi
 fi
 
 # SmartOS: local pkgin binaries

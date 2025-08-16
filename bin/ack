@@ -16,7 +16,7 @@ package main;
 use strict;
 use warnings;
 
-our $VERSION = 'v3.8.1'; # Check https://beyondgrep.com/ for updates
+our $VERSION = 'v3.9.0'; # Check https://beyondgrep.com/ for updates
 
 use 5.010001;
 
@@ -322,9 +322,14 @@ sub file_loop_fg {
 sub file_loop_c {
     my $files = shift;
 
+    my $nmatched_files = 0;
+
     my $total_count = 0;
     while ( defined( my $file = $files->next ) ) {
         my $matches_for_this_file = count_matches_in_file( $file );
+        if ( $matches_for_this_file ) {
+            ++$nmatched_files;
+        }
 
         if ( not $opt_show_filename ) {
             $total_count += $matches_for_this_file;
@@ -349,7 +354,7 @@ sub file_loop_c {
         App::Ack::say( $total_count );
     }
 
-    return;
+    return $nmatched_files;
 }
 
 
@@ -434,7 +439,12 @@ sub _compile_file_filter {
 
     return sub {
         if ( $opt_g ) {
-            if ( $File::Next::name =~ /$re_match/o ) {
+            my $match = ($File::Next::name =~ /$re_match/o);
+            if ( $match && $re_not ) {
+                $match = ($File::Next::name !~ /$re_not/o);
+            }
+
+            if ( $match ) {
                 return 0 if $opt_v;
             }
             else {
@@ -893,20 +903,29 @@ sub print_line_with_options {
     my @line_parts;
 
     if ( $opt_show_filename && defined($filename) ) {
-        my $colno;
-        $colno = get_match_colno() if $opt_column;
+        my $disp_filename;
+        my $disp_lineno;
         if ( $opt_color ) {
-            $filename = Term::ANSIColor::colored( $filename, $ENV{ACK_COLOR_FILENAME} );
-            $lineno   = Term::ANSIColor::colored( $lineno,   $ENV{ACK_COLOR_LINENO} );
-            $colno    = Term::ANSIColor::colored( $colno,    $ENV{ACK_COLOR_COLNO} ) if $opt_column;
-        }
-        if ( $opt_heading ) {
-            push @line_parts, $lineno;
+            $disp_filename = Term::ANSIColor::colored( $filename, $ENV{ACK_COLOR_FILENAME} );
+            $disp_lineno   = Term::ANSIColor::colored( $lineno,   $ENV{ACK_COLOR_LINENO} );
         }
         else {
-            push @line_parts, $filename, $lineno;
+            $disp_filename = $filename;
+            $disp_lineno   = $lineno;
         }
-        push @line_parts, $colno if $opt_column;
+
+        if ( $opt_heading ) {
+            push @line_parts, $disp_lineno;
+        }
+        else {
+            push @line_parts, $disp_filename, $disp_lineno;
+        }
+
+        if ( $opt_column ) {
+            my $colno = get_match_colno();
+            $colno = Term::ANSIColor::colored( $colno, $ENV{ACK_COLOR_COLNO} ) if $opt_color;
+            push @line_parts, $colno;
+        }
     }
 
     if ( $opt_output ) {
@@ -1314,8 +1333,7 @@ Note that the options that affect "dogs" also affect "cats", so if you have
 then the search for both "dogs" and "cats" will be case-insensitive and be
 word-limited.
 
-See also the other two boolean options C<--or> and C<--not>, neither of
-which can be used with C<--and>.
+C<--and> cannot be used with C<--or>.
 
 =item B<-A I<NUM>>, B<--after-context=I<NUM>>
 
@@ -1574,9 +1592,6 @@ if you have
 then the search for both "dogs" and "cats" will be case-insensitive and be
 word-limited.
 
-See also the other two boolean options C<--and> and C<--or>, neither of
-which can be used with C<--not>.
-
 =item B<-o>
 
 Show only the part of each line matching PATTERN (turns off text
@@ -1598,8 +1613,7 @@ Note that the options that affect "dogs" also affect "cats", so if you have
 then the search for both "dogs" and "cats" will be case-insensitive and be
 word-limited.
 
-See also the other two boolean options C<--and> and C<--not>, neither of
-which can be used with C<--or>.
+C<--or> cannot be used with C<--and>.
 
 =item B<--output=I<expr>>
 
@@ -2516,7 +2530,7 @@ Andy Lester, C<< <andy at petdance.com> >>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2005-2024 Andy Lester.
+Copyright 2005-2025 Andy Lester.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the Artistic License v2.0.
@@ -2538,8 +2552,8 @@ use strict;
 our $VERSION;
 our $COPYRIGHT;
 BEGIN {
-    $VERSION = 'v3.8.1'; # Check https://beyondgrep.com/ for updates
-    $COPYRIGHT = 'Copyright 2005-2024 Andy Lester.';
+    $VERSION = 'v3.9.0'; # Check https://beyondgrep.com/ for updates
+    $COPYRIGHT = 'Copyright 2005-2025 Andy Lester.';
 }
 our $STANDALONE = 0;
 our $ORIGINAL_PROGRAM_NAME;
@@ -3302,7 +3316,7 @@ sub build_all_regexes {
 
     my @parts;
 
-    # AND: alpha and beta
+    # AND: alpha AND beta
     if ( @parts = @{$opt->{and}} ) {
         my @match_parts;
         my @hilite_parts;
@@ -3336,22 +3350,20 @@ sub build_all_regexes {
         $re_hilite = $re_match;
         $re_scan   = join( '|', @scan_parts );
     }
-    # NOT: alpha NOT beta
-    elsif ( @parts = @{$opt->{not}} ) {
+    else {
         ($re_match, $re_scan) = build_regex( $opt_regex, $opt );
         $re_hilite = $re_match;
+    }
 
+    # The --not does not affect the main regex. It is checked separately.
+    # NOT: alpha NOT beta
+    if ( @parts = @{$opt->{not}} ) {
         my @not_parts;
         for my $part ( @parts ) {
             (my $re, undef) = build_regex( $part, $opt );
             push @not_parts, $re;
         }
         $re_not = join( '|', @not_parts );
-    }
-    # No booleans.
-    else {
-        ($re_match, $re_scan) = build_regex( $opt_regex, $opt );
-        $re_hilite = $re_match;
     }
 
     return ($re_match, $re_not, $re_hilite, $re_scan);
@@ -4883,8 +4895,6 @@ sub mutex_options {
             'with-filename' => 1,
         },
         and => {
-            g => 1,
-            not => 1,
             or => 1,
         },
         break => {
@@ -4962,7 +4972,6 @@ sub mutex_options {
             C => 1,
             H => 1,
             L => 1,
-            and => 1,
             break => 1,
             c => 1,
             column => 1,
@@ -4975,9 +4984,7 @@ sub mutex_options {
             l => 1,
             m => 1,
             match => 1,
-            not => 1,
             o => 1,
-            or => 1,
             output => 1,
             p => 1,
             passthru => 1,
@@ -5044,10 +5051,6 @@ sub mutex_options {
             L => 1,
             l => 1,
         },
-        not => {
-            and => 1,
-            g => 1,
-        },
         o => {
             A => 1,
             B => 1,
@@ -5067,7 +5070,6 @@ sub mutex_options {
         },
         or => {
             and => 1,
-            g => 1,
         },
         output => {
             A => 1,
